@@ -701,14 +701,16 @@
         <a href="#install" class="hide-mobile">Install</a>
         <a href="#integrations" class="hide-mobile">Integrations</a>
         <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank" class="btn btn-secondary" style="gap:6px">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f5c211" stroke="#f5c211"><polygon points="8,0.5 10.1,5.3 15.5,5.8 11.4,9.4 12.6,14.8 8,12 3.4,14.8 4.6,9.4 0.5,5.8 5.9,5.3"/></svg>
-          <span id="star-count" style="font-weight:600;color:var(--text)">Star</span>
-          <span style="width:1px;height:16px;background:var(--border)"></span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path
               d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
           </svg>
           GitHub
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f5c211" stroke="#f5c211">
+            <polygon points="8,0.5 10.1,5.3 15.5,5.8 11.4,9.4 12.6,14.8 8,12 3.4,14.8 4.6,9.4 0.5,5.8 5.9,5.3" />
+          </svg>
+          <span id="star-count" style="font-weight:600;color:var(--text)">Star</span>
+          <span style="width:1px;height:16px;background:var(--border)"></span>
         </a>
       </div>
     </div>
@@ -760,26 +762,30 @@
         </div>
         <div class="terminal-body"><span class="prompt">$</span> <span class="cmd">mycop scan src/</span>
 
-<span class="dim">Scanning 12 files...</span>
+          <span class="dim">Scanning 12 files...</span>
 
-<span class="sev-critical">CRITICAL</span>  <span class="file">src/auth.py:24</span>  <span class="rule">PY-SEC-001</span>
-  <span class="msg">SQL injection via string formatting in query</span>
-  <span class="dim">query = f"SELECT * FROM users WHERE id = {user_id}"</span>
+          <span class="sev-critical">CRITICAL</span> <span class="file">src/auth.py:24</span> <span
+            class="rule">PY-SEC-001</span>
+          <span class="msg">SQL injection via string formatting in query</span>
+          <span class="dim">query = f"SELECT * FROM users WHERE id = {user_id}"</span>
 
-<span class="sev-high">HIGH</span>      <span class="file">src/utils.js:8</span>  <span class="rule">JS-SEC-002</span>
-  <span class="msg">Dangerous eval() call with user-controlled input</span>
-  <span class="dim">const result = eval(req.body.expression)</span>
+          <span class="sev-high">HIGH</span> <span class="file">src/utils.js:8</span> <span
+            class="rule">JS-SEC-002</span>
+          <span class="msg">Dangerous eval() call with user-controlled input</span>
+          <span class="dim">const result = eval(req.body.expression)</span>
 
-<span class="sev-medium">MEDIUM</span>    <span class="file">src/config.py:15</span>  <span class="rule">PY-SEC-003</span>
-  <span class="msg">Hardcoded secret detected in source code</span>
-  <span class="dim">API_KEY = "sk-live-a1b2c3d4e5f6"</span>
+          <span class="sev-medium">MEDIUM</span> <span class="file">src/config.py:15</span> <span
+            class="rule">PY-SEC-003</span>
+          <span class="msg">Hardcoded secret detected in source code</span>
+          <span class="dim">API_KEY = "sk-live-a1b2c3d4e5f6"</span>
 
-<span class="summary">Found 3 findings (1 critical, 1 high, 1 medium)</span>
+          <span class="summary">Found 3 findings (1 critical, 1 high, 1 medium)</span>
 
-<span class="prompt">$</span> <span class="cmd">mycop fix src/ --dry-run</span>
-<span class="fix">  Fixed src/auth.py    — parameterized query</span>
-<span class="fix">  Fixed src/utils.js   — replaced eval with safe parser</span>
-<span class="fix">  Fixed src/config.py  — moved secret to environment variable</span></div>
+          <span class="prompt">$</span> <span class="cmd">mycop fix src/ --dry-run</span>
+          <span class="fix"> Fixed src/auth.py — parameterized query</span>
+          <span class="fix"> Fixed src/utils.js — replaced eval with safe parser</span>
+          <span class="fix"> Fixed src/config.py — moved secret to environment variable</span>
+        </div>
       </div>
     </div>
   </section>
@@ -900,8 +906,9 @@
         </div>
         <div class="lang-card">
           <svg viewBox="0 0 128 128">
-            <rect fill="#007acc" width="128" height="128" rx="6"/>
-            <text x="64" y="84" text-anchor="middle" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="64">TS</text>
+            <rect fill="#007acc" width="128" height="128" rx="6" />
+            <text x="64" y="84" text-anchor="middle" fill="#fff" font-family="Arial, Helvetica, sans-serif"
+              font-weight="bold" font-size="64">TS</text>
           </svg>
           <span>TypeScript</span>
         </div>
@@ -928,7 +935,8 @@ curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/instal
 mycop --version</code></div>
       <div class="install-panel" id="tab-brew"><code>brew install mycop/tap/mycop</code></div>
       <div class="install-panel" id="tab-cargo"><code>cargo install mycop</code></div>
-      <div class="install-panel" id="tab-docker"><code>docker run --rm -v "$(pwd):/src" -w /src mycop scan .</code></div>
+      <div class="install-panel" id="tab-docker"><code>docker run --rm -v "$(pwd):/src" -w /src mycop scan .</code>
+      </div>
     </div>
   </section>
 
@@ -945,11 +953,12 @@ mycop --version</code></div>
             <p>Add security scanning to your CI pipeline</p>
           </div>
           <div class="integration-code"><span class="key">- name</span>: <span class="str">mycop Security Scan</span>
-  <span class="key">uses</span>: <span class="str">AbdumajidRashidov/mycop/action@main</span>
-  <span class="key">with</span>:
-    <span class="key">paths</span>: <span class="str">'.'</span>
-    <span class="key">fail-on</span>: <span class="str">'high'</span>
-    <span class="key">format</span>: <span class="str">'sarif'</span></div>
+            <span class="key">uses</span>: <span class="str">AbdumajidRashidov/mycop/action@main</span>
+            <span class="key">with</span>:
+            <span class="key">paths</span>: <span class="str">'.'</span>
+            <span class="key">fail-on</span>: <span class="str">'high'</span>
+            <span class="key">format</span>: <span class="str">'sarif'</span>
+          </div>
         </div>
         <div class="integration-card">
           <div class="integration-header">
@@ -957,26 +966,30 @@ mycop --version</code></div>
             <p>Catch issues before they reach the repo</p>
           </div>
           <div class="integration-code"><span class="comment"># .pre-commit-config.yaml</span>
-<span class="key">repos</span>:
-  - <span class="key">repo</span>: <span class="str">https://github.com/AbdumajidRashidov/mycop</span>
-    <span class="key">rev</span>: <span class="str">main</span>
-    <span class="key">hooks</span>:
-      - <span class="key">id</span>: <span class="str">mycop</span></div>
+            <span class="key">repos</span>:
+            - <span class="key">repo</span>: <span class="str">https://github.com/AbdumajidRashidov/mycop</span>
+            <span class="key">rev</span>: <span class="str">main</span>
+            <span class="key">hooks</span>:
+            - <span class="key">id</span>: <span class="str">mycop</span>
+          </div>
         </div>
         <div class="integration-card">
           <div class="integration-header">
-            <h3>VS Code Extension <span style="font-size:0.7rem;font-weight:500;color:var(--accent);background:#eef4ff;padding:2px 8px;border-radius:4px;margin-left:6px">Coming Soon</span></h3>
+            <h3>VS Code Extension <span
+                style="font-size:0.7rem;font-weight:500;color:var(--accent);background:#eef4ff;padding:2px 8px;border-radius:4px;margin-left:6px">Coming
+                Soon</span></h3>
             <p>Real-time security diagnostics in your editor</p>
           </div>
           <div class="integration-code"><span class="comment">// Scan on save</span>
-<span class="comment">// Diagnostics in Problems panel</span>
-<span class="comment">// Commands:</span>
-<span class="str">  "mycop: Scan Current File"</span>
-<span class="str">  "mycop: Scan Workspace"</span>
+            <span class="comment">// Diagnostics in Problems panel</span>
+            <span class="comment">// Commands:</span>
+            <span class="str"> "mycop: Scan Current File"</span>
+            <span class="str"> "mycop: Scan Workspace"</span>
 
-<span class="comment">// Configure in settings.json:</span>
-<span class="str">  "mycop.severity": "medium"</span>
-<span class="str">  "mycop.scanOnSave": true</span></div>
+            <span class="comment">// Configure in settings.json:</span>
+            <span class="str"> "mycop.severity": "medium"</span>
+            <span class="str"> "mycop.scanOnSave": true</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1106,7 +1119,7 @@ mycop --version</code></div>
           document.getElementById('star-count').textContent = d.stargazers_count;
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   </script>
 </body>
 
