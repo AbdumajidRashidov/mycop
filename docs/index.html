@@ -82,42 +82,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is mycop?",
+        "name": "Is AI-generated code safe? What security risks does Copilot and ChatGPT code have?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "mycop is an open-source AI code security scanner built in Rust. It detects and auto-fixes vulnerabilities in AI-generated Python, JavaScript, and TypeScript code using 100 built-in security rules covering OWASP Top 10 and CWE Top 25 categories."
+          "text": "AI-generated code from tools like GitHub Copilot, ChatGPT, and Cursor frequently introduces security vulnerabilities including SQL injection, hardcoded secrets, command injection, and insecure cryptography. Studies show up to 40% of AI-generated code contains security flaws. mycop is built specifically to catch these issues with 100 rules covering OWASP Top 10 and CWE Top 25 categories."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I install mycop?",
+        "name": "How do I scan Python or JavaScript code for security vulnerabilities for free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You can install mycop via the install script (curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh), Homebrew (brew install AbdumajidRashidov/tap/mycop), Cargo (cargo install mycop), or Docker."
+          "text": "mycop is a free, open-source security scanner that detects vulnerabilities in Python, JavaScript, and TypeScript. Install it with a single command (curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh), then run 'mycop scan .' in your project directory. It finds SQL injection, XSS, hardcoded secrets, and 20+ more vulnerability categories with zero configuration required."
         }
       },
       {
         "@type": "Question",
-        "name": "What languages does mycop support?",
+        "name": "How does mycop compare to Semgrep, Bandit, and ESLint for security scanning?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "mycop supports Python, JavaScript, and TypeScript with 50 Python rules and 50 JavaScript/TypeScript rules using both pattern matching and AST-level analysis via tree-sitter."
+          "text": "Unlike Semgrep (which requires custom rules) or language-specific tools like Bandit (Python only) and ESLint (JavaScript only), mycop scans Python, JavaScript, and TypeScript with a single tool and ships with 100 pre-built security rules. It also uniquely offers AI-powered auto-fix — it can automatically rewrite vulnerable code using Claude, GPT-4, or Ollama, then verify the fix by re-scanning."
         }
       },
       {
         "@type": "Question",
-        "name": "Does mycop require an AI API key?",
+        "name": "Can I automatically fix security vulnerabilities in my code with AI?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. mycop works without any AI API key for scanning and detection. AI is optional and used only for auto-fix and explanation features. It supports Claude CLI, Anthropic API, OpenAI, and Ollama as AI providers."
+          "text": "Yes. mycop's 'mycop fix' command uses AI to automatically rewrite vulnerable code. It groups all findings per file, sends them to your chosen AI provider (Claude, GPT-4, OpenAI, or Ollama), generates a diff for you to review, and re-scans to verify the fix. Use '--dry-run' to preview changes before applying them. No AI key is needed for scanning — only for auto-fix."
         }
       },
       {
         "@type": "Question",
-        "name": "What security vulnerabilities does mycop detect?",
+        "name": "How do I add security scanning to my CI/CD pipeline or GitHub Actions?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "mycop detects SQL injection (CWE-89), XSS (CWE-79), command injection (CWE-78), hardcoded secrets (CWE-798), insecure deserialization (CWE-502), path traversal (CWE-22), SSRF (CWE-918), weak cryptography (CWE-327), and 20+ more categories mapped to CWE identifiers."
+          "text": "mycop integrates directly with GitHub Actions — add 'uses: AbdumajidRashidov/mycop/action@main' to your workflow to block PRs with high-severity vulnerabilities. It outputs SARIF format for GitHub Code Scanning, works as a pre-commit hook to catch issues before they reach your repo, and supports '--diff' mode to scan only changed files. Set severity thresholds with '--fail-on' to control what blocks your pipeline."
         }
       }
     ]
@@ -769,6 +769,7 @@
 
     .faq-list {
       max-width: 720px;
+      margin: 0 auto;
     }
 
     .faq-list details {
@@ -1342,27 +1343,27 @@ mycop --version</code></div>
     <div class="container">
       <div class="section-label">FAQ</div>
       <h2 class="section-title">Frequently asked questions</h2>
-      <p class="section-subtitle">Common questions about mycop and how it works.</p>
+      <p class="section-subtitle">What developers ask before adopting a security scanner.</p>
       <div class="faq-list">
         <details>
-          <summary>What is mycop?</summary>
-          <div class="faq-answer">mycop is an open-source AI code security scanner built in Rust. It detects and auto-fixes vulnerabilities in AI-generated Python, JavaScript, and TypeScript code using 100 built-in security rules covering OWASP Top 10 and CWE Top 25 categories. It uses both pattern matching and AST-level analysis via tree-sitter for accurate detection.</div>
+          <summary>Is AI-generated code safe? What security risks does Copilot and ChatGPT code have?</summary>
+          <div class="faq-answer">AI-generated code from tools like GitHub Copilot, ChatGPT, and Cursor frequently introduces security vulnerabilities &mdash; including SQL injection, hardcoded secrets, command injection, and insecure cryptography. Studies show up to 40% of AI-generated code contains security flaws. mycop is built specifically to catch these issues with 100 rules covering OWASP Top 10 and CWE Top 25 categories.</div>
         </details>
         <details>
-          <summary>How do I install mycop?</summary>
-          <div class="faq-answer">You can install mycop via the install script (<code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh</code>), Homebrew (<code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">brew install AbdumajidRashidov/tap/mycop</code>), Cargo (<code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">cargo install mycop</code>), or Docker.</div>
+          <summary>How do I scan Python or JavaScript code for security vulnerabilities for free?</summary>
+          <div class="faq-answer">mycop is a free, open-source security scanner that detects vulnerabilities in Python, JavaScript, and TypeScript. Install it with a single command (<code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh</code>), then run <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mycop scan .</code> in your project directory. It finds SQL injection, XSS, hardcoded secrets, and 20+ more vulnerability categories with zero configuration required.</div>
         </details>
         <details>
-          <summary>What languages does mycop support?</summary>
-          <div class="faq-answer">mycop supports Python, JavaScript, and TypeScript with 50 Python rules and 50 JavaScript/TypeScript rules. It uses both regex pattern matching and AST-level analysis via tree-sitter for each language.</div>
+          <summary>How does mycop compare to Semgrep, Bandit, and ESLint for security scanning?</summary>
+          <div class="faq-answer">Unlike Semgrep (which requires custom rules) or language-specific tools like Bandit (Python only) and ESLint (JavaScript only), mycop scans Python, JavaScript, and TypeScript with a single tool and ships with 100 pre-built security rules. It also uniquely offers AI-powered auto-fix &mdash; it can automatically rewrite vulnerable code using Claude, GPT-4, or Ollama, then verify the fix by re-scanning.</div>
         </details>
         <details>
-          <summary>Does mycop require an AI API key?</summary>
-          <div class="faq-answer">No. mycop works without any AI API key for scanning and detection. AI is optional and used only for the auto-fix (<code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mycop fix</code>) and explanation (<code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">--explain</code>) features. It supports Claude CLI, Anthropic API, OpenAI, and Ollama as AI providers, with automatic detection.</div>
+          <summary>Can I automatically fix security vulnerabilities in my code with AI?</summary>
+          <div class="faq-answer">Yes. The <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mycop fix</code> command uses AI to automatically rewrite vulnerable code. It groups all findings per file, sends them to your chosen AI provider (Claude, GPT-4, OpenAI, or Ollama), generates a diff for you to review, and re-scans to verify the fix. Use <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">--dry-run</code> to preview changes before applying. No AI key is needed for scanning &mdash; only for auto-fix.</div>
         </details>
         <details>
-          <summary>What security vulnerabilities does mycop detect?</summary>
-          <div class="faq-answer">mycop detects SQL injection (CWE-89), XSS (CWE-79), command injection (CWE-78), hardcoded secrets (CWE-798), insecure deserialization (CWE-502), path traversal (CWE-22), SSRF (CWE-918), weak cryptography (CWE-327/328), insecure TLS (CWE-295), JWT vulnerabilities (CWE-345), open redirects (CWE-601), CORS misconfiguration (CWE-942), ReDoS (CWE-1333), timing attacks (CWE-208), and 20+ more categories &mdash; all mapped to CWE identifiers.</div>
+          <summary>How do I add security scanning to my CI/CD pipeline or GitHub Actions?</summary>
+          <div class="faq-answer">mycop integrates directly with GitHub Actions &mdash; add <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">uses: AbdumajidRashidov/mycop/action@main</code> to your workflow to block PRs with high-severity vulnerabilities. It outputs SARIF format for GitHub Code Scanning, works as a pre-commit hook to catch issues before they reach your repo, and supports <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">--diff</code> mode to scan only changed files.</div>
         </details>
       </div>
     </div>
