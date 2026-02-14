@@ -1,0 +1,17 @@
+id: PY-SEC-046
+name: timing-attack
+severity: medium
+language: python
+cwe: CWE-208
+owasp: "A02:2021"
+description: "Detect direct string comparison of secrets, tokens, or hashes which is vulnerable to timing attacks."
+pattern:
+  type: regex
+  regex:
+    - '(?i)(token|secret|api_key|password|hash|digest|signature)\s*==\s*'
+    - '(?i)(token|secret|api_key|password|hash|digest|signature)\s*!=\s*'
+message: "Non-constant-time comparison of security-sensitive value detected. Timing differences in string comparison can leak secret values."
+fix_hint: "Use hmac.compare_digest() or secrets.compare_digest() for constant-time comparison of secrets, tokens, and hashes."
+references:
+  - https://cwe.mitre.org/data/definitions/208.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

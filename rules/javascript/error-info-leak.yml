@@ -1,0 +1,18 @@
+id: JS-SEC-032
+name: error-info-leak
+severity: medium
+language: javascript
+cwe: CWE-209
+owasp: "A05:2021"
+description: "Detect patterns that send full error objects or stack traces to clients."
+pattern:
+  type: regex
+  regex:
+    - 'res\.(json|send)\s*\(\s*\{\s*error\s*:\s*err(or)?\.(message|stack)'
+    - 'res\.(json|send)\s*\(\s*err(or)?\s*\)'
+    - 'res\.status\s*\(\s*500\s*\)\.send\s*\(\s*err'
+message: "Error details may be exposed to clients. Stack traces and error messages reveal internal application structure."
+fix_hint: "Return generic error messages to clients. Log full error details server-side only. Use custom error handling middleware."
+references:
+  - https://cwe.mitre.org/data/definitions/209.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

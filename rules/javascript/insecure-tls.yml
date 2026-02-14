@@ -1,0 +1,19 @@
+id: JS-SEC-021
+name: insecure-tls
+severity: high
+language: javascript
+cwe: CWE-295
+owasp: "A02:2021"
+description: "Detect insecure TLS/SSL configurations including disabled certificate verification."
+pattern:
+  type: regex
+  regex:
+    - 'rejectUnauthorized\s*:\s*false'
+    - 'NODE_TLS_REJECT_UNAUTHORIZED.*0'
+    - 'process\.env\.NODE_TLS_REJECT_UNAUTHORIZED\s*=\s*[\"'']0[\"'']'
+    - 'secureProtocol\s*:\s*[\"'']TLSv1_method[\"'']'
+message: "Insecure TLS configuration detected. Disabling certificate verification exposes connections to man-in-the-middle attacks."
+fix_hint: "Always keep rejectUnauthorized:true. Use TLS 1.2+ with valid certificates. Never disable TLS verification in production."
+references:
+  - https://cwe.mitre.org/data/definitions/295.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

@@ -1,0 +1,18 @@
+id: PY-SEC-019
+name: weak-cipher
+severity: high
+language: python
+cwe: CWE-327
+owasp: "A02:2021"
+description: "Detect use of weak or deprecated cipher algorithms such as DES, RC4, or Blowfish."
+pattern:
+  type: regex
+  regex:
+    - '(?i)(DES|RC4|RC2|Blowfish)\.new\s*\('
+    - '(?i)algorithms\.(DES|RC4|TripleDES|Blowfish|ARC4)'
+    - 'Crypto\.Cipher\.(DES|ARC4|Blowfish)'
+message: "Weak cipher algorithm detected. DES, RC4, and Blowfish are insecure and have known vulnerabilities."
+fix_hint: "Use AES-256-GCM or ChaCha20-Poly1305 from the cryptography library."
+references:
+  - https://cwe.mitre.org/data/definitions/327.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

@@ -1,0 +1,19 @@
+id: JS-SEC-044
+name: react-unsafe-lifecycle
+severity: low
+language: javascript
+cwe: CWE-676
+owasp: "A06:2021"
+description: "Detect use of deprecated/unsafe React lifecycle methods."
+pattern:
+  type: regex
+  regex:
+    - 'UNSAFE_componentWillMount\s*\('
+    - 'UNSAFE_componentWillReceiveProps\s*\('
+    - 'UNSAFE_componentWillUpdate\s*\('
+    - 'componentWillMount\s*\('
+message: "Unsafe React lifecycle method detected. These methods are deprecated and may cause subtle security and data integrity bugs with concurrent rendering."
+fix_hint: "Migrate to getDerivedStateFromProps, getSnapshotBeforeUpdate, or useEffect hooks. See React docs for migration patterns."
+references:
+  - https://cwe.mitre.org/data/definitions/676.html
+  - https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/

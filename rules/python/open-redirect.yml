@@ -1,0 +1,18 @@
+id: PY-SEC-027
+name: open-redirect
+severity: medium
+language: python
+cwe: CWE-601
+owasp: "A01:2021"
+description: "Detect open redirect vulnerabilities where user input controls redirect destinations."
+pattern:
+  type: regex
+  regex:
+    - 'redirect\s*\(.*request\.(GET|POST|args|form)'
+    - 'HttpResponseRedirect\s*\(.*request\.'
+    - 'redirect\s*\(.*request\.params'
+message: "Possible open redirect. User-controlled input determines the redirect destination, enabling phishing attacks."
+fix_hint: "Validate redirect URLs against an allowlist of permitted domains. Use relative URLs only. Use Django's url_has_allowed_host_and_scheme()."
+references:
+  - https://cwe.mitre.org/data/definitions/601.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

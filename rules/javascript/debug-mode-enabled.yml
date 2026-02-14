@@ -1,0 +1,18 @@
+id: JS-SEC-031
+name: debug-mode-enabled
+severity: high
+language: javascript
+cwe: CWE-215
+owasp: "A05:2021"
+description: "Detect debug or verbose error output enabled in Node.js/Express applications."
+pattern:
+  type: regex
+  regex:
+    - 'app\.set\s*\(\s*[\"'']env[\"'']\s*,\s*[\"'']development[\"'']\s*\)'
+    - 'errorHandler\s*\(\s*\{.*showStack\s*:\s*true'
+    - '\.use\s*\(.*morgan\s*\(\s*[\"'']dev[\"'']'
+message: "Debug mode or verbose error output enabled. This may expose internal application details to attackers."
+fix_hint: "Use environment variables to control debug mode. Set NODE_ENV=production. Remove verbose error handlers in production."
+references:
+  - https://cwe.mitre.org/data/definitions/215.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

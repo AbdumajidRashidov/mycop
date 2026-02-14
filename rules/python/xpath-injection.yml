@@ -1,0 +1,18 @@
+id: PY-SEC-016
+name: xpath-injection
+severity: high
+language: python
+cwe: CWE-643
+owasp: "A03:2021"
+description: "Detect XPath injection where user input is concatenated into XPath queries."
+pattern:
+  type: regex
+  regex:
+    - 'xpath\s*\(.*\+\s*'
+    - 'xpath\s*\(.*%s'
+    - 'xpath\s*\(.*f["'']'
+message: "Possible XPath injection. User input may be interpolated into XPath expressions."
+fix_hint: "Use parameterized XPath queries. Validate and sanitize user input before XPath construction."
+references:
+  - https://cwe.mitre.org/data/definitions/643.html
+  - https://owasp.org/Top10/A03_2021-Injection/

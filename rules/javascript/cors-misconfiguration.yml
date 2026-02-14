@@ -1,0 +1,19 @@
+id: JS-SEC-028
+name: cors-misconfiguration
+severity: medium
+language: javascript
+cwe: CWE-942
+owasp: "A05:2021"
+description: "Detect overly permissive CORS configurations in Express.js."
+pattern:
+  type: regex
+  regex:
+    - 'cors\s*\(\s*\{\s*origin\s*:\s*true'
+    - 'cors\s*\(\s*\{\s*origin\s*:\s*[\"'']\*[\"'']'
+    - 'Access-Control-Allow-Origin.*\*'
+    - 'origin\s*:\s*req\.headers\.origin'
+message: "Overly permissive CORS configuration detected. Reflecting all origins or using wildcards with credentials enables cross-origin attacks."
+fix_hint: "Specify exact allowed origins. Never reflect request origin blindly. Do not use credentials:true with origin:'*'."
+references:
+  - https://cwe.mitre.org/data/definitions/942.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

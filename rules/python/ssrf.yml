@@ -1,0 +1,18 @@
+id: PY-SEC-011
+name: ssrf
+severity: high
+language: python
+cwe: CWE-918
+owasp: "A10:2021"
+description: "Detect SSRF vulnerabilities where user input is passed to HTTP request functions."
+pattern:
+  type: regex
+  regex:
+    - 'requests\.(get|post|put|delete|patch|head)\s*\(.*request\.'
+    - 'urllib\.request\.urlopen\s*\(.*\+'
+    - 'httpx\.\w+\s*\(.*request\.'
+message: "Possible SSRF vulnerability. User-controlled input is used in outbound HTTP requests, allowing attackers to access internal services or cloud metadata."
+fix_hint: "Validate and sanitize URLs from user input. Implement an allowlist of permitted domains. Block internal IP ranges (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)."
+references:
+  - https://cwe.mitre.org/data/definitions/918.html
+  - https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/

@@ -1,0 +1,19 @@
+id: JS-SEC-033
+name: sensitive-data-exposure
+severity: medium
+language: javascript
+cwe: CWE-532
+owasp: "A09:2021"
+description: "Detect logging or returning sensitive data fields in server responses."
+pattern:
+  type: regex
+  regex:
+    - '(?i)console\.log\s*\(.*password'
+    - '(?i)console\.log\s*\(.*secret'
+    - '(?i)console\.log\s*\(.*token'
+    - '(?i)console\.log\s*\(.*credit.?card'
+message: "Sensitive data may be exposed in logs or responses. Logging passwords, tokens, or PII violates security best practices."
+fix_hint: "Never log sensitive data. Redact sensitive fields before logging. Use structured logging with field filtering."
+references:
+  - https://cwe.mitre.org/data/definitions/532.html
+  - https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/

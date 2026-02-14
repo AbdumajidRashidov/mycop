@@ -1,0 +1,18 @@
+id: PY-SEC-023
+name: jwt-none-algorithm
+severity: critical
+language: python
+cwe: CWE-345
+owasp: "A07:2021"
+description: "Detect JWT token decoding that allows the none algorithm, enabling signature bypass."
+pattern:
+  type: regex
+  regex:
+    - 'jwt\.decode\s*\(.*algorithms\s*=\s*\[.*["'']none["'']'
+    - 'jwt\.decode\s*\(.*verify\s*=\s*False'
+    - 'jwt\.decode\s*\(.*options\s*=.*verify_signature.*False'
+message: "JWT decoded with insecure configuration. Allowing the none algorithm or disabling verification enables token forgery."
+fix_hint: "Always specify exact algorithms (e.g., algorithms=['HS256']). Never include 'none'. Always verify signatures."
+references:
+  - https://cwe.mitre.org/data/definitions/345.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

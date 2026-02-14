@@ -1,0 +1,18 @@
+id: JS-SEC-015
+name: ldap-injection
+severity: high
+language: javascript
+cwe: CWE-90
+owasp: "A03:2021"
+description: "Detect LDAP injection where user input is concatenated into LDAP filter strings in Node.js."
+pattern:
+  type: regex
+  regex:
+    - 'ldap\.search\s*\(.*req\.(query|body|params)'
+    - 'filter\s*:.*\+\s*req\.'
+    - 'filter\s*:\s*`.*\$\{.*req\.'
+message: "Possible LDAP injection. User input interpolated into LDAP filter strings may allow unauthorized data access."
+fix_hint: "Use ldapjs escape functions. Validate and sanitize user input before constructing LDAP filters."
+references:
+  - https://cwe.mitre.org/data/definitions/90.html
+  - https://owasp.org/Top10/A03_2021-Injection/

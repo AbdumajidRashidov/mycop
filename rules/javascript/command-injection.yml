@@ -1,0 +1,19 @@
+id: JS-SEC-016
+name: command-injection
+severity: critical
+language: javascript
+cwe: CWE-78
+owasp: "A03:2021"
+description: "Detect OS command injection in Node.js through child_process with user input."
+pattern:
+  type: regex
+  regex:
+    - 'child_process\.exec\s*\(.*req\.(query|body|params)'
+    - 'child_process\.exec\s*\(.*\+\s*'
+    - 'execSync\s*\(.*req\.'
+    - 'child_process\.exec\s*\(\s*`'
+message: "Possible OS command injection. User input passed to shell commands can lead to arbitrary command execution."
+fix_hint: "Use child_process.execFile() or child_process.spawn() with an array of arguments. Never interpolate user input into shell commands."
+references:
+  - https://cwe.mitre.org/data/definitions/78.html
+  - https://owasp.org/Top10/A03_2021-Injection/

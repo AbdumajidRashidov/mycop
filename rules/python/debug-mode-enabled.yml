@@ -1,0 +1,18 @@
+id: PY-SEC-031
+name: debug-mode-enabled
+severity: high
+language: python
+cwe: CWE-215
+owasp: "A05:2021"
+description: "Detect debug mode enabled in production-facing configuration."
+pattern:
+  type: regex
+  regex:
+    - 'DEBUG\s*=\s*True'
+    - 'app\.debug\s*=\s*True'
+    - 'app\.run\s*\(.*debug\s*=\s*True'
+message: "Debug mode is enabled. Debug mode exposes stack traces, environment variables, and internal application details to attackers."
+fix_hint: "Set DEBUG=False in production. Use environment variables to control debug mode."
+references:
+  - https://cwe.mitre.org/data/definitions/215.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

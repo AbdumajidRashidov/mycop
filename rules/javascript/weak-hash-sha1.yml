@@ -1,0 +1,18 @@
+id: JS-SEC-018
+name: weak-hash-sha1
+severity: medium
+language: javascript
+cwe: CWE-328
+owasp: "A02:2021"
+description: "Detect use of SHA1 hashing in Node.js."
+pattern:
+  type: regex
+  regex:
+    - 'createHash\s*\(\s*[\"'']sha1[\"'']\s*\)'
+    - 'CryptoJS\.SHA1\s*\('
+    - 'CryptoJS\.HmacSHA1\s*\('
+message: "Weak hash function SHA1 detected. SHA1 has known collision attacks and should not be used for security purposes."
+fix_hint: "Use SHA-256 (crypto.createHash('sha256')) or SHA-3 for cryptographic hashing."
+references:
+  - https://cwe.mitre.org/data/definitions/328.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

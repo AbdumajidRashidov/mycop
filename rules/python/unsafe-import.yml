@@ -1,0 +1,19 @@
+id: PY-SEC-049
+name: unsafe-import
+severity: medium
+language: python
+cwe: CWE-676
+owasp: "A06:2021"
+description: "Detect imports of known-dangerous or commonly-misused modules in security-sensitive contexts."
+pattern:
+  type: regex
+  regex:
+    - 'import\s+telnetlib'
+    - 'import\s+ftplib'
+    - 'import\s+cgi\b'
+    - '__import__\s*\('
+message: "Import of potentially dangerous or deprecated module detected. Some modules are inherently insecure or have been deprecated for security reasons."
+fix_hint: "Use paramiko instead of telnetlib. Use SFTP/SCP instead of ftplib. Avoid dynamic __import__() with user input."
+references:
+  - https://cwe.mitre.org/data/definitions/676.html
+  - https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/

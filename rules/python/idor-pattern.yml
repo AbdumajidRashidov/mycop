@@ -1,0 +1,18 @@
+id: PY-SEC-030
+name: idor-pattern
+severity: medium
+language: python
+cwe: CWE-639
+owasp: "A01:2021"
+description: "Detect potential IDOR where user-supplied IDs are used directly in database lookups without ownership checks."
+pattern:
+  type: regex
+  regex:
+    - '\.objects\.get\s*\(.*id\s*=.*request\.'
+    - '\.objects\.filter\s*\(.*pk\s*=.*request\.'
+    - 'get_object_or_404\s*\(.*request\.(GET|POST|args)'
+message: "Possible IDOR vulnerability. User-supplied identifiers are used in database queries without apparent authorization checks."
+fix_hint: "Always verify object ownership. Use self.request.user filtering. Add object-level permission checks."
+references:
+  - https://cwe.mitre.org/data/definitions/639.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

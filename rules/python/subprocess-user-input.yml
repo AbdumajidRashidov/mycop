@@ -1,0 +1,18 @@
+id: PY-SEC-045
+name: subprocess-user-input
+severity: high
+language: python
+cwe: CWE-78
+owasp: "A03:2021"
+description: "Detect subprocess calls that incorporate user input from web requests."
+pattern:
+  type: regex
+  regex:
+    - 'subprocess\.\w+\s*\(.*request\.(args|form|data|GET|POST)'
+    - 'subprocess\.\w+\s*\(\s*\[.*request\.'
+    - 'Popen\s*\(.*request\.'
+message: "Subprocess invoked with user-controlled input. Even without shell=True, passing unsanitized user input to subprocess is risky."
+fix_hint: "Validate and sanitize all user input. Use an allowlist of permitted commands. Avoid passing user input to subprocess when possible."
+references:
+  - https://cwe.mitre.org/data/definitions/78.html
+  - https://owasp.org/Top10/A03_2021-Injection/

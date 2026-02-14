@@ -1,0 +1,18 @@
+id: JS-SEC-027
+name: open-redirect
+severity: medium
+language: javascript
+cwe: CWE-601
+owasp: "A01:2021"
+description: "Detect open redirect vulnerabilities in Express.js where user input controls redirect destination."
+pattern:
+  type: regex
+  regex:
+    - 'res\.redirect\s*\(.*req\.(query|body|params)'
+    - 'res\.redirect\s*\(.*req\.url'
+    - 'location\.href\s*=.*req\.(query|body|params)'
+message: "Possible open redirect. User-controlled redirect destination enables phishing attacks."
+fix_hint: "Validate redirect URLs against an allowlist. Use relative paths only. Check URL origin before redirecting."
+references:
+  - https://cwe.mitre.org/data/definitions/601.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

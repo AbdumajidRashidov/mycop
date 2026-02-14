@@ -1,0 +1,18 @@
+id: PY-SEC-013
+name: ldap-injection
+severity: high
+language: python
+cwe: CWE-90
+owasp: "A03:2021"
+description: "Detect LDAP injection where user input is concatenated into LDAP filter strings."
+pattern:
+  type: regex
+  regex:
+    - 'ldap\.search\w*\s*\(.*%'
+    - 'ldap\.search\w*\s*\(.*\+\s*'
+    - 'ldap\.search\w*\s*\(.*f["'']'
+message: "Possible LDAP injection. User input may be interpolated into LDAP queries without sanitization."
+fix_hint: "Use parameterized LDAP queries. Escape special LDAP characters using ldap.filter.escape_filter_chars()."
+references:
+  - https://cwe.mitre.org/data/definitions/90.html
+  - https://owasp.org/Top10/A03_2021-Injection/

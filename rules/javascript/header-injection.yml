@@ -1,0 +1,18 @@
+id: JS-SEC-014
+name: header-injection
+severity: high
+language: javascript
+cwe: CWE-113
+owasp: "A03:2021"
+description: "Detect HTTP response header injection through unsanitized user input in headers."
+pattern:
+  type: regex
+  regex:
+    - 'res\.setHeader\s*\(.*req\.(query|body|params)'
+    - 'res\.set\s*\(.*req\.(query|body|params)'
+    - 'res\.header\s*\(.*req\.(query|body|params)'
+message: "Possible HTTP header injection. User-controlled data in response headers may enable CRLF injection and response splitting."
+fix_hint: "Sanitize all user input before placing in response headers. Encode or reject CR/LF characters."
+references:
+  - https://cwe.mitre.org/data/definitions/113.html
+  - https://owasp.org/Top10/A03_2021-Injection/

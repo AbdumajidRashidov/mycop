@@ -1,0 +1,18 @@
+id: PY-SEC-038
+name: unencrypted-socket
+severity: medium
+language: python
+cwe: CWE-319
+owasp: "A02:2021"
+description: "Detect use of plain HTTP or unencrypted socket connections for sensitive operations."
+pattern:
+  type: regex
+  regex:
+    - '(?i)requests\.(get|post|put)\s*\(\s*[\"'']http://'
+    - '(?i)urllib\.request\.urlopen\s*\(\s*[\"'']http://'
+    - 'socket\.socket\s*\('
+message: "Unencrypted network connection detected. Data transmitted without encryption is vulnerable to interception."
+fix_hint: "Use HTTPS instead of HTTP for all network requests. Use ssl.wrap_socket() for socket connections."
+references:
+  - https://cwe.mitre.org/data/definitions/319.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

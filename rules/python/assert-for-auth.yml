@@ -1,0 +1,19 @@
+id: PY-SEC-041
+name: assert-for-auth
+severity: medium
+language: python
+cwe: CWE-617
+owasp: "A07:2021"
+description: "Detect use of assert statements for authentication or authorization checks, which are removed in optimized bytecode."
+pattern:
+  type: regex
+  regex:
+    - '(?i)assert.*is_authenticated'
+    - '(?i)assert.*is_admin'
+    - '(?i)assert.*has_perm'
+    - '(?i)assert.*request\.user'
+message: "Assert statement used for security check. Assert statements are removed when Python runs with -O flag, bypassing the security check entirely."
+fix_hint: "Use if/raise or proper authorization decorators instead of assert for security checks."
+references:
+  - https://cwe.mitre.org/data/definitions/617.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

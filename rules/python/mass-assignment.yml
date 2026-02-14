@@ -1,0 +1,18 @@
+id: PY-SEC-029
+name: mass-assignment
+severity: high
+language: python
+cwe: CWE-915
+owasp: "A01:2021"
+description: "Detect Django mass assignment via direct request data passing to model creation."
+pattern:
+  type: regex
+  regex:
+    - '\.objects\.create\s*\(\s*\*\*request\.(POST|data)'
+    - '\.objects\.update\s*\(\s*\*\*request\.(POST|data)'
+    - 'form_class\s*=\s*\w+.*exclude\s*='
+message: "Possible mass assignment vulnerability. Passing raw user input to model creation may allow unauthorized field modification."
+fix_hint: "Use explicit field lists in forms (fields = [...] instead of exclude). Never pass raw request data to ORM create/update."
+references:
+  - https://cwe.mitre.org/data/definitions/915.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

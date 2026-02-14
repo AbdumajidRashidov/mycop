@@ -1,0 +1,17 @@
+id: PY-SEC-047
+name: redos
+severity: medium
+language: python
+cwe: CWE-1333
+owasp: "A06:2021"
+description: "Detect potentially catastrophic regular expressions with nested quantifiers."
+pattern:
+  type: regex
+  regex:
+    - 're\.(compile|match|search|findall)\s*\(.*\(.*\+\).*\+'
+    - 're\.(compile|match|search|findall)\s*\(.*\(.*\*\).*\*'
+message: "Potentially catastrophic regular expression detected. Nested quantifiers can cause exponential backtracking, enabling ReDoS attacks."
+fix_hint: "Avoid nested quantifiers. Use atomic groups or possessive quantifiers. Set regex timeouts. Consider using google/re2."
+references:
+  - https://cwe.mitre.org/data/definitions/1333.html
+  - https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/

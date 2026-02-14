@@ -1,0 +1,19 @@
+id: JS-SEC-035
+name: arbitrary-file-upload
+severity: high
+language: javascript
+cwe: CWE-434
+owasp: "A04:2021"
+description: "Detect file upload handling without proper validation in Express/Node.js."
+pattern:
+  type: regex
+  regex:
+    - 'multer\s*\(\s*\{\s*dest'
+    - 'upload\.single\s*\('
+    - 'req\.file\.path'
+    - 'formidable\s*\('
+message: "File upload handling detected without apparent validation. Unrestricted file uploads may allow malicious file execution."
+fix_hint: "Validate file extensions, MIME types, and sizes. Store uploads outside web root. Use generated filenames. Configure multer fileFilter."
+references:
+  - https://cwe.mitre.org/data/definitions/434.html
+  - https://owasp.org/Top10/A04_2021-Insecure_Design/

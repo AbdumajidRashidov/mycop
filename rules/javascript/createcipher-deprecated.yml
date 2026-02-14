@@ -1,0 +1,17 @@
+id: JS-SEC-022
+name: createcipher-deprecated
+severity: high
+language: javascript
+cwe: CWE-327
+owasp: "A02:2021"
+description: "Detect use of deprecated crypto.createCipher() which derives keys insecurely."
+pattern:
+  type: regex
+  regex:
+    - 'crypto\.createCipher\s*\('
+    - 'crypto\.createDecipher\s*\('
+message: "Deprecated crypto.createCipher() detected. This API derives keys without salt using MD5, which is insecure."
+fix_hint: "Use crypto.createCipheriv() with a properly derived key (using crypto.scrypt or PBKDF2) and random IV."
+references:
+  - https://cwe.mitre.org/data/definitions/327.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

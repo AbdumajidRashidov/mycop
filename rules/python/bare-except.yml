@@ -1,0 +1,18 @@
+id: PY-SEC-040
+name: bare-except
+severity: low
+language: python
+cwe: CWE-396
+owasp: "A05:2021"
+description: "Detect bare except clauses or overly broad exception handling that may swallow security-relevant errors."
+pattern:
+  type: regex
+  regex:
+    - 'except\s*:'
+    - 'except\s+Exception\s*:'
+    - 'except\s+BaseException\s*:'
+message: "Bare or overly broad exception handling detected. Catching all exceptions may mask security errors and hide attack indicators."
+fix_hint: "Catch specific exception types. Log exceptions before handling. Never silently swallow exceptions in security-critical code."
+references:
+  - https://cwe.mitre.org/data/definitions/396.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

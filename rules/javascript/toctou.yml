@@ -1,0 +1,18 @@
+id: JS-SEC-048
+name: toctou
+severity: medium
+language: javascript
+cwe: CWE-367
+owasp: "A01:2021"
+description: "Detect TOCTOU race conditions in Node.js file operations."
+pattern:
+  type: regex
+  regex:
+    - 'fs\.existsSync\s*\('
+    - 'fs\.accessSync\s*\('
+    - 'fs\.statSync\s*\(.*fs\.(read|write|unlink)'
+message: "Possible TOCTOU race condition. Checking file existence before use creates a race window for exploitation."
+fix_hint: "Use try/catch with direct file operations. Use fs.open() with exclusive flags. Handle ENOENT errors instead of pre-checking."
+references:
+  - https://cwe.mitre.org/data/definitions/367.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

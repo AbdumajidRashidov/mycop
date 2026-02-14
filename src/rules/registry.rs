@@ -45,6 +45,152 @@ static EMBEDDED_RULES: &[(&str, &str)] = &[
         "python",
         include_str!("../../rules/python/log-injection.yml"),
     ),
+    // Python rules (011-050)
+    ("python", include_str!("../../rules/python/ssrf.yml")),
+    (
+        "python",
+        include_str!("../../rules/python/xxe-parsing.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/ldap-injection.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/template-injection.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/header-injection.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/xpath-injection.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/weak-hash-md5.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/weak-hash-sha1.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/weak-cipher.yml"),
+    ),
+    ("python", include_str!("../../rules/python/ecb-mode.yml")),
+    (
+        "python",
+        include_str!("../../rules/python/hardcoded-iv.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/insecure-tls.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/jwt-none-algorithm.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/weak-password-hash.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/session-fixation.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/missing-hsts.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/open-redirect.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/cors-misconfiguration.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/mass-assignment.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/idor-pattern.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/debug-mode-enabled.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/stack-trace-exposure.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/sensitive-data-logging.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/hardcoded-connection-string.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/arbitrary-file-upload.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/tempfile-insecure.yml"),
+    ),
+    ("python", include_str!("../../rules/python/zipslip.yml")),
+    (
+        "python",
+        include_str!("../../rules/python/unencrypted-socket.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/dns-resolution-user-input.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/bare-except.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/assert-for-auth.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/django-raw-sql.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/flask-secret-key.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/django-safe-string.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/subprocess-user-input.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/timing-attack.yml"),
+    ),
+    ("python", include_str!("../../rules/python/redos.yml")),
+    ("python", include_str!("../../rules/python/toctou.yml")),
+    (
+        "python",
+        include_str!("../../rules/python/unsafe-import.yml"),
+    ),
+    (
+        "python",
+        include_str!("../../rules/python/shell-true-list.yml"),
+    ),
     // JavaScript rules
     (
         "javascript",
@@ -85,6 +231,167 @@ static EMBEDDED_RULES: &[(&str, &str)] = &[
     (
         "javascript",
         include_str!("../../rules/javascript/dangerouslysetinnerhtml.yml"),
+    ),
+    // JavaScript rules (011-050)
+    (
+        "javascript",
+        include_str!("../../rules/javascript/sql-injection.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/xxe-parsing.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/template-injection.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/header-injection.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/ldap-injection.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/command-injection.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/weak-hash-md5.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/weak-hash-sha1.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/weak-cipher.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/ecb-mode.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/insecure-tls.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/createcipher-deprecated.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/jwt-none-algorithm.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/insecure-cookie.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/session-secret-weak.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/missing-helmet.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/open-redirect.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/cors-misconfiguration.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/idor-pattern.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/mass-assignment.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/debug-mode-enabled.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/error-info-leak.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/sensitive-data-exposure.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/hardcoded-connection-string.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/arbitrary-file-upload.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/directory-listing.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/zipslip.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/unencrypted-request.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/websocket-no-origin.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/empty-catch.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/react-ref-dom-manipulation.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/express-no-rate-limit.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/express-trust-proxy.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/react-unsafe-lifecycle.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/nextjs-ssr-secrets.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/timing-attack.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/redos.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/toctou.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/dynamic-require.yml"),
+    ),
+    (
+        "javascript",
+        include_str!("../../rules/javascript/postmessage-no-origin.yml"),
     ),
 ];
 
@@ -128,11 +435,24 @@ impl RuleRegistry {
             dirs_rules_path(),
         ];
 
+        // Collect existing rule IDs to avoid duplicates
+        let existing_ids: std::collections::HashSet<String> = registry
+            .rules
+            .values()
+            .flat_map(|rules| rules.iter().map(|r| r.id.clone()))
+            .collect();
+
         for dir in extra_dirs {
             if dir.exists() {
                 if let Ok(extra) = Self::load(&dir) {
                     for (lang, rules) in extra.rules {
-                        registry.rules.entry(lang).or_default().extend(rules);
+                        let new_rules: Vec<Rule> = rules
+                            .into_iter()
+                            .filter(|r| !existing_ids.contains(&r.id))
+                            .collect();
+                        if !new_rules.is_empty() {
+                            registry.rules.entry(lang).or_default().extend(new_rules);
+                        }
                     }
                 }
             }
@@ -221,8 +541,8 @@ mod tests {
     fn test_load_embedded_rules() {
         let registry = RuleRegistry::load_embedded().unwrap();
         assert!(
-            registry.rule_count() >= 20,
-            "Expected at least 20 embedded rules, got {}",
+            registry.rule_count() >= 100,
+            "Expected at least 100 embedded rules, got {}",
             registry.rule_count()
         );
     }
@@ -232,8 +552,8 @@ mod tests {
         let registry = RuleRegistry::load_embedded().unwrap();
         let py_rules = registry.rules_for_language(&Language::Python);
         assert!(
-            py_rules.len() >= 10,
-            "Expected at least 10 Python rules, got {}",
+            py_rules.len() >= 50,
+            "Expected at least 50 Python rules, got {}",
             py_rules.len()
         );
     }
@@ -243,8 +563,8 @@ mod tests {
         let registry = RuleRegistry::load_embedded().unwrap();
         let js_rules = registry.rules_for_language(&Language::JavaScript);
         assert!(
-            js_rules.len() >= 10,
-            "Expected at least 10 JavaScript rules, got {}",
+            js_rules.len() >= 50,
+            "Expected at least 50 JavaScript rules, got {}",
             js_rules.len()
         );
     }

@@ -1,0 +1,19 @@
+id: PY-SEC-044
+name: django-safe-string
+severity: high
+language: python
+cwe: CWE-79
+owasp: "A03:2021"
+description: "Detect Django mark_safe() or SafeString with user-controlled data."
+pattern:
+  type: regex
+  regex:
+    - 'mark_safe\s*\(.*\+'
+    - 'mark_safe\s*\(.*format\s*\('
+    - 'mark_safe\s*\(.*f[\"'']'
+    - 'SafeString\s*\(.*\+'
+message: "Django mark_safe() used with dynamic content. This bypasses Django template auto-escaping and may introduce XSS vulnerabilities."
+fix_hint: "Avoid mark_safe() with user-controlled content. Use format_html() which auto-escapes arguments."
+references:
+  - https://cwe.mitre.org/data/definitions/79.html
+  - https://owasp.org/Top10/A03_2021-Injection/

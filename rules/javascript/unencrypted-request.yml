@@ -1,0 +1,19 @@
+id: JS-SEC-038
+name: unencrypted-request
+severity: medium
+language: javascript
+cwe: CWE-319
+owasp: "A02:2021"
+description: "Detect outbound HTTP requests using unencrypted connections."
+pattern:
+  type: regex
+  regex:
+    - '(?i)fetch\s*\(\s*[\"'']http://'
+    - '(?i)axios\.\w+\s*\(\s*[\"'']http://'
+    - '(?i)http\.request\s*\('
+    - '(?i)require\s*\(\s*[\"'']http[\"'']\s*\)\.request'
+message: "Unencrypted HTTP request detected. Data transmitted over HTTP is vulnerable to interception."
+fix_hint: "Use HTTPS for all network requests. Use https module instead of http module for outbound requests."
+references:
+  - https://cwe.mitre.org/data/definitions/319.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

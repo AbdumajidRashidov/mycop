@@ -1,0 +1,18 @@
+id: JS-SEC-040
+name: empty-catch
+severity: low
+language: javascript
+cwe: CWE-390
+owasp: "A05:2021"
+description: "Detect empty catch blocks that silently swallow errors including security-relevant exceptions."
+pattern:
+  type: regex
+  regex:
+    - 'catch\s*\(\s*\w*\s*\)\s*\{\s*\}'
+    - '\.catch\s*\(\s*\(\s*\)\s*=>\s*\{\s*\}\s*\)'
+    - '\.catch\s*\(\s*\(\s*\w+\s*\)\s*=>\s*\{\s*\}\s*\)'
+message: "Empty catch block detected. Silently swallowing errors may hide security issues and attack indicators."
+fix_hint: "Log caught errors. Handle or rethrow exceptions appropriately. Never silently ignore errors in security-critical paths."
+references:
+  - https://cwe.mitre.org/data/definitions/390.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

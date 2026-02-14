@@ -1,0 +1,19 @@
+id: PY-SEC-028
+name: cors-misconfiguration
+severity: medium
+language: python
+cwe: CWE-942
+owasp: "A05:2021"
+description: "Detect overly permissive CORS configurations that allow any origin."
+pattern:
+  type: regex
+  regex:
+    - 'CORS_ALLOW_ALL_ORIGINS\s*=\s*True'
+    - 'CORS_ORIGIN_ALLOW_ALL\s*=\s*True'
+    - 'Access-Control-Allow-Origin.*\*'
+    - '(?i)allow_origin.*\*'
+message: "Overly permissive CORS configuration detected. Allowing all origins enables cross-origin data theft."
+fix_hint: "Specify exact allowed origins instead of using wildcards. Use CORS_ALLOWED_ORIGINS with a specific domain list."
+references:
+  - https://cwe.mitre.org/data/definitions/942.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

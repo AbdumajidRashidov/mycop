@@ -1,0 +1,18 @@
+id: PY-SEC-037
+name: zipslip
+severity: high
+language: python
+cwe: CWE-22
+owasp: "A01:2021"
+description: "Detect unsafe archive extraction that may allow writing files outside the intended directory."
+pattern:
+  type: regex
+  regex:
+    - '\.extractall\s*\('
+    - 'tarfile\.open\s*\(.*\.extract\('
+    - 'zipfile\.ZipFile\s*\(.*\.extract\('
+message: "Possible Zip Slip vulnerability. Extracting archives without path validation may write files outside the target directory."
+fix_hint: "Validate each entry name in the archive before extraction. Ensure extracted paths start with the intended destination directory."
+references:
+  - https://cwe.mitre.org/data/definitions/22.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

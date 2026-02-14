@@ -1,0 +1,18 @@
+id: JS-SEC-034
+name: hardcoded-connection-string
+severity: high
+language: javascript
+cwe: CWE-798
+owasp: "A07:2021"
+description: "Detect hardcoded database connection strings in JavaScript source code."
+pattern:
+  type: regex
+  regex:
+    - '(?i)(mongodb|mysql|postgres|redis|amqp)://\w+:\w+@'
+    - '(?i)DATABASE_URL\s*[:=]\s*[\"''](?!process\.env)'
+    - '(?i)connectionString\s*[:=]\s*[\"''](?!process\.env)'
+message: "Hardcoded database connection string detected. Connection strings with embedded credentials must not be in source code."
+fix_hint: "Use environment variables (process.env.DATABASE_URL). Use secrets managers in production."
+references:
+  - https://cwe.mitre.org/data/definitions/798.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

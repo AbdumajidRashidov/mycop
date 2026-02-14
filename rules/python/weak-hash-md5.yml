@@ -1,0 +1,18 @@
+id: PY-SEC-017
+name: weak-hash-md5
+severity: medium
+language: python
+cwe: CWE-328
+owasp: "A02:2021"
+description: "Detect use of MD5 hashing which is cryptographically broken and unsuitable for security purposes."
+pattern:
+  type: regex
+  regex:
+    - 'hashlib\.md5\s*\('
+    - 'MD5\.new\s*\('
+    - 'Crypto\.Hash\.MD5'
+message: "Weak hash function MD5 detected. MD5 is cryptographically broken and must not be used for security-sensitive hashing."
+fix_hint: "Use hashlib.sha256() or hashlib.sha3_256() for integrity checks. Use bcrypt, argon2, or scrypt for password hashing."
+references:
+  - https://cwe.mitre.org/data/definitions/328.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

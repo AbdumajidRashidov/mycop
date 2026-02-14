@@ -1,0 +1,17 @@
+id: PY-SEC-050
+name: shell-true-list
+severity: high
+language: python
+cwe: CWE-78
+owasp: "A03:2021"
+description: "Detect subprocess calls using shell=True with list arguments, which is a common misunderstanding that still enables injection."
+pattern:
+  type: regex
+  regex:
+    - 'subprocess\.\w+\s*\(\s*\[.*\].*shell\s*=\s*True'
+    - 'Popen\s*\(\s*\[.*\].*shell\s*=\s*True'
+message: "Subprocess called with shell=True and list arguments. When shell=True, only the first list item is treated as the command; the rest are ignored, which is likely a bug and security risk."
+fix_hint: "Remove shell=True when using list arguments. Pass a list of arguments with shell=False (the default)."
+references:
+  - https://cwe.mitre.org/data/definitions/78.html
+  - https://owasp.org/Top10/A03_2021-Injection/

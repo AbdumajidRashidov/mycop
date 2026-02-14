@@ -1,0 +1,18 @@
+id: JS-SEC-049
+name: dynamic-require
+severity: critical
+language: javascript
+cwe: CWE-95
+owasp: "A03:2021"
+description: "Detect dynamic require() or import() with user-controlled input that may load arbitrary modules."
+pattern:
+  type: regex
+  regex:
+    - 'require\s*\(\s*req\.(query|body|params)'
+    - 'require\s*\(.*\+\s*'
+    - 'import\s*\(\s*req\.(query|body|params)'
+message: "Dynamic require with user-controlled input detected. This may allow loading arbitrary modules and executing arbitrary code."
+fix_hint: "Use a static allowlist mapping of permitted module names. Never pass user input directly to require() or import()."
+references:
+  - https://cwe.mitre.org/data/definitions/95.html
+  - https://owasp.org/Top10/A03_2021-Injection/

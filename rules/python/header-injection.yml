@@ -1,0 +1,18 @@
+id: PY-SEC-015
+name: header-injection
+severity: high
+language: python
+cwe: CWE-113
+owasp: "A03:2021"
+description: "Detect HTTP response header injection via unsanitized user input in response headers."
+pattern:
+  type: regex
+  regex:
+    - 'response\[.*\]\s*=.*request\.'
+    - 'response\.headers\[.*\]\s*=.*request\.'
+    - 'make_response\s*\(.*\\r\\n'
+message: "Possible HTTP header injection. User-controlled data in response headers may allow CRLF injection attacks."
+fix_hint: "Sanitize all user input before placing it in HTTP headers. Remove or encode CR/LF characters."
+references:
+  - https://cwe.mitre.org/data/definitions/113.html
+  - https://owasp.org/Top10/A03_2021-Injection/

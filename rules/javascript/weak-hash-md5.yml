@@ -1,0 +1,18 @@
+id: JS-SEC-017
+name: weak-hash-md5
+severity: medium
+language: javascript
+cwe: CWE-328
+owasp: "A02:2021"
+description: "Detect use of MD5 hashing in Node.js."
+pattern:
+  type: regex
+  regex:
+    - 'createHash\s*\(\s*[\"'']md5[\"'']\s*\)'
+    - 'CryptoJS\.MD5\s*\('
+    - 'md5\s*\('
+message: "Weak hash function MD5 detected. MD5 is cryptographically broken and must not be used for security-sensitive hashing."
+fix_hint: "Use crypto.createHash('sha256') or SHA-3 for integrity checks. Use bcrypt or argon2 for password hashing."
+references:
+  - https://cwe.mitre.org/data/definitions/328.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

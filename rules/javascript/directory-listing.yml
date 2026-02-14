@@ -1,0 +1,18 @@
+id: JS-SEC-036
+name: directory-listing
+severity: low
+language: javascript
+cwe: CWE-548
+owasp: "A01:2021"
+description: "Detect Express.js serving static files with directory listing enabled."
+pattern:
+  type: regex
+  regex:
+    - 'serveIndex\s*\('
+    - 'express\.static\s*\(.*dotfiles\s*:\s*[\"'']allow[\"'']'
+    - 'serve-index'
+message: "Directory listing may be enabled. Exposing directory contents reveals application structure and sensitive files."
+fix_hint: "Remove serve-index middleware. Set dotfiles:'deny' in express.static. Use an explicit file-serving route."
+references:
+  - https://cwe.mitre.org/data/definitions/548.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

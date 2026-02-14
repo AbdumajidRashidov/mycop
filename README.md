@@ -5,7 +5,7 @@ AI Code Security Scanner — detect and auto-fix vulnerabilities in AI-generated
 [![CI](https://github.com/AbdumajidRashidov/mycop/actions/workflows/ci.yml/badge.svg)](https://github.com/AbdumajidRashidov/mycop/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-mycop scans Python, JavaScript, and TypeScript codebases for security vulnerabilities using pattern matching, AST analysis, and optional AI-powered explanations and auto-fix. It ships with 20 built-in security rules covering OWASP Top 10 categories.
+mycop scans Python, JavaScript, and TypeScript codebases for security vulnerabilities using pattern matching, AST analysis, and optional AI-powered explanations and auto-fix. It ships with 100 built-in security rules covering OWASP Top 10 and CWE Top 25 categories.
 
 ## Installation
 
@@ -189,23 +189,53 @@ CLI flags always take priority over config file values.
 
 ## Security Rules
 
-20 built-in rules covering:
+100 built-in rules (50 Python + 50 JavaScript) covering OWASP Top 10, CWE Top 25, and more:
 
 | Category | Python | JavaScript |
 |----------|--------|------------|
-| SQL Injection (CWE-89) | PY-SEC-001 | — |
-| Command Injection (CWE-78) | PY-SEC-002 | — |
-| Hardcoded Secrets (CWE-798) | PY-SEC-003 | JS-SEC-004 |
+| SQL Injection (CWE-89) | PY-SEC-001, PY-SEC-042 | JS-SEC-011 |
+| Command Injection (CWE-78) | PY-SEC-002, PY-SEC-045, PY-SEC-050 | JS-SEC-016 |
+| Hardcoded Secrets (CWE-798) | PY-SEC-003, PY-SEC-034, PY-SEC-043 | JS-SEC-004, JS-SEC-034 |
 | Insecure Random (CWE-330) | PY-SEC-004 | JS-SEC-005 |
-| Eval/Exec Injection (CWE-95) | PY-SEC-005 | JS-SEC-002 |
-| Path Traversal (CWE-22) | PY-SEC-006 | JS-SEC-006 |
+| Eval/Exec Injection (CWE-95) | PY-SEC-005 | JS-SEC-002, JS-SEC-049 |
+| Path Traversal (CWE-22) | PY-SEC-006, PY-SEC-037 | JS-SEC-006, JS-SEC-037 |
 | Insecure Deserialization (CWE-502) | PY-SEC-007 | JS-SEC-009 |
 | Missing Auth (CWE-862) | PY-SEC-008 | — |
-| XSS (CWE-79) | PY-SEC-009 | JS-SEC-001, JS-SEC-010 |
+| XSS (CWE-79) | PY-SEC-009, PY-SEC-044 | JS-SEC-001, JS-SEC-010, JS-SEC-041 |
 | Log Injection (CWE-117) | PY-SEC-010 | — |
+| SSRF (CWE-918) | PY-SEC-011 | JS-SEC-007 |
+| XXE (CWE-611) | PY-SEC-012 | JS-SEC-012 |
+| LDAP Injection (CWE-90) | PY-SEC-013 | JS-SEC-015 |
+| Template Injection (CWE-1336) | PY-SEC-014 | JS-SEC-013 |
+| Header Injection (CWE-113) | PY-SEC-015 | JS-SEC-014 |
+| XPath Injection (CWE-643) | PY-SEC-016 | — |
+| Weak Hash MD5/SHA1 (CWE-328) | PY-SEC-017, PY-SEC-018 | JS-SEC-017, JS-SEC-018 |
+| Weak Cipher (CWE-327) | PY-SEC-019, PY-SEC-020 | JS-SEC-019, JS-SEC-020, JS-SEC-022 |
+| Hardcoded IV (CWE-329) | PY-SEC-021 | — |
+| Insecure TLS (CWE-295) | PY-SEC-022 | JS-SEC-021 |
+| JWT None Algorithm (CWE-345) | PY-SEC-023 | JS-SEC-023 |
+| Weak Password Hash (CWE-916) | PY-SEC-024 | — |
+| Session Fixation (CWE-384) | PY-SEC-025 | JS-SEC-024, JS-SEC-025 |
+| Missing Security Headers (CWE-319) | PY-SEC-026 | JS-SEC-026 |
+| Open Redirect (CWE-601) | PY-SEC-027 | JS-SEC-027 |
+| CORS Misconfiguration (CWE-942) | PY-SEC-028 | JS-SEC-028 |
+| Mass Assignment (CWE-915) | PY-SEC-029 | JS-SEC-030 |
+| IDOR (CWE-639) | PY-SEC-030 | JS-SEC-029 |
+| Debug Mode (CWE-215) | PY-SEC-031 | JS-SEC-031 |
+| Error Info Leak (CWE-209) | PY-SEC-032 | JS-SEC-032 |
+| Sensitive Data Logging (CWE-532) | PY-SEC-033 | JS-SEC-033 |
+| Arbitrary File Upload (CWE-434) | PY-SEC-035 | JS-SEC-035 |
+| Insecure Temp Files (CWE-377) | PY-SEC-036 | — |
+| Zip Slip (CWE-22) | PY-SEC-037 | JS-SEC-037 |
+| Unencrypted Transport (CWE-319) | PY-SEC-038 | JS-SEC-038 |
 | Prototype Pollution (CWE-1321) | — | JS-SEC-003 |
-| SSRF (CWE-918) | — | JS-SEC-007 |
 | NoSQL Injection (CWE-943) | — | JS-SEC-008 |
+| Timing Attack (CWE-208) | PY-SEC-046 | JS-SEC-046 |
+| ReDoS (CWE-1333) | PY-SEC-047 | JS-SEC-047 |
+| TOCTOU (CWE-367) | PY-SEC-048 | JS-SEC-048 |
+| Bare/Empty Catch (CWE-390) | PY-SEC-040 | JS-SEC-040 |
+
+Run `mycop rules list` to see all 100 rules with their severity levels.
 
 ## Output Formats
 

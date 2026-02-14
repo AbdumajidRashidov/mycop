@@ -1,0 +1,17 @@
+id: PY-SEC-034
+name: hardcoded-connection-string
+severity: high
+language: python
+cwe: CWE-798
+owasp: "A07:2021"
+description: "Detect hardcoded database connection strings containing credentials."
+pattern:
+  type: regex
+  regex:
+    - '(?i)(mysql|postgres|mongodb|redis|amqp)://\w+:\w+@'
+    - '(?i)SQLALCHEMY_DATABASE_URI\s*=\s*[\"'']'
+message: "Hardcoded database connection string detected. Connection strings with embedded credentials should not be in source code."
+fix_hint: "Use environment variables for database credentials. Use secrets managers in production deployments."
+references:
+  - https://cwe.mitre.org/data/definitions/798.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

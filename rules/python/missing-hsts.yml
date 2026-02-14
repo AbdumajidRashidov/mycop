@@ -1,0 +1,18 @@
+id: PY-SEC-026
+name: missing-hsts
+severity: medium
+language: python
+cwe: CWE-319
+owasp: "A05:2021"
+description: "Detect Django settings that disable or weaken HSTS."
+pattern:
+  type: regex
+  regex:
+    - 'SECURE_HSTS_SECONDS\s*=\s*0'
+    - 'SECURE_SSL_REDIRECT\s*=\s*False'
+    - 'SECURE_HSTS_INCLUDE_SUBDOMAINS\s*=\s*False'
+message: "HSTS is disabled or weakened. Without HSTS, connections may be downgraded from HTTPS to HTTP."
+fix_hint: "Set SECURE_HSTS_SECONDS to at least 31536000, SECURE_SSL_REDIRECT=True, and SECURE_HSTS_INCLUDE_SUBDOMAINS=True."
+references:
+  - https://cwe.mitre.org/data/definitions/319.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

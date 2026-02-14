@@ -1,0 +1,18 @@
+id: JS-SEC-047
+name: redos
+severity: medium
+language: javascript
+cwe: CWE-1333
+owasp: "A06:2021"
+description: "Detect potentially catastrophic regular expressions with user-controlled patterns in JavaScript."
+pattern:
+  type: regex
+  regex:
+    - 'new\s+RegExp\s*\(.*req\.(query|body|params)'
+    - 'new\s+RegExp\s*\(\s*`'
+    - '\.match\s*\(\s*new\s+RegExp\s*\('
+message: "User-controlled regular expression detected. Untrusted regex patterns can cause catastrophic backtracking (ReDoS)."
+fix_hint: "Never construct RegExp from user input. Use RE2 (re2-wasm) for safe regex. Validate regex complexity before compilation."
+references:
+  - https://cwe.mitre.org/data/definitions/1333.html
+  - https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/

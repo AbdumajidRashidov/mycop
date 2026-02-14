@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mycop — AI Code Security Scanner</title>
   <meta name="description"
-    content="Detect and auto-fix vulnerabilities in AI-generated code. 20 built-in security rules, 5 AI providers, SARIF output. Open source.">
+    content="Detect and auto-fix vulnerabilities in AI-generated code. 100 built-in security rules, 5 AI providers, SARIF output. Open source.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -727,7 +727,7 @@
       </div>
       <h1>Catch vulnerabilities in<br><span>AI-generated code</span></h1>
       <p>mycop scans Python, JavaScript, and TypeScript for security issues that AI coding assistants commonly
-        introduce. 20 built-in rules, AI-powered auto-fix, zero config.</p>
+        introduce. 100 built-in rules, AI-powered auto-fix, zero config.</p>
       <div class="hero-actions">
         <div class="install-cmd">
           <span class="dim">$</span>
@@ -804,9 +804,9 @@
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
           </div>
-          <h3>20 Built-in Rules</h3>
-          <p>Covers OWASP Top 10 including SQL injection, XSS, command injection, hardcoded secrets, and more. Mapped to
-            CWE identifiers.</p>
+          <h3>100 Built-in Rules</h3>
+          <p>Covers OWASP Top 10 and CWE Top 25 including SQL injection, XSS, command injection, cryptography flaws, auth
+            issues, and more. All mapped to CWE identifiers.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
@@ -999,8 +999,8 @@ mycop --version</code></div>
   <section class="rules" id="rules">
     <div class="container">
       <div class="section-label">Security Rules</div>
-      <h2 class="section-title">20 rules covering OWASP Top 10</h2>
-      <p class="section-subtitle">Each rule is mapped to CWE identifiers for standards compliance.</p>
+      <h2 class="section-title">100 rules covering OWASP Top 10 &amp; CWE Top 25</h2>
+      <p class="section-subtitle">50 Python + 50 JavaScript rules, each mapped to CWE identifiers for standards compliance.</p>
       <table class="rules-table">
         <thead>
           <tr>
@@ -1012,18 +1012,18 @@ mycop --version</code></div>
         <tbody>
           <tr>
             <td>SQL Injection (CWE-89)</td>
-            <td class="rule-id">PY-SEC-001</td>
-            <td class="na">&mdash;</td>
+            <td class="rule-id">PY-SEC-001, 042</td>
+            <td class="rule-id">JS-SEC-011</td>
           </tr>
           <tr>
             <td>Command Injection (CWE-78)</td>
-            <td class="rule-id">PY-SEC-002</td>
-            <td class="na">&mdash;</td>
+            <td class="rule-id">PY-SEC-002, 045, 050</td>
+            <td class="rule-id">JS-SEC-016</td>
           </tr>
           <tr>
             <td>Hardcoded Secrets (CWE-798)</td>
-            <td class="rule-id">PY-SEC-003</td>
-            <td class="rule-id">JS-SEC-004</td>
+            <td class="rule-id">PY-SEC-003, 034, 043</td>
+            <td class="rule-id">JS-SEC-004, 034</td>
           </tr>
           <tr>
             <td>Insecure Random (CWE-330)</td>
@@ -1033,12 +1033,12 @@ mycop --version</code></div>
           <tr>
             <td>Eval/Exec Injection (CWE-95)</td>
             <td class="rule-id">PY-SEC-005</td>
-            <td class="rule-id">JS-SEC-002</td>
+            <td class="rule-id">JS-SEC-002, 049</td>
           </tr>
           <tr>
-            <td>Path Traversal (CWE-22)</td>
-            <td class="rule-id">PY-SEC-006</td>
-            <td class="rule-id">JS-SEC-006</td>
+            <td>Path Traversal / Zip Slip (CWE-22)</td>
+            <td class="rule-id">PY-SEC-006, 037</td>
+            <td class="rule-id">JS-SEC-006, 037</td>
           </tr>
           <tr>
             <td>Insecure Deserialization (CWE-502)</td>
@@ -1046,34 +1046,74 @@ mycop --version</code></div>
             <td class="rule-id">JS-SEC-009</td>
           </tr>
           <tr>
-            <td>Missing Auth (CWE-862)</td>
-            <td class="rule-id">PY-SEC-008</td>
-            <td class="na">&mdash;</td>
-          </tr>
-          <tr>
             <td>XSS (CWE-79)</td>
-            <td class="rule-id">PY-SEC-009</td>
-            <td class="rule-id">JS-SEC-001, JS-SEC-010</td>
-          </tr>
-          <tr>
-            <td>Log Injection (CWE-117)</td>
-            <td class="rule-id">PY-SEC-010</td>
-            <td class="na">&mdash;</td>
-          </tr>
-          <tr>
-            <td>Prototype Pollution (CWE-1321)</td>
-            <td class="na">&mdash;</td>
-            <td class="rule-id">JS-SEC-003</td>
+            <td class="rule-id">PY-SEC-009, 044</td>
+            <td class="rule-id">JS-SEC-001, 010, 041</td>
           </tr>
           <tr>
             <td>SSRF (CWE-918)</td>
-            <td class="na">&mdash;</td>
+            <td class="rule-id">PY-SEC-011</td>
             <td class="rule-id">JS-SEC-007</td>
           </tr>
           <tr>
-            <td>NoSQL Injection (CWE-943)</td>
-            <td class="na">&mdash;</td>
-            <td class="rule-id">JS-SEC-008</td>
+            <td>XXE (CWE-611)</td>
+            <td class="rule-id">PY-SEC-012</td>
+            <td class="rule-id">JS-SEC-012</td>
+          </tr>
+          <tr>
+            <td>Template Injection (CWE-1336)</td>
+            <td class="rule-id">PY-SEC-014</td>
+            <td class="rule-id">JS-SEC-013</td>
+          </tr>
+          <tr>
+            <td>Weak Crypto (CWE-327/328)</td>
+            <td class="rule-id">PY-SEC-017&ndash;021</td>
+            <td class="rule-id">JS-SEC-017&ndash;022</td>
+          </tr>
+          <tr>
+            <td>Insecure TLS (CWE-295)</td>
+            <td class="rule-id">PY-SEC-022</td>
+            <td class="rule-id">JS-SEC-021</td>
+          </tr>
+          <tr>
+            <td>JWT None Alg (CWE-345)</td>
+            <td class="rule-id">PY-SEC-023</td>
+            <td class="rule-id">JS-SEC-023</td>
+          </tr>
+          <tr>
+            <td>Open Redirect (CWE-601)</td>
+            <td class="rule-id">PY-SEC-027</td>
+            <td class="rule-id">JS-SEC-027</td>
+          </tr>
+          <tr>
+            <td>CORS Misconfiguration (CWE-942)</td>
+            <td class="rule-id">PY-SEC-028</td>
+            <td class="rule-id">JS-SEC-028</td>
+          </tr>
+          <tr>
+            <td>Mass Assignment (CWE-915)</td>
+            <td class="rule-id">PY-SEC-029</td>
+            <td class="rule-id">JS-SEC-030</td>
+          </tr>
+          <tr>
+            <td>Debug Mode (CWE-215)</td>
+            <td class="rule-id">PY-SEC-031</td>
+            <td class="rule-id">JS-SEC-031</td>
+          </tr>
+          <tr>
+            <td>Timing Attack (CWE-208)</td>
+            <td class="rule-id">PY-SEC-046</td>
+            <td class="rule-id">JS-SEC-046</td>
+          </tr>
+          <tr>
+            <td>ReDoS (CWE-1333)</td>
+            <td class="rule-id">PY-SEC-047</td>
+            <td class="rule-id">JS-SEC-047</td>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align:center;color:var(--muted);font-size:0.85rem;padding:12px">
+              &hellip; and 20+ more categories. Run <code style="background:#eef4ff;padding:2px 6px;border-radius:4px;font-size:0.82rem">mycop rules list</code> for the full list.
+            </td>
           </tr>
         </tbody>
       </table>

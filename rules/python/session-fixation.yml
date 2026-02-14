@@ -1,0 +1,18 @@
+id: PY-SEC-025
+name: session-fixation
+severity: medium
+language: python
+cwe: CWE-384
+owasp: "A07:2021"
+description: "Detect session configuration issues that may lead to session fixation or hijacking."
+pattern:
+  type: regex
+  regex:
+    - 'SESSION_COOKIE_SECURE\s*=\s*False'
+    - 'SESSION_COOKIE_HTTPONLY\s*=\s*False'
+    - 'SESSION_COOKIE_SAMESITE\s*=\s*["'']None["'']'
+message: "Insecure session cookie configuration detected. Session cookies may be vulnerable to interception or CSRF."
+fix_hint: "Set SESSION_COOKIE_SECURE=True, SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE='Lax' or 'Strict'."
+references:
+  - https://cwe.mitre.org/data/definitions/384.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

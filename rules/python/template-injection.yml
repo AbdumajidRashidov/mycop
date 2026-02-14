@@ -1,0 +1,19 @@
+id: PY-SEC-014
+name: template-injection
+severity: critical
+language: python
+cwe: CWE-1336
+owasp: "A03:2021"
+description: "Detect server-side template injection where user input is passed directly to template engines."
+pattern:
+  type: regex
+  regex:
+    - 'Template\s*\(.*request\.'
+    - 'Template\s*\(.*\+\s*'
+    - 'jinja2\.from_string\s*\('
+    - 'Environment\s*\(.*autoescape\s*=\s*False'
+message: "Possible server-side template injection. User input passed to template engine may allow arbitrary code execution."
+fix_hint: "Never pass user input directly to template constructors. Use render_template() with pre-defined template files. Enable autoescape."
+references:
+  - https://cwe.mitre.org/data/definitions/1336.html
+  - https://owasp.org/Top10/A03_2021-Injection/

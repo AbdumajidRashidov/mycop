@@ -1,0 +1,18 @@
+id: PY-SEC-048
+name: toctou
+severity: medium
+language: python
+cwe: CWE-367
+owasp: "A01:2021"
+description: "Detect TOCTOU race conditions in file operations where existence is checked before use."
+pattern:
+  type: regex
+  regex:
+    - 'if\s+os\.path\.exists\s*\('
+    - 'if\s+os\.path\.isfile\s*\('
+    - 'if\s+os\.access\s*\('
+message: "Possible TOCTOU race condition. Checking file existence before use creates a window where the file state can change."
+fix_hint: "Use try/except with direct file operations instead of check-then-act patterns. Use os.open() with O_CREAT|O_EXCL for atomic creation."
+references:
+  - https://cwe.mitre.org/data/definitions/367.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

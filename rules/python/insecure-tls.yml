@@ -1,0 +1,19 @@
+id: PY-SEC-022
+name: insecure-tls
+severity: high
+language: python
+cwe: CWE-326
+owasp: "A02:2021"
+description: "Detect insecure TLS/SSL configurations including disabled certificate verification and weak protocol versions."
+pattern:
+  type: regex
+  regex:
+    - 'verify\s*=\s*False'
+    - 'ssl\._create_unverified_context'
+    - 'PROTOCOL_TLSv1\b'
+    - 'CERT_NONE'
+message: "Insecure TLS configuration detected. Disabling certificate verification or using weak TLS versions exposes connections to MITM attacks."
+fix_hint: "Always verify TLS certificates (verify=True). Use TLS 1.2+ with ssl.create_default_context(). Never use CERT_NONE in production."
+references:
+  - https://cwe.mitre.org/data/definitions/326.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

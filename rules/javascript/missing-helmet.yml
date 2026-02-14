@@ -1,0 +1,18 @@
+id: JS-SEC-026
+name: missing-helmet
+severity: medium
+language: javascript
+cwe: CWE-693
+owasp: "A05:2021"
+description: "Detect Express.js applications with missing or weak security headers."
+pattern:
+  type: regex
+  regex:
+    - 'app\.disable\s*\(\s*[\"'']x-powered-by[\"'']\s*\)'
+    - 'X-Frame-Options.*ALLOWALL'
+    - 'Content-Security-Policy.*unsafe-inline.*unsafe-eval'
+message: "Missing or weak security headers detected. Without proper headers, applications are vulnerable to clickjacking, MIME sniffing, and XSS."
+fix_hint: "Use helmet middleware (app.use(helmet())). Configure CSP, X-Frame-Options, and other security headers."
+references:
+  - https://cwe.mitre.org/data/definitions/693.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

@@ -1,0 +1,19 @@
+id: PY-SEC-042
+name: django-raw-sql
+severity: high
+language: python
+cwe: CWE-89
+owasp: "A03:2021"
+description: "Detect Django raw SQL queries and extra() calls with string formatting."
+pattern:
+  type: regex
+  regex:
+    - '\.raw\s*\(\s*f[\"'']'
+    - '\.raw\s*\(\s*[\"''].*%'
+    - '\.extra\s*\(.*where\s*='
+    - 'connection\.cursor\(\).*execute\s*\('
+message: "Django raw SQL query with potential injection detected. String formatting in raw SQL enables SQL injection."
+fix_hint: "Use Django ORM methods. If raw SQL is necessary, use parameterized queries with %s placeholders."
+references:
+  - https://cwe.mitre.org/data/definitions/89.html
+  - https://owasp.org/Top10/A03_2021-Injection/

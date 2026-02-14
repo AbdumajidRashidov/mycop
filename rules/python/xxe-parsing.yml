@@ -1,0 +1,19 @@
+id: PY-SEC-012
+name: xxe-parsing
+severity: critical
+language: python
+cwe: CWE-611
+owasp: "A05:2021"
+description: "Detect XML parsing without disabling external entities, which may allow XXE attacks."
+pattern:
+  type: regex
+  regex:
+    - 'xml\.etree\.ElementTree\.parse\s*\('
+    - 'lxml\.etree\.parse\s*\('
+    - 'xml\.sax\.parseString\s*\('
+    - 'xml\.dom\.minidom\.parse\s*\('
+message: "Possible XXE vulnerability. XML parser may process external entities from untrusted input, allowing file disclosure or SSRF."
+fix_hint: "Use defusedxml library instead of standard xml parsers. For lxml, set resolve_entities=False and no_network=True."
+references:
+  - https://cwe.mitre.org/data/definitions/611.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

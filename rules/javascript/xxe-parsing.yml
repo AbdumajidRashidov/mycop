@@ -1,0 +1,19 @@
+id: JS-SEC-012
+name: xxe-parsing
+severity: critical
+language: javascript
+cwe: CWE-611
+owasp: "A05:2021"
+description: "Detect XML parsing in Node.js without disabling external entities."
+pattern:
+  type: regex
+  regex:
+    - 'xml2js\.parseString\s*\('
+    - 'DOMParser\s*\(\s*\)\.parseFromString\s*\('
+    - 'libxmljs\.parseXml\s*\('
+    - 'new\s+XMLParser\s*\('
+message: "XML parsing detected. Without proper configuration, XML parsers may process external entities enabling XXE attacks."
+fix_hint: "Disable external entity processing. Use xml2js with explicitCharkey. For DOMParser, sanitize input first. Consider using JSON instead."
+references:
+  - https://cwe.mitre.org/data/definitions/611.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

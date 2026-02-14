@@ -1,0 +1,18 @@
+id: JS-SEC-039
+name: websocket-no-origin
+severity: medium
+language: javascript
+cwe: CWE-346
+owasp: "A07:2021"
+description: "Detect WebSocket servers that do not validate connection origin."
+pattern:
+  type: regex
+  regex:
+    - 'new\s+WebSocket\.Server\s*\('
+    - 'new\s+(ws\.)?Server\s*\('
+    - 'wss\.on\s*\(\s*[\"'']connection[\"'']'
+message: "WebSocket server may lack origin validation. Without verifyClient, any origin can establish WebSocket connections."
+fix_hint: "Implement verifyClient callback to validate connection origin. Check the Origin header against allowed domains."
+references:
+  - https://cwe.mitre.org/data/definitions/346.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

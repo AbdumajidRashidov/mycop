@@ -1,0 +1,18 @@
+id: PY-SEC-039
+name: dns-resolution-user-input
+severity: medium
+language: python
+cwe: CWE-350
+owasp: "A10:2021"
+description: "Detect DNS resolution of user-controlled hostnames which may enable DNS rebinding attacks."
+pattern:
+  type: regex
+  regex:
+    - 'socket\.gethostbyname\s*\(.*request\.'
+    - 'socket\.getaddrinfo\s*\(.*request\.'
+    - 'dns\.resolver\.resolve\s*\(.*request\.'
+message: "DNS resolution with user-controlled input detected. This may enable DNS rebinding or SSRF via DNS."
+fix_hint: "Resolve hostnames and validate the resolved IP is not internal before making connections. Use IP allowlists."
+references:
+  - https://cwe.mitre.org/data/definitions/350.html
+  - https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/

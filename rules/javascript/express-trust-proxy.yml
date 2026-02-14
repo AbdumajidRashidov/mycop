@@ -1,0 +1,17 @@
+id: JS-SEC-043
+name: express-trust-proxy
+severity: medium
+language: javascript
+cwe: CWE-346
+owasp: "A05:2021"
+description: "Detect Express trust proxy set to true without specific proxy configuration."
+pattern:
+  type: regex
+  regex:
+    - 'app\.set\s*\(\s*[\"'']trust proxy[\"'']\s*,\s*true\s*\)'
+    - 'app\.enable\s*\(\s*[\"'']trust proxy[\"'']\s*\)'
+message: "Express trust proxy blindly enabled. This trusts all X-Forwarded-* headers, allowing IP spoofing from any source."
+fix_hint: "Set trust proxy to specific proxy IPs or a count (e.g., app.set('trust proxy', 1)) instead of true."
+references:
+  - https://cwe.mitre.org/data/definitions/346.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

@@ -1,0 +1,19 @@
+id: PY-SEC-033
+name: sensitive-data-logging
+severity: medium
+language: python
+cwe: CWE-532
+owasp: "A09:2021"
+description: "Detect logging of passwords, tokens, credit card numbers, SSNs, or other sensitive data."
+pattern:
+  type: regex
+  regex:
+    - '(?i)log(ger)?\.\w+\s*\(.*password'
+    - '(?i)log(ger)?\.\w+\s*\(.*credit.?card'
+    - '(?i)log(ger)?\.\w+\s*\(.*\bssn\b'
+    - '(?i)log(ger)?\.\w+\s*\(.*secret'
+message: "Sensitive data may be written to logs. Logging passwords, tokens, or PII violates data protection requirements and aids attackers."
+fix_hint: "Never log sensitive data. Mask or redact sensitive fields before logging. Use structured logging with field filtering."
+references:
+  - https://cwe.mitre.org/data/definitions/532.html
+  - https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/

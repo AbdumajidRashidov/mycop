@@ -1,0 +1,19 @@
+id: JS-SEC-042
+name: express-no-rate-limit
+severity: medium
+language: javascript
+cwe: CWE-770
+owasp: "A04:2021"
+description: "Detect Express login or authentication routes without rate limiting."
+pattern:
+  type: regex
+  regex:
+    - 'app\.post\s*\(\s*[\"'']/login'
+    - 'app\.post\s*\(\s*[\"'']/auth'
+    - 'app\.post\s*\(\s*[\"'']/register'
+    - 'app\.post\s*\(\s*[\"'']/api/auth'
+message: "Authentication endpoint without apparent rate limiting detected. Missing rate limiting enables brute-force attacks."
+fix_hint: "Use express-rate-limit middleware on authentication endpoints. Implement account lockout after failed attempts."
+references:
+  - https://cwe.mitre.org/data/definitions/770.html
+  - https://owasp.org/Top10/A04_2021-Insecure_Design/

@@ -1,0 +1,19 @@
+id: JS-SEC-013
+name: template-injection
+severity: critical
+language: javascript
+cwe: CWE-1336
+owasp: "A03:2021"
+description: "Detect template injection in Node.js template engines where user input is compiled as template."
+pattern:
+  type: regex
+  regex:
+    - 'ejs\.render\s*\(\s*req\.'
+    - 'pug\.compile\s*\(\s*req\.'
+    - 'Handlebars\.compile\s*\(\s*req\.'
+    - 'nunjucks\.renderString\s*\(\s*req\.'
+message: "Possible server-side template injection. User input passed directly to template compilation allows arbitrary code execution."
+fix_hint: "Never pass user input to template compile functions. Use pre-compiled templates with user data as template variables only."
+references:
+  - https://cwe.mitre.org/data/definitions/1336.html
+  - https://owasp.org/Top10/A03_2021-Injection/

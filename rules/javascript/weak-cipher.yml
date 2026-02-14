@@ -1,0 +1,18 @@
+id: JS-SEC-019
+name: weak-cipher
+severity: high
+language: javascript
+cwe: CWE-327
+owasp: "A02:2021"
+description: "Detect use of weak or deprecated cipher algorithms in Node.js."
+pattern:
+  type: regex
+  regex:
+    - 'createCipher\s*\(\s*[\"''](des|rc4|rc2|blowfish)'
+    - 'createCipheriv\s*\(\s*[\"''](des|rc4|rc2|blowfish)'
+    - 'CryptoJS\.(DES|RC4|TripleDES|Rabbit)\b'
+message: "Weak cipher algorithm detected. DES, RC4, and other deprecated ciphers have known vulnerabilities."
+fix_hint: "Use AES-256-GCM (crypto.createCipheriv('aes-256-gcm', ...)) or libsodium."
+references:
+  - https://cwe.mitre.org/data/definitions/327.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

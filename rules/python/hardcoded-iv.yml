@@ -1,0 +1,18 @@
+id: PY-SEC-021
+name: hardcoded-iv
+severity: medium
+language: python
+cwe: CWE-329
+owasp: "A02:2021"
+description: "Detect hardcoded initialization vectors or nonces in cryptographic operations."
+pattern:
+  type: regex
+  regex:
+    - '(?i)iv\s*=\s*b["''][^"'']+["'']'
+    - '(?i)nonce\s*=\s*b["''][^"'']+["'']'
+    - '(?i)iv\s*=\s*bytes\s*\('
+message: "Hardcoded initialization vector detected. Reusing IVs breaks the security guarantees of encryption."
+fix_hint: "Generate random IVs using os.urandom() for each encryption operation. Never reuse IVs/nonces."
+references:
+  - https://cwe.mitre.org/data/definitions/329.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

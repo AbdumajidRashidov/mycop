@@ -1,0 +1,18 @@
+id: JS-SEC-050
+name: postmessage-no-origin
+severity: medium
+language: javascript
+cwe: CWE-346
+owasp: "A07:2021"
+description: "Detect window.postMessage usage without target origin restriction and addEventListener for message without origin validation."
+pattern:
+  type: regex
+  regex:
+    - 'postMessage\s*\(.*[\"'']\*[\"'']\s*\)'
+    - 'addEventListener\s*\(\s*[\"'']message[\"'']'
+    - 'window\.onmessage\s*='
+message: "PostMessage without origin restriction detected. Without proper origin validation, cross-origin messages may be spoofed or intercepted."
+fix_hint: "Specify exact target origin in postMessage() instead of '*'. Always validate event.origin in message event handlers."
+references:
+  - https://cwe.mitre.org/data/definitions/346.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

@@ -1,0 +1,18 @@
+id: JS-SEC-024
+name: insecure-cookie
+severity: medium
+language: javascript
+cwe: CWE-614
+owasp: "A07:2021"
+description: "Detect cookies set without Secure, HttpOnly, or SameSite attributes."
+pattern:
+  type: regex
+  regex:
+    - 'cookie\s*\(.*secure\s*:\s*false'
+    - 'cookie\s*\(.*httpOnly\s*:\s*false'
+    - 'cookie\s*\(.*sameSite\s*:\s*[\"'']none[\"'']'
+message: "Insecure cookie configuration detected. Cookies without Secure, HttpOnly, or SameSite are vulnerable to interception and CSRF."
+fix_hint: "Set cookies with secure:true, httpOnly:true, sameSite:'strict' or 'lax'. Use helmet middleware."
+references:
+  - https://cwe.mitre.org/data/definitions/614.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

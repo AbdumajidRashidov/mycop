@@ -1,0 +1,19 @@
+id: JS-SEC-030
+name: mass-assignment
+severity: high
+language: javascript
+cwe: CWE-915
+owasp: "A01:2021"
+description: "Detect mass assignment in Node.js/Express where raw request body is spread into database operations."
+pattern:
+  type: regex
+  regex:
+    - '\.create\s*\(\s*req\.body\s*\)'
+    - '\.update\s*\(\s*req\.body\s*\)'
+    - 'Object\.assign\s*\(\s*\w+\s*,\s*req\.body\s*\)'
+    - '\{\s*\.\.\.req\.body\s*\}'
+message: "Possible mass assignment. Passing raw request body to database operations allows attackers to set unauthorized fields."
+fix_hint: "Destructure and pick only allowed fields from req.body. Use validation middleware (Joi, Zod). Use ORM field guards."
+references:
+  - https://cwe.mitre.org/data/definitions/915.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

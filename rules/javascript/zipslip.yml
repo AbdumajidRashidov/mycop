@@ -1,0 +1,18 @@
+id: JS-SEC-037
+name: zipslip
+severity: high
+language: javascript
+cwe: CWE-22
+owasp: "A01:2021"
+description: "Detect unsafe archive extraction in Node.js without path validation."
+pattern:
+  type: regex
+  regex:
+    - 'extract\s*\(\s*req\.(body|query|params|file)'
+    - 'tar\.extract\s*\('
+    - 'AdmZip\s*\(.*\.extractAllTo\s*\('
+message: "Possible Zip Slip vulnerability. Extracting archives without path validation may write files outside the target directory."
+fix_hint: "Validate each archive entry path before extraction. Ensure paths resolve within the intended destination directory."
+references:
+  - https://cwe.mitre.org/data/definitions/22.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

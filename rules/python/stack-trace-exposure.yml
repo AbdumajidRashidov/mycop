@@ -1,0 +1,19 @@
+id: PY-SEC-032
+name: stack-trace-exposure
+severity: medium
+language: python
+cwe: CWE-209
+owasp: "A05:2021"
+description: "Detect patterns that expose stack traces or internal error details to users."
+pattern:
+  type: regex
+  regex:
+    - 'traceback\.format_exc\s*\('
+    - 'traceback\.print_exc\s*\('
+    - 'return.*str\s*\(\s*e\s*\)'
+    - 'jsonify\s*\(.*str\s*\(\s*e'
+message: "Stack trace or error details may be exposed to users. Internal error information aids attackers in understanding application internals."
+fix_hint: "Log errors internally. Return generic error messages to users. Use custom error handlers."
+references:
+  - https://cwe.mitre.org/data/definitions/209.html
+  - https://owasp.org/Top10/A05_2021-Security_Misconfiguration/

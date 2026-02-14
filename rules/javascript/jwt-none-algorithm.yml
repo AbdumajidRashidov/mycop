@@ -1,0 +1,18 @@
+id: JS-SEC-023
+name: jwt-none-algorithm
+severity: critical
+language: javascript
+cwe: CWE-345
+owasp: "A07:2021"
+description: "Detect JWT verification that allows the none algorithm or disables signature verification."
+pattern:
+  type: regex
+  regex:
+    - 'jwt\.verify\s*\(.*algorithms\s*:\s*\[.*[\"'']none[\"'']'
+    - 'jwt\.decode\s*\('
+    - 'jsonwebtoken.*ignoreExpiration\s*:\s*true'
+message: "Insecure JWT configuration detected. Allowing the none algorithm or using decode() without verify() enables token forgery."
+fix_hint: "Always use jwt.verify() with explicit algorithm list. Never include 'none'. Always verify expiration."
+references:
+  - https://cwe.mitre.org/data/definitions/345.html
+  - https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/

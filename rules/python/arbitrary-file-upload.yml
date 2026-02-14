@@ -1,0 +1,18 @@
+id: PY-SEC-035
+name: arbitrary-file-upload
+severity: high
+language: python
+cwe: CWE-434
+owasp: "A04:2021"
+description: "Detect file upload handling that does not validate file type or content."
+pattern:
+  type: regex
+  regex:
+    - 'request\.files\[.*\]\.save\s*\('
+    - '\.save\s*\(.*upload'
+    - 'file\.save\s*\(.*os\.path\.join'
+message: "Possible unrestricted file upload. Accepting files without validation may allow upload of malicious executables or web shells."
+fix_hint: "Validate file extensions against an allowlist. Check MIME types. Limit file sizes. Store uploads outside the web root."
+references:
+  - https://cwe.mitre.org/data/definitions/434.html
+  - https://owasp.org/Top10/A04_2021-Insecure_Design/

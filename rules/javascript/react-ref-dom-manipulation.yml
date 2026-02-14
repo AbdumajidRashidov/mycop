@@ -1,0 +1,18 @@
+id: JS-SEC-041
+name: react-ref-dom-manipulation
+severity: medium
+language: javascript
+cwe: CWE-79
+owasp: "A03:2021"
+description: "Detect direct DOM manipulation through React refs which bypasses React's XSS protections."
+pattern:
+  type: regex
+  regex:
+    - 'ref\.current\.innerHTML\s*='
+    - 'useRef\s*\(\s*\).*\.innerHTML'
+    - 'findDOMNode\s*\(.*\.innerHTML'
+message: "Direct DOM manipulation via React ref detected. This bypasses React's built-in XSS protections."
+fix_hint: "Use React's state and JSX rendering instead of direct DOM manipulation. If HTML rendering is required, sanitize with DOMPurify."
+references:
+  - https://cwe.mitre.org/data/definitions/79.html
+  - https://owasp.org/Top10/A03_2021-Injection/

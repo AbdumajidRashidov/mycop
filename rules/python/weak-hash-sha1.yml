@@ -1,0 +1,18 @@
+id: PY-SEC-018
+name: weak-hash-sha1
+severity: medium
+language: python
+cwe: CWE-328
+owasp: "A02:2021"
+description: "Detect use of SHA1 hashing which is considered weak and collision-prone."
+pattern:
+  type: regex
+  regex:
+    - 'hashlib\.sha1\s*\('
+    - 'SHA\.new\s*\('
+    - 'Crypto\.Hash\.SHA\b'
+message: "Weak hash function SHA1 detected. SHA1 has known collision attacks and should not be used for security purposes."
+fix_hint: "Use SHA-256 or SHA-3 for cryptographic hashing. Use bcrypt or argon2 for passwords."
+references:
+  - https://cwe.mitre.org/data/definitions/328.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

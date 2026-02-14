@@ -1,0 +1,18 @@
+id: JS-SEC-011
+name: sql-injection
+severity: critical
+language: javascript
+cwe: CWE-89
+owasp: "A03:2021"
+description: "Detect SQL injection in Node.js through string interpolation in database queries."
+pattern:
+  type: regex
+  regex:
+    - '\.query\s*\(\s*`'
+    - '\.query\s*\(.*\+\s*req\.'
+    - '\.query\s*\(\s*[\"'']\.*\+\s*'
+message: "Possible SQL injection in Node.js. User input may be interpolated into SQL query strings."
+fix_hint: "Use parameterized queries with placeholders ($1, ?, :param). Use prepared statements or an ORM like Sequelize/Prisma."
+references:
+  - https://cwe.mitre.org/data/definitions/89.html
+  - https://owasp.org/Top10/A03_2021-Injection/

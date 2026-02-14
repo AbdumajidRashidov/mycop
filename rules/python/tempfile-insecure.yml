@@ -1,0 +1,18 @@
+id: PY-SEC-036
+name: tempfile-insecure
+severity: medium
+language: python
+cwe: CWE-377
+owasp: "A01:2021"
+description: "Detect insecure temporary file creation using predictable names or insecure methods."
+pattern:
+  type: regex
+  regex:
+    - 'tempfile\.mktemp\s*\('
+    - 'open\s*\(\s*[\"'']/tmp/'
+    - 'os\.open\s*\(\s*[\"'']/tmp/'
+message: "Insecure temporary file creation detected. Predictable temporary file names enable symlink and race condition attacks."
+fix_hint: "Use tempfile.mkstemp() or tempfile.NamedTemporaryFile() which create files with secure permissions and unpredictable names."
+references:
+  - https://cwe.mitre.org/data/definitions/377.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/

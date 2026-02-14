@@ -119,8 +119,8 @@ fn test_rule_loading() {
     let registry = mycop::rules::RuleRegistry::load(&rules_dir()).unwrap();
 
     assert!(
-        registry.rule_count() >= 20,
-        "Expected at least 20 rules, got {}",
+        registry.rule_count() >= 100,
+        "Expected at least 100 rules, got {}",
         registry.rule_count()
     );
 }

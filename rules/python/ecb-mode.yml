@@ -1,0 +1,18 @@
+id: PY-SEC-020
+name: ecb-mode
+severity: high
+language: python
+cwe: CWE-327
+owasp: "A02:2021"
+description: "Detect use of ECB mode which does not provide semantic security."
+pattern:
+  type: regex
+  regex:
+    - 'MODE_ECB'
+    - 'mode\s*=\s*.*ECB'
+    - 'AES\.new\s*\([^)]*,\s*AES\.MODE_ECB'
+message: "ECB cipher mode detected. ECB mode does not hide data patterns and is insecure for most applications."
+fix_hint: "Use GCM or CBC mode with a random IV. Prefer AES-GCM for authenticated encryption."
+references:
+  - https://cwe.mitre.org/data/definitions/327.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
