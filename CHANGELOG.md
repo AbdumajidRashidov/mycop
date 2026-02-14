@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-02-15
+
+### Fixed
+- Fix invalid regex lookahead in JS-SEC-034 and PY-SEC-043 (Rust regex crate does not support lookahead)
+- Fix install script permission denied on macOS (auto-elevate with sudo)
+- Update Homebrew tap with correct formula
+
 ## [0.2.0] - 2026-02-15
 
 ### Added
