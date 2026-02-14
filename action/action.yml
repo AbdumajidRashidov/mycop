@@ -45,10 +45,27 @@ runs:
       shell: bash
       run: |
         VERSION="${{ inputs.version }}"
+        INSTALLED=false
+
+        # Try binary download first (fastest)
         if [ "$VERSION" = "latest" ]; then
-          curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+          curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh && INSTALLED=true
         else
-          MYCOP_VERSION="$VERSION" curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+          MYCOP_VERSION="$VERSION" curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh && INSTALLED=true
+        fi
+
+        # Fallback: build from source via cargo install
+        if [ "$INSTALLED" = "false" ]; then
+          echo "Binary download failed, falling back to cargo install..."
+          if ! command -v cargo &> /dev/null; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            . "$HOME/.cargo/env"
+          fi
+          if [ "$VERSION" = "latest" ]; then
+            cargo install --git https://github.com/AbdumajidRashidov/mycop.git
+          else
+            cargo install --git https://github.com/AbdumajidRashidov/mycop.git --tag "$VERSION"
+          fi
         fi
 
     - name: Run scan
