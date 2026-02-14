@@ -18,7 +18,7 @@ curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/instal
 ### Homebrew
 
 ```bash
-brew install mycop/tap/mycop
+brew install AbdumajidRashidov/tap/mycop
 ```
 
 ### Cargo
