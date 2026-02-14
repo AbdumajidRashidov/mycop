@@ -3,6 +3,7 @@
 AI Code Security Scanner — detect and auto-fix vulnerabilities in AI-generated code.
 
 [![CI](https://github.com/AbdumajidRashidov/mycop/actions/workflows/ci.yml/badge.svg)](https://github.com/AbdumajidRashidov/mycop/actions/workflows/ci.yml)
+[![Crates.io](https://img.shields.io/crates/v/mycop.svg)](https://crates.io/crates/mycop)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 mycop scans Python, JavaScript, and TypeScript codebases for security vulnerabilities using pattern matching, AST analysis, and optional AI-powered explanations and auto-fix. It ships with 100 built-in security rules covering OWASP Top 10 and CWE Top 25 categories.
