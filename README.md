@@ -9,11 +9,31 @@ mycop scans Python, JavaScript, and TypeScript codebases for security vulnerabil
 
 ## Installation
 
+### Install script (macOS / Linux)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+```
+
+### Homebrew
+
+```bash
+brew install mycop/tap/mycop
+```
+
+### Cargo
+
 ```bash
 cargo install mycop
 ```
 
-Or build from source:
+### Docker
+
+```bash
+docker run --rm -v "$(pwd):/src" -w /src mycop scan .
+```
+
+### Build from source
 
 ```bash
 git clone https://github.com/AbdumajidRashidov/mycop.git
@@ -33,6 +53,9 @@ mycop fix .
 # Deep AI security review of a single file
 mycop review src/auth.py
 
+# Initialize config for your project
+mycop init
+
 # List all security rules
 mycop rules list
 ```
@@ -47,6 +70,7 @@ Scan files for security vulnerabilities.
 mycop scan .                              # Scan current directory
 mycop scan src/ lib/                      # Scan specific directories
 mycop scan --severity high                # Only report high/critical
+mycop scan --fail-on critical             # Exit 1 only on critical findings
 mycop scan --format json                  # JSON output
 mycop scan --format sarif                 # SARIF output (for IDE integration)
 mycop scan --explain                      # AI-powered explanations
@@ -54,7 +78,7 @@ mycop scan --diff                         # Only scan git-changed files
 mycop scan --fix                          # Auto-fix (same as `mycop fix`)
 ```
 
-Exit code 1 if critical or high severity findings are detected.
+Exit code 1 when findings meet the `--fail-on` threshold (default: high).
 
 ### `mycop fix`
 
@@ -80,7 +104,7 @@ mycop review app.py --ai-provider openai
 
 ### `mycop init`
 
-Create a `.scanrc.yml` configuration file in the current directory.
+Generate a `.scanrc.yml` configuration file. Automatically detects your project type (Python, JavaScript/TypeScript, Rust) and pre-populates language-specific ignore patterns.
 
 ```bash
 mycop init
@@ -105,6 +129,21 @@ mycop deps check .
 mycop deps check requirements.txt
 ```
 
+## Inline Ignore
+
+Suppress specific findings with inline comments:
+
+```python
+eval(user_input)  # mycop-ignore
+
+# mycop-ignore:PY-SEC-005
+eval(user_input)
+
+eval(user_input)  # mycop-ignore:PY-SEC-005,PY-SEC-001
+```
+
+Works with `#` (Python) and `//` (JavaScript/TypeScript) comment styles. Place the comment on the same line or the line above.
+
 ## AI Providers
 
 mycop auto-detects available AI providers in this order:
@@ -124,7 +163,7 @@ mycop fix . --ai-provider ollama
 
 ## Configuration
 
-Create a `.scanrc.yml` (or `.mycop.yml`) in your project root:
+Create a `.scanrc.yml` (or `.mycop.yml`) in your project root, or run `mycop init` to generate one:
 
 ```yaml
 # File patterns to ignore (glob syntax)
@@ -138,6 +177,9 @@ ignore:
 
 # Minimum severity level: critical, high, medium, low
 min_severity: medium
+
+# Minimum severity to cause non-zero exit: critical, high, medium, low
+fail_on: high
 
 # AI provider override: claude-cli, anthropic, openai, ollama, none
 # ai_provider: anthropic
@@ -171,18 +213,76 @@ CLI flags always take priority over config file values.
 - **JSON** — structured JSON for tool integration
 - **SARIF** — Static Analysis Results Interchange Format for IDE/CI integration
 
-## CI/CD Integration
+## Integrations
+
+### GitHub Action
+
+Add mycop to your CI pipeline with the official GitHub Action:
 
 ```yaml
-# GitHub Actions
-- name: Security scan
-  run: |
-    cargo install mycop
-    mycop scan . --format sarif > results.sarif
+- name: mycop Security Scan
+  uses: AbdumajidRashidov/mycop/action@main
+  with:
+    paths: '.'
+    fail-on: 'high'
+    format: 'sarif'
+```
 
-# Exit code 1 on high/critical findings
-- name: Security gate
-  run: mycop scan . --severity high
+| Input | Default | Description |
+|-------|---------|-------------|
+| `paths` | `.` | Files or directories to scan |
+| `severity` | | Minimum severity to report |
+| `fail-on` | `high` | Minimum severity to fail the check |
+| `format` | `terminal` | Output format (`terminal`, `json`, `sarif`) |
+| `version` | `latest` | mycop version to install |
+| `diff-only` | `false` | Only scan files changed in the PR |
+
+Upload SARIF results to GitHub Code Scanning:
+
+```yaml
+- name: mycop Security Scan
+  uses: AbdumajidRashidov/mycop/action@main
+  with:
+    format: 'sarif'
+
+- name: Upload SARIF
+  uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: mycop-results.sarif
+```
+
+### Pre-commit Hook
+
+Add mycop as a [pre-commit](https://pre-commit.com/) hook:
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/AbdumajidRashidov/mycop
+    rev: main
+    hooks:
+      - id: mycop
+```
+
+### VS Code Extension
+
+The `vscode-extension/` directory contains a VS Code extension that provides:
+
+- Real-time scanning on file save
+- Diagnostics in the Problems panel
+- "Scan Current File" and "Scan Workspace" commands
+- Configurable severity threshold
+
+See [vscode-extension/README.md](vscode-extension/README.md) for setup instructions.
+
+### Docker
+
+```bash
+# Scan current directory
+docker run --rm -v "$(pwd):/src" -w /src mycop scan .
+
+# Scan with specific options
+docker run --rm -v "$(pwd):/src" -w /src mycop scan . --format json --severity high
 ```
 
 ## License
