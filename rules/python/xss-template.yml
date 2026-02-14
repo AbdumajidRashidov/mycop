@@ -1,0 +1,19 @@
+id: PY-SEC-009
+name: xss-template
+severity: high
+language: python
+cwe: CWE-79
+owasp: A03:2021
+description: "Detect cross-site scripting (XSS) vulnerabilities through unsafe template rendering, use of Markup() with concatenation, or the |safe filter."
+pattern:
+  type: regex
+  regex:
+    - 'Markup\s*\(.*\+'
+    - '\|\s*safe'
+    - 'render_template_string\s*\('
+message: "Possible XSS vulnerability detected. Unsafe template rendering or explicit marking of content as safe can allow injection of malicious scripts."
+fix_hint: "Avoid using Markup() with user input, the |safe filter on untrusted data, and render_template_string() with user-controlled content. Use render_template() with auto-escaping enabled and sanitize all user input."
+references:
+  - https://cwe.mitre.org/data/definitions/79.html
+  - https://owasp.org/Top10/A03_2021-Injection/
+  - https://flask.palletsprojects.com/en/latest/security/#cross-site-scripting-xss

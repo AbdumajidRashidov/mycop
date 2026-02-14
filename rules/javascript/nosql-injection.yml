@@ -1,0 +1,19 @@
+id: JS-SEC-008
+name: nosql-injection
+severity: critical
+language: javascript
+cwe: CWE-943
+owasp: A03:2021
+description: "Detect NoSQL injection patterns in MongoDB queries where user input is passed directly into database operations."
+pattern:
+  type: regex
+  regex:
+    - '\.(find|findOne|update|delete|remove)\s*\(\s*\{.*req\.(body|query|params)'
+    - '\$where\s*:'
+    - '\.\$regex'
+message: "Potential NoSQL injection vulnerability detected. Passing unsanitized user input directly into MongoDB queries can allow attackers to bypass authentication, exfiltrate data, or modify query logic."
+fix_hint: "Sanitize and validate all user input before using it in database queries. Use explicit query operators instead of passing raw user objects. Consider using an ODM like Mongoose with schema validation. Avoid $where and $regex with user input."
+references:
+  - https://cwe.mitre.org/data/definitions/943.html
+  - https://owasp.org/Top10/A03_2021-Injection/
+  - https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html

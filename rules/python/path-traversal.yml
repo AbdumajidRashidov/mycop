@@ -1,0 +1,19 @@
+id: PY-SEC-006
+name: path-traversal
+severity: high
+language: python
+cwe: CWE-22
+owasp: A01:2021
+description: "Detect path traversal vulnerabilities caused by unsanitized user input in file path construction or file access operations."
+pattern:
+  type: regex
+  regex:
+    - 'open\s*\(.*\+'
+    - 'os\.path\.join\s*\(.*request'
+    - 'send_file\s*\(.*\+'
+message: "Possible path traversal vulnerability detected. User input may be used to construct file paths without proper sanitization."
+fix_hint: "Validate and sanitize file paths by using os.path.realpath() and verifying the resolved path starts with the intended base directory. Never use raw user input in file path construction."
+references:
+  - https://cwe.mitre.org/data/definitions/22.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/
+  - https://owasp.org/www-community/attacks/Path_Traversal

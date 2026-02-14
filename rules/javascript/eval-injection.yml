@@ -1,0 +1,19 @@
+id: JS-SEC-002
+name: eval-injection
+severity: critical
+language: javascript
+cwe: CWE-95
+owasp: "A03:2021"
+description: "Detect usage of eval(), Function constructor, and setTimeout/setInterval with string arguments."
+pattern:
+  type: regex
+  regex:
+    - "eval\\s*\\("
+    - "new\\s+Function\\s*\\("
+    - "setTimeout\\s*\\(\\s*[\"']"
+    - "setInterval\\s*\\(\\s*[\"']"
+message: "Potential code injection vulnerability. eval(), new Function(), or string args to setTimeout/setInterval allow arbitrary code execution."
+fix_hint: "Avoid eval() and new Function(). Use JSON.parse() for JSON data. Pass function references to setTimeout/setInterval."
+references:
+  - "https://cwe.mitre.org/data/definitions/95.html"
+  - "https://owasp.org/Top10/A03_2021-Injection/"

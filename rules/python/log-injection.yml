@@ -1,0 +1,18 @@
+id: PY-SEC-010
+name: log-injection
+severity: medium
+language: python
+cwe: CWE-117
+owasp: A09:2021
+description: "Detect log injection vulnerabilities where user input from request objects is logged directly without sanitization."
+pattern:
+  type: regex
+  regex:
+    - 'logging\.\w+\s*\(.*request\.'
+    - 'logger\.\w+\s*\(.*\+\s*'
+message: "Possible log injection detected. Logging unsanitized user input can lead to log forging, log poisoning, or exploitation of log analysis tools."
+fix_hint: "Sanitize user input before logging by stripping newlines and special characters. Use structured logging with parameterized messages (e.g., logger.info('User action: %s', sanitized_input)) instead of string concatenation."
+references:
+  - https://cwe.mitre.org/data/definitions/117.html
+  - https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/
+  - https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html

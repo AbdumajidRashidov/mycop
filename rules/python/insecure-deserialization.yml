@@ -1,0 +1,18 @@
+id: PY-SEC-007
+name: insecure-deserialization
+severity: critical
+language: python
+cwe: CWE-502
+owasp: "A08:2021"
+description: "Detect insecure deserialization through pickle.loads(), yaml.load() without SafeLoader, and marshal.loads()."
+pattern:
+  type: regex
+  regex:
+    - "pickle\\.loads?\\s*\\("
+    - "yaml\\.load\\s*\\("
+    - "marshal\\.loads?\\s*\\("
+message: "Insecure deserialization detected. Deserializing untrusted data can lead to arbitrary code execution."
+fix_hint: "Avoid pickle and marshal for untrusted data. Use yaml.safe_load() instead of yaml.load(). Consider using JSON."
+references:
+  - "https://cwe.mitre.org/data/definitions/502.html"
+  - "https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/"

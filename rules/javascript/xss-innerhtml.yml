@@ -1,0 +1,19 @@
+id: JS-SEC-001
+name: xss-innerhtml
+severity: high
+language: javascript
+cwe: CWE-79
+owasp: A03:2021
+description: "Detect innerHTML assignments with dynamic content that may lead to Cross-Site Scripting (XSS) vulnerabilities."
+pattern:
+  type: regex
+  regex:
+    - '\.innerHTML\s*='
+    - '\.outerHTML\s*='
+    - 'document\.write\s*\('
+message: "Potential XSS vulnerability detected. Assigning dynamic content to innerHTML, outerHTML, or using document.write can allow attackers to inject malicious scripts."
+fix_hint: "Use textContent or innerText instead of innerHTML. For DOM manipulation, use createElement and appendChild. Consider using a trusted types policy or a sanitization library like DOMPurify."
+references:
+  - https://cwe.mitre.org/data/definitions/79.html
+  - https://owasp.org/Top10/A03_2021-Injection/
+  - https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html

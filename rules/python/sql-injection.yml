@@ -1,0 +1,18 @@
+id: PY-SEC-001
+name: sql-injection
+severity: critical
+language: python
+cwe: CWE-89
+owasp: "A03:2021"
+description: "Detect SQL injection vulnerabilities caused by string formatting, f-strings, or concatenation in SQL query execution methods."
+pattern:
+  type: regex
+  regex:
+    - "execute\\s*\\(\\s*f[\"']"
+    - "execute\\s*\\(\\s*[\"'].*%s"
+    - "execute\\s*\\(\\s*[\"'].*\\+\\s*"
+message: "Possible SQL injection detected. User input may be directly interpolated into a SQL query string."
+fix_hint: "Use parameterized queries with placeholders (e.g., cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))) instead of string formatting or concatenation."
+references:
+  - "https://cwe.mitre.org/data/definitions/89.html"
+  - "https://owasp.org/Top10/A03_2021-Injection/"

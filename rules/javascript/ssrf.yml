@@ -1,0 +1,20 @@
+id: JS-SEC-007
+name: ssrf
+severity: high
+language: javascript
+cwe: CWE-918
+owasp: A10:2021
+description: "Detect server-side request forgery (SSRF) patterns where user input is used to construct outbound HTTP requests."
+pattern:
+  type: regex
+  regex:
+    - 'fetch\s*\(.*req\.'
+    - 'axios\.\w+\s*\(.*req\.'
+    - 'http\.request\s*\(.*req\.'
+    - 'request\s*\(.*req\.'
+message: "Potential SSRF vulnerability detected. Using unsanitized user input to make server-side HTTP requests can allow attackers to access internal services, cloud metadata endpoints, or other restricted resources."
+fix_hint: "Validate and sanitize URLs from user input. Implement an allowlist of permitted domains and protocols. Block requests to internal IP ranges (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) and cloud metadata endpoints."
+references:
+  - https://cwe.mitre.org/data/definitions/918.html
+  - https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/
+  - https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html

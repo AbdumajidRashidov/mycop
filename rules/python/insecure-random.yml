@@ -1,0 +1,18 @@
+id: PY-SEC-004
+name: insecure-random
+severity: medium
+language: python
+cwe: CWE-330
+owasp: A02:2021
+description: "Detect use of the standard random module which is not cryptographically secure and should not be used for security-sensitive purposes."
+pattern:
+  type: regex
+  regex:
+    - 'random\.(random|randint|choice|randrange)\s*\('
+    - 'from random import'
+message: "Insecure random number generator detected. The standard random module uses a predictable PRNG and must not be used for security-sensitive operations."
+fix_hint: "Use the secrets module (e.g., secrets.token_hex(), secrets.randbelow()) or os.urandom() for cryptographically secure random number generation."
+references:
+  - https://cwe.mitre.org/data/definitions/330.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
+  - https://docs.python.org/3/library/secrets.html

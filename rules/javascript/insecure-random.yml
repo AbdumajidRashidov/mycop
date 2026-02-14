@@ -1,0 +1,17 @@
+id: JS-SEC-005
+name: insecure-random
+severity: medium
+language: javascript
+cwe: CWE-330
+owasp: A02:2021
+description: "Detect usage of Math.random() which is not cryptographically secure and should not be used for security-sensitive purposes."
+pattern:
+  type: regex
+  regex:
+    - 'Math\.random\s*\('
+message: "Insecure random number generation detected. Math.random() does not provide cryptographically secure random values and should not be used for tokens, passwords, or other security-sensitive operations."
+fix_hint: "Use crypto.getRandomValues() in the browser or crypto.randomBytes() / crypto.randomUUID() in Node.js for cryptographically secure random number generation."
+references:
+  - https://cwe.mitre.org/data/definitions/330.html
+  - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
+  - https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues

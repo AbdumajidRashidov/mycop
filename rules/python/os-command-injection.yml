@@ -1,0 +1,19 @@
+id: PY-SEC-002
+name: os-command-injection
+severity: critical
+language: python
+cwe: CWE-78
+owasp: A03:2021
+description: "Detect OS command injection vulnerabilities through unsafe use of os.system(), subprocess with shell=True, or os.popen()."
+pattern:
+  type: regex
+  regex:
+    - 'os\.system\s*\('
+    - 'subprocess\.\w+\(.*shell\s*=\s*True'
+    - 'os\.popen\s*\('
+message: "Possible OS command injection detected. User-controlled input may be passed to a system shell command."
+fix_hint: "Use subprocess.run() with a list of arguments and shell=False (the default). Avoid os.system() and os.popen(). Validate and sanitize all user input before passing it to system commands."
+references:
+  - https://cwe.mitre.org/data/definitions/78.html
+  - https://owasp.org/Top10/A03_2021-Injection/
+  - https://docs.python.org/3/library/subprocess.html

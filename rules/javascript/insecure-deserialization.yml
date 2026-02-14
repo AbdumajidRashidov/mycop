@@ -1,0 +1,20 @@
+id: JS-SEC-009
+name: insecure-deserialization
+severity: critical
+language: javascript
+cwe: CWE-502
+owasp: A08:2021
+description: "Detect unsafe deserialization patterns including node-serialize, js-yaml unsafe load, and vm context execution that may lead to remote code execution."
+pattern:
+  type: regex
+  regex:
+    - 'unserialize\s*\('
+    - 'serialize\s*\(.*req\.'
+    - 'yaml\.load\s*\('
+    - 'vm\.runInNewContext\s*\('
+message: "Potential insecure deserialization vulnerability detected. Deserializing untrusted data can lead to remote code execution, denial of service, or other attacks."
+fix_hint: "Avoid deserializing untrusted data. Use yaml.safeLoad() instead of yaml.load() for js-yaml. Do not use node-serialize with user input. Use vm2 or isolated-vm instead of vm.runInNewContext() for sandboxing. Validate and sanitize all serialized data before processing."
+references:
+  - https://cwe.mitre.org/data/definitions/502.html
+  - https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/
+  - https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html

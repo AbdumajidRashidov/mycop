@@ -1,0 +1,20 @@
+id: JS-SEC-006
+name: path-traversal
+severity: high
+language: javascript
+cwe: CWE-22
+owasp: A01:2021
+description: "Detect unsanitized path construction using user input that may lead to path traversal (directory traversal) vulnerabilities."
+pattern:
+  type: regex
+  regex:
+    - 'path\.join\s*\(.*req\.'
+    - 'path\.resolve\s*\(.*req\.'
+    - 'fs\.\w+\s*\(.*\+'
+    - 'readFile\w*\s*\(.*req\.'
+message: "Potential path traversal vulnerability detected. Constructing file paths with unsanitized user input can allow attackers to access files outside the intended directory."
+fix_hint: "Validate and sanitize user input before constructing file paths. Use path.normalize() and verify the resolved path starts with the intended base directory. Implement an allowlist of permitted file paths when possible."
+references:
+  - https://cwe.mitre.org/data/definitions/22.html
+  - https://owasp.org/Top10/A01_2021-Broken_Access_Control/
+  - https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html

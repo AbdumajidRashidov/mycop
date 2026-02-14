@@ -1,0 +1,18 @@
+id: JS-SEC-010
+name: dangerouslysetinnerhtml
+severity: high
+language: javascript
+cwe: CWE-79
+owasp: A03:2021
+description: "Detect React dangerouslySetInnerHTML usage with dynamic content that may lead to Cross-Site Scripting (XSS) vulnerabilities."
+pattern:
+  type: regex
+  regex:
+    - 'dangerouslySetInnerHTML\s*=\s*\{\s*\{'
+    - '__html\s*:\s*'
+message: "Potential XSS vulnerability detected in React component. Using dangerouslySetInnerHTML with dynamic content can allow attackers to inject malicious scripts into the rendered page."
+fix_hint: "Avoid using dangerouslySetInnerHTML whenever possible. If HTML rendering is necessary, sanitize the content using a library like DOMPurify before passing it to dangerouslySetInnerHTML. Consider using React's built-in text rendering which automatically escapes content."
+references:
+  - https://cwe.mitre.org/data/definitions/79.html
+  - https://owasp.org/Top10/A03_2021-Injection/
+  - https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html

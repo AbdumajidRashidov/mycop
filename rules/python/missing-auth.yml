@@ -1,0 +1,17 @@
+id: PY-SEC-008
+name: missing-auth
+severity: high
+language: python
+cwe: CWE-306
+owasp: "A07:2021"
+description: "Detect Flask or Django routes that may be missing authentication, and usage of @csrf_exempt."
+pattern:
+  type: regex
+  regex:
+    - "@csrf_exempt"
+    - "@app\\.route"
+message: "Possible missing authentication or CSRF protection detected. Route handlers should be protected."
+fix_hint: "Add @login_required or @jwt_required decorators. Avoid @csrf_exempt unless absolutely necessary."
+references:
+  - "https://cwe.mitre.org/data/definitions/306.html"
+  - "https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/"

@@ -1,0 +1,18 @@
+id: JS-SEC-003
+name: prototype-pollution
+severity: high
+language: javascript
+cwe: CWE-1321
+owasp: "A03:2021"
+description: "Detect unsafe object merge and extend patterns that may lead to prototype pollution."
+pattern:
+  type: regex
+  regex:
+    - "__proto__"
+    - "\\[key\\]\\s*=\\s*value"
+    - "constructor\\[.prototype"
+message: "Potential prototype pollution vulnerability. Unsafe object merging or __proto__ access can modify all objects."
+fix_hint: "Use Object.create(null) for dictionaries. Validate keys before dynamic assignment. Use Map instead of plain objects."
+references:
+  - "https://cwe.mitre.org/data/definitions/1321.html"
+  - "https://owasp.org/Top10/A03_2021-Injection/"

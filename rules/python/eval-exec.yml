@@ -1,0 +1,19 @@
+id: PY-SEC-005
+name: eval-exec
+severity: critical
+language: python
+cwe: CWE-95
+owasp: A03:2021
+description: "Detect use of eval(), exec(), and compile() which can execute arbitrary code if provided with dynamic or user-controlled input."
+pattern:
+  type: regex
+  regex:
+    - 'eval\s*\('
+    - 'exec\s*\('
+    - 'compile\s*\('
+message: "Dangerous dynamic code execution detected. eval(), exec(), and compile() can execute arbitrary code and pose a severe security risk."
+fix_hint: "Avoid eval(), exec(), and compile() with untrusted input. Use ast.literal_eval() for safe parsing of literal expressions, or redesign the logic to avoid dynamic code execution entirely."
+references:
+  - https://cwe.mitre.org/data/definitions/95.html
+  - https://owasp.org/Top10/A03_2021-Injection/
+  - https://docs.python.org/3/library/ast.html#ast.literal_eval
