@@ -198,8 +198,13 @@ impl ReviewParams {
 
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct CheckDepsParams {
-    /// Path to project directory, requirements.txt, or package.json
+    /// Path to project directory, requirements.txt, or package.json (defaults to ".")
+    #[serde(default = "default_dot")]
     pub path: String,
+}
+
+fn default_dot() -> String {
+    ".".to_string()
 }
 
 #[derive(Debug, Serialize)]
