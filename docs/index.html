@@ -125,6 +125,46 @@
       },
       {
         "@type": "Question",
+        "name": "What is MCP and why does mycop use it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MCP (Model Context Protocol) is an open standard by Anthropic that lets AI assistants interact with external tools through a unified interface. mycop uses MCP so that any compatible coding agent can call mycop's security scanning directly during a coding session. Instead of switching to a terminal, the agent can scan code, explain vulnerabilities, and check dependencies without leaving the conversation. It communicates over STDIO using JSON-RPC, so there's nothing to deploy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What MCP tools does mycop expose?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "mycop's MCP server exposes 5 tools: scan (scan files or directories for vulnerabilities with severity filtering), list_rules (browse and filter the 100 built-in security rules by language or severity), explain_finding (get a detailed explanation of a specific vulnerability with CWE/OWASP context), review (deep AI-powered security review of a file), and check_deps (detect hallucinated or suspicious packages in your dependency files). It also provides two resources: a full rules catalog and a config schema template."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why doesn't the MCP server include a fix tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By design. When mycop runs as an MCP server, the AI assistant calling it is the AI — having it call another AI to fix code would be redundant, slower, and more expensive. Instead, every scan finding includes a fix_hint field that tells the agent exactly how to fix the issue. The agent reads the hint and applies the fix directly in your code. The standalone 'mycop fix' CLI command is still available for non-MCP use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use mycop MCP with multiple AI coding tools at the same time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Each tool launches its own 'mycop mcp' process via STDIO, so they don't conflict. You can have Claude Code, Cursor, and Windsurf all configured with mycop simultaneously — each gets its own independent server instance. The configuration is the same across tools: just point to the mycop binary with the mcp argument."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the MCP server need an API key or internet connection?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The core scanning, rule listing, finding explanation, and dependency checking all run locally with zero network calls and no API keys. The 100 security rules are compiled into the binary. The only tool that optionally uses an AI provider is review (for deep AI analysis) — if no provider is available, it falls back to rule-based analysis. Scanning is always fully offline."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "How do I add security scanning to my CI/CD pipeline or GitHub Actions?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -1515,6 +1555,26 @@ mycop --version</code></div>
         <details>
           <summary>How do I use mycop with Claude Code, Cursor, or Windsurf?</summary>
           <div class="faq-answer">mycop includes a built-in MCP (Model Context Protocol) server that lets agentic coding tools call its scanning, fixing, and review capabilities directly. Run <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mycop mcp</code> to start the server, then configure your tool to connect. For Claude Code, add <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">{"mcpServers":{"mycop":{"command":"mycop","args":["mcp"]}}}</code> to your settings. It works with Cursor, Windsurf, Codex CLI, Gemini CLI, and any MCP-compatible client.</div>
+        </details>
+        <details>
+          <summary>What is MCP and why does mycop use it?</summary>
+          <div class="faq-answer">MCP (Model Context Protocol) is an open standard by Anthropic that lets AI assistants interact with external tools through a unified interface. mycop uses MCP so that any compatible coding agent &mdash; Claude Code, Cursor, Windsurf, Codex CLI, Gemini CLI &mdash; can call mycop's security scanning directly during a coding session. Instead of switching to a terminal, the agent can scan code, explain vulnerabilities, and check dependencies without leaving the conversation. It communicates over STDIO using JSON-RPC, so there's nothing to deploy &mdash; just configure and go.</div>
+        </details>
+        <details>
+          <summary>What MCP tools does mycop expose?</summary>
+          <div class="faq-answer">mycop's MCP server exposes 5 tools: <strong>scan</strong> &mdash; scan files or directories for vulnerabilities with severity filtering; <strong>list_rules</strong> &mdash; browse and filter the 100 built-in security rules by language or severity; <strong>explain_finding</strong> &mdash; get a detailed explanation of a specific vulnerability with CWE/OWASP context; <strong>review</strong> &mdash; deep AI-powered security review of a file; and <strong>check_deps</strong> &mdash; detect hallucinated or suspicious packages in your dependency files. It also provides two resources: a full rules catalog and a config schema template.</div>
+        </details>
+        <details>
+          <summary>Why doesn't the MCP server include a fix tool?</summary>
+          <div class="faq-answer">By design. When mycop runs as an MCP server, the AI assistant calling it <em>is</em> the AI &mdash; having it call another AI to fix code would be redundant, slower, and more expensive. Instead, every scan finding includes a <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">fix_hint</code> field that tells the agent exactly how to fix the issue. The agent reads the hint and applies the fix directly in your code. The standalone <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mycop fix</code> CLI command is still available for non-MCP use.</div>
+        </details>
+        <details>
+          <summary>Can I use mycop MCP with multiple AI coding tools at the same time?</summary>
+          <div class="faq-answer">Yes. Each tool launches its own <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mycop mcp</code> process via STDIO, so they don't conflict. You can have Claude Code, Cursor, and Windsurf all configured with mycop simultaneously &mdash; each gets its own independent server instance. The configuration is the same across tools: just point to the <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mycop</code> binary with the <code class="mono" style="font-size:0.82rem;background:#eef4ff;padding:2px 6px;border-radius:4px">mcp</code> argument.</div>
+        </details>
+        <details>
+          <summary>Does the MCP server need an API key or internet connection?</summary>
+          <div class="faq-answer">No. The core scanning, rule listing, finding explanation, and dependency checking all run locally with zero network calls and no API keys. The 100 security rules are compiled into the binary. The only tool that optionally uses an AI provider is <strong>review</strong> (for deep AI analysis) &mdash; if no provider is available, it falls back to rule-based analysis. Scanning, which is the primary use case, is always fully offline.</div>
         </details>
         <details>
           <summary>How do I add security scanning to my CI/CD pipeline or GitHub Actions?</summary>
