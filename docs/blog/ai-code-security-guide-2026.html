@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior:smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Complete Guide to Securing AI-Generated Code in 2026 &mdash; mycop Blog</title>
+  <meta name="description"
+    content="Everything you need to know about securing AI-generated code in 2026: statistics on AI code risks, OWASP Top 10 in context, automated scanning setup, CI/CD integration, AI-powered auto-fix, and a best practices checklist.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="canonical" href="https://abdumajidrashidov.github.io/mycop/blog/ai-code-security-guide-2026.html">
+  <meta name="theme-color" content="#0066ff">
+  <meta name="keywords" content="AI code security, secure AI generated code, SAST for AI code, AI code scanner, OWASP AI, CWE, GitHub Copilot security, ChatGPT code security">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="The Complete Guide to Securing AI-Generated Code in 2026">
+  <meta property="og:description" content="Statistics, OWASP mapping, automated scanning, CI/CD integration, AI auto-fix workflows, and a best practices checklist for securing AI-generated code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://abdumajidrashidov.github.io/mycop/blog/ai-code-security-guide-2026.html">
+  <meta property="og:image" content="https://abdumajidrashidov.github.io/mycop/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="mycop">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:published_time" content="2026-02-15">
+  <meta property="article:author" content="Abdumajid Rashidov">
+  <meta property="article:section" content="Security">
+  <meta property="article:tag" content="AI Code Security">
+  <meta property="article:tag" content="SAST">
+  <meta property="article:tag" content="OWASP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Complete Guide to Securing AI-Generated Code in 2026">
+  <meta name="twitter:description" content="The definitive guide to securing AI-generated code: stats, OWASP mapping, scanning setup, CI/CD, auto-fix, and best practices.">
+  <meta name="twitter:image" content="https://abdumajidrashidov.github.io/mycop/og-image.png">
+
+  <!-- Structured Data: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "The Complete Guide to Securing AI-Generated Code in 2026",
+    "description": "Everything you need to know about securing AI-generated code in 2026: statistics on AI code risks, OWASP Top 10 in context, automated scanning setup, CI/CD integration, AI-powered auto-fix, and a best practices checklist.",
+    "author": {
+      "@type": "Person",
+      "name": "Abdumajid Rashidov",
+      "url": "https://github.com/AbdumajidRashidov"
+    },
+    "datePublished": "2026-02-15",
+    "dateModified": "2026-02-15",
+    "publisher": {
+      "@type": "Organization",
+      "name": "mycop",
+      "url": "https://abdumajidrashidov.github.io/mycop/"
+    },
+    "mainEntityOfPage": "https://abdumajidrashidov.github.io/mycop/blog/ai-code-security-guide-2026.html",
+    "keywords": ["AI code security", "secure AI generated code", "SAST for AI code", "OWASP", "CWE", "GitHub Actions security scanning"],
+    "wordCount": 5000,
+    "timeRequired": "PT22M"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f8f9fa;
+      --text: #1a1a2e;
+      --text-secondary: #6c757d;
+      --accent: #0066ff;
+      --accent-hover: #0052cc;
+      --border: #e9ecef;
+      --terminal-bg: #1e1e2e;
+      --terminal-text: #cdd6f4;
+      --red: #f38ba8;
+      --yellow: #f9e2af;
+      --green: #a6e3a1;
+      --blue: #89b4fa;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    code,
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Nav */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Article */
+    .article {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .article-meta {
+      margin-bottom: 32px;
+    }
+
+    .article-meta .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #eef4ff;
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    .article-meta .date {
+      display: block;
+      margin-top: 12px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .article h1 {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .article h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    .article p {
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .article strong {
+      font-weight: 600;
+    }
+
+    .article em {
+      font-style: italic;
+    }
+
+    .article ol,
+    .article ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .article li {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    .article blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      margin: 20px 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* Code blocks */
+    .article pre {
+      background: var(--terminal-bg);
+      color: var(--terminal-text);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    .article code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88em;
+    }
+
+    .article p code,
+    .article li code,
+    .article td code {
+      background: #eef4ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+
+    .article .pre-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Stat callout */
+    .stat-callout {
+      background: linear-gradient(135deg, #eef4ff 0%, #f8f9fa 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin: 24px 0;
+    }
+
+    .stat-callout p {
+      margin-bottom: 0;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .stat-callout strong {
+      color: var(--accent);
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .stat-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-card .stat-number {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* OWASP table */
+    .owasp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .owasp-table th {
+      background: var(--bg-alt);
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .owasp-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .owasp-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+      margin: 20px 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 32px;
+      margin-bottom: 12px;
+    }
+
+    .checklist li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    /* CTA box */
+    .cta-box {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 40px 0;
+      text-align: center;
+    }
+
+    .cta-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .cta-box .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .cta-box .btn:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    footer .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .article {
+        padding: 40px 20px 60px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .owasp-table {
+        font-size: 0.8rem;
+      }
+
+      .owasp-table th,
+      .owasp-table td {
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        mycop
+      </a>
+      <div class="nav-links">
+        <a href="../">Home</a>
+        <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+
+    <div class="article-meta">
+      <span class="tag">Guide</span>
+      <span class="tag">AI Security</span>
+      <span class="tag">OWASP</span>
+      <span class="tag">SAST</span>
+      <span class="date">February 15, 2026 &middot; 22 min read &middot; By Abdumajid Rashidov</span>
+    </div>
+
+    <h1>The Complete Guide to Securing AI-Generated Code in 2026</h1>
+
+    <p>AI now generates 46% of all new code. 85% of developers use AI coding tools like GitHub Copilot, ChatGPT, and Cursor every day. The productivity gains are real &mdash; and so are the security risks.</p>
+
+    <p>This guide covers everything you need to know about securing AI-generated code: why it is insecure, what the actual risks are by the numbers, how the OWASP Top 10 applies, and a practical step-by-step workflow for catching and fixing vulnerabilities automatically.</p>
+
+    <hr>
+
+    <h2>Part 1: Why AI-Generated Code Is Insecure</h2>
+
+    <p>The belief that AI coding assistants produce secure code is one of the most dangerous misconceptions in modern software development. The data says otherwise.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">45%</span>
+        <span class="stat-label">of AI-generated code introduces security flaws (Veracode 2025)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">29.5%</span>
+        <span class="stat-label">of Python Copilot snippets contain CWE weaknesses (ACM Study)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">86%</span>
+        <span class="stat-label">failure rate for XSS defense in AI-generated code</span>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">10K+</span>
+        <span class="stat-label">new AI-introduced security findings per month</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">6.4%</span>
+        <span class="stat-label">of Copilot repos leak secrets (40% more than non-AI repos)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">46%</span>
+        <span class="stat-label">of all new code is now AI-generated</span>
+      </div>
+    </div>
+
+    <h3>The Root Causes</h3>
+
+    <p>Understanding <em>why</em> AI produces insecure code is the first step to defending against it.</p>
+
+    <p><strong>1. Training data reflects the internet, not security best practices.</strong> LLMs learn from billions of lines of open-source code, Stack Overflow answers, and tutorials. Most of this code was written for demonstration, not production. The most popular answer for "how to query a database in Python" rarely uses parameterized queries. The AI reproduces what is common, not what is correct.</p>
+
+    <p><strong>2. AI optimizes for functionality, not safety.</strong> When you prompt Copilot with "write a function that fetches a URL," it gives you code that fetches URLs. It does not add URL validation, allowlists, timeout limits, or SSRF protections because you did not ask for those things. Security is a non-functional requirement that AI models routinely ignore.</p>
+
+    <p><strong>3. No adversarial thinking.</strong> A security engineer considers who will call a function, what malicious input they might provide, and what the blast radius is if the function fails. LLMs have no concept of threat modeling. They do not think about attackers because they do not think at all &mdash; they pattern-match on training data.</p>
+
+    <p><strong>4. Developer overconfidence.</strong> Multiple studies show that developers who use AI assistants rate their code as more secure than those who write code manually, even when the AI-assisted code contains more vulnerabilities. The fluency and correctness of AI output creates a false sense of safety.</p>
+
+    <p><strong>5. Volume amplifies risk.</strong> If 45% of AI-generated code has security flaws and AI generates 46% of all code, the volume of vulnerabilities entering codebases has increased dramatically. Organizations report 10,000+ new AI-introduced security findings per month. Manual code review cannot scale to this volume.</p>
+
+    <hr>
+
+    <h2>Part 2: The OWASP Top 10 in the Context of AI-Generated Code</h2>
+
+    <p>The OWASP Top 10 is the industry-standard classification of the most critical web application security risks. Here is how each category manifests in AI-generated code, with the specific CWE identifiers and the mycop rules that detect them.</p>
+
+    <table class="owasp-table">
+      <thead>
+        <tr>
+          <th>OWASP Category</th>
+          <th>AI Pattern</th>
+          <th>mycop Rules</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A01: Broken Access Control</strong></td>
+          <td>AI skips authorization checks, generates direct object references, creates open redirects, and misconfigures CORS with wildcard origins.</td>
+          <td><code>PY-SEC-027</code>, <code>PY-SEC-028</code>, <code>JS-SEC-027</code>, <code>JS-SEC-028</code>, <code>JS-SEC-030</code></td>
+        </tr>
+        <tr>
+          <td><strong>A02: Cryptographic Failures</strong></td>
+          <td>AI defaults to MD5/SHA1 for hashing, uses DES/RC4 for encryption, selects ECB mode for block ciphers, and generates hardcoded cryptographic keys.</td>
+          <td><code>PY-SEC-017</code>&ndash;<code>021</code>, <code>JS-SEC-017</code>&ndash;<code>022</code></td>
+        </tr>
+        <tr>
+          <td><strong>A03: Injection</strong></td>
+          <td>AI generates SQL injection via f-strings, command injection via os.system(), LDAP injection, XPath injection, and template injection.</td>
+          <td><code>PY-SEC-001</code>, <code>002</code>, <code>014</code>, <code>042</code>, <code>JS-SEC-011</code>, <code>013</code>, <code>016</code></td>
+        </tr>
+        <tr>
+          <td><strong>A04: Insecure Design</strong></td>
+          <td>AI generates features without security controls, skips rate limiting, omits input validation, and creates APIs without authentication middleware.</td>
+          <td><code>PY-SEC-031</code>, <code>JS-SEC-031</code></td>
+        </tr>
+        <tr>
+          <td><strong>A05: Security Misconfiguration</strong></td>
+          <td>AI leaves debug mode enabled, disables TLS verification, sets permissive CORS, and exposes stack traces in error responses.</td>
+          <td><code>PY-SEC-022</code>, <code>031</code>, <code>JS-SEC-021</code>, <code>031</code></td>
+        </tr>
+        <tr>
+          <td><strong>A06: Vulnerable Components</strong></td>
+          <td>AI suggests outdated packages, deprecated APIs, and libraries with known CVEs.</td>
+          <td><code>mycop deps check</code></td>
+        </tr>
+        <tr>
+          <td><strong>A07: Auth Failures</strong></td>
+          <td>AI uses <code>Math.random()</code> for session IDs, accepts JWT none algorithm, hardcodes passwords, and skips bcrypt for password hashing.</td>
+          <td><code>PY-SEC-004</code>, <code>023</code>, <code>JS-SEC-005</code>, <code>023</code></td>
+        </tr>
+        <tr>
+          <td><strong>A08: Data Integrity Failures</strong></td>
+          <td>AI deserializes untrusted data with <code>pickle</code>, <code>yaml.load()</code>, or <code>node-serialize</code> without validation.</td>
+          <td><code>PY-SEC-007</code>, <code>JS-SEC-009</code></td>
+        </tr>
+        <tr>
+          <td><strong>A09: Logging Failures</strong></td>
+          <td>AI logs passwords in plaintext, includes PII in error messages, and omits audit trails for security events.</td>
+          <td><code>PY-SEC-034</code>, <code>JS-SEC-034</code></td>
+        </tr>
+        <tr>
+          <td><strong>A10: SSRF</strong></td>
+          <td>AI passes user-supplied URLs directly to HTTP request libraries without validation, enabling access to internal networks and cloud metadata.</td>
+          <td><code>PY-SEC-011</code>, <code>JS-SEC-007</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>mycop covers all 10 OWASP categories with its 100 built-in rules (50 Python, 50 JavaScript). Every rule is mapped to a CWE identifier for standards compliance and traceability.</p>
+
+    <hr>
+
+    <h2>Part 3: Setting Up Automated Security Scanning</h2>
+
+    <p>Manual code review does not scale when AI generates nearly half of all new code. You need automated scanning that runs on every commit. Here is how to set it up with <a href="https://github.com/AbdumajidRashidov/mycop">mycop</a>.</p>
+
+    <h3>Step 1: Install mycop</h3>
+
+<pre># macOS and Linux (recommended)
+curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+
+# Homebrew
+brew install AbdumajidRashidov/tap/mycop
+
+# Cargo (Rust package manager)
+cargo install mycop
+
+# Docker
+docker run --rm -v "$(pwd):/src" -w /src ghcr.io/abdumajidrashidov/mycop scan .</pre>
+
+    <h3>Step 2: Run your first scan</h3>
+
+<pre># Scan the entire project
+$ mycop scan .
+
+Scanning 47 files...
+
+  src/auth.py:24
+  CRITICAL sql injection via string formatting (CWE-89)
+
+       22 | def login(username, password):
+       23 |     query = f"SELECT * FROM users WHERE username='{username}'"
+  ->   24 |     db.execute(query)
+
+     Fix: Use parameterized queries with placeholders
+
+  --------------------------------------------------
+
+  src/api/routes.js:15
+  HIGH dangerous eval() call (CWE-95)
+
+       13 | app.post('/calc', (req, res) =&gt; {
+       14 |     const expr = req.body.expression;
+  ->   15 |     const result = eval(expr);
+
+     Fix: Use a safe expression parser like mathjs
+
+  --------------------------------------------------
+
+Found 12 findings (3 critical, 4 high, 5 medium)</pre>
+
+    <h3>Step 3: Configure scanning behavior</h3>
+
+    <p>Create a <code>.scanrc.yml</code> or <code>.mycop.yml</code> in your project root to customize scanning behavior.</p>
+
+<pre># .mycop.yml
+min_severity: medium        # Only report medium+ findings
+fail_on: high               # Exit non-zero on high+ findings (for CI)
+ignore:
+  - "node_modules/**"
+  - "vendor/**"
+  - "**/*.test.js"
+  - "**/*.spec.py"</pre>
+
+    <h3>Step 4: Scan only changed files</h3>
+
+    <p>For large codebases, scan only the files changed since the last commit:</p>
+
+<pre># Scan files changed in the working tree
+mycop scan --diff .
+
+# Scan files changed compared to main branch
+mycop scan --diff main .</pre>
+
+    <p>This is particularly useful in CI, where you only need to check the code that was actually modified in a pull request.</p>
+
+    <h3>Step 5: Output formats</h3>
+
+<pre># Terminal output (default, with colors and context)
+mycop scan .
+
+# JSON for scripting and custom tooling
+mycop scan . --format json
+
+# SARIF for GitHub Code Scanning and IDE integration
+mycop scan . --format sarif &gt; results.sarif</pre>
+
+    <hr>
+
+    <h2>Part 4: CI/CD Integration</h2>
+
+    <p>Security scanning is most effective when it runs automatically on every pull request. Here is how to integrate mycop into your CI/CD pipeline.</p>
+
+    <h3>GitHub Actions</h3>
+
+    <span class="pre-label">.github/workflows/security.yml</span>
+<pre>name: Security Scan
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mycop
+        run: curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+
+      - name: Run security scan
+        run: mycop scan . --format sarif --fail-on high &gt; results.sarif
+
+      - name: Upload SARIF to GitHub
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif</pre>
+
+    <p>This workflow does three things:</p>
+
+    <ol>
+      <li><strong>Installs mycop</strong> on the CI runner (takes about 2 seconds).</li>
+      <li><strong>Runs a full scan</strong> with SARIF output and a <code>--fail-on high</code> threshold, which means the build fails if any high or critical severity vulnerabilities are found.</li>
+      <li><strong>Uploads SARIF results</strong> to GitHub Code Scanning, which shows findings as inline annotations directly on pull request diffs.</li>
+    </ol>
+
+    <h3>Using the mycop GitHub Action (shorthand)</h3>
+
+<pre>- name: mycop Security Scan
+  uses: AbdumajidRashidov/mycop/action@main
+  with:
+    paths: '.'
+    fail-on: 'high'
+    format: 'sarif'</pre>
+
+    <h3>Pre-commit hook</h3>
+
+    <p>Catch vulnerabilities before they reach your repository by adding mycop as a pre-commit hook.</p>
+
+    <span class="pre-label">.pre-commit-config.yaml</span>
+<pre>repos:
+  - repo: https://github.com/AbdumajidRashidov/mycop
+    rev: main
+    hooks:
+      - id: mycop</pre>
+
+    <p>This runs mycop on every commit. If vulnerabilities are found above the configured severity, the commit is blocked until the issues are resolved.</p>
+
+    <h3>GitLab CI</h3>
+
+    <span class="pre-label">.gitlab-ci.yml</span>
+<pre>security-scan:
+  stage: test
+  script:
+    - curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+    - mycop scan . --format json --fail-on high
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'</pre>
+
+    <hr>
+
+    <h2>Part 5: AI-Powered Auto-Fix Workflow</h2>
+
+    <p>Finding vulnerabilities is only half the problem. Fixing them is where the real work happens. mycop's <code>fix</code> command uses AI to automatically rewrite vulnerable code.</p>
+
+    <h3>How it works</h3>
+
+    <ol>
+      <li><strong>Scan.</strong> mycop identifies all vulnerabilities in the target files.</li>
+      <li><strong>Group.</strong> Findings are grouped by file so each file is processed as a unit.</li>
+      <li><strong>Generate fix.</strong> The full file content and its findings (with fix hints) are sent to an AI provider.</li>
+      <li><strong>Extract and diff.</strong> The AI's response is parsed for the fixed file, and a diff is generated for review.</li>
+      <li><strong>Verify.</strong> mycop re-scans the fixed file to confirm the vulnerabilities are resolved.</li>
+    </ol>
+
+    <h3>Running the auto-fix</h3>
+
+<pre># Preview fixes without applying (recommended first step)
+$ mycop fix . --dry-run
+
+Fixing src/auth.py (3 findings)...
+
+--- src/auth.py
++++ src/auth.py (fixed)
+@@ -8,3 +8,3 @@
+ def login(username, password):
+-    query = f"SELECT * FROM users WHERE username='{username}'"
+-    db.execute(query)
++    db.execute("SELECT * FROM users WHERE username = %s",
++               (username,))
+
+Re-scanning... 0 findings remaining
+
+# Apply fixes
+$ mycop fix .
+
+# Fix a specific file
+$ mycop fix src/auth.py</pre>
+
+    <h3>Supported AI providers</h3>
+
+    <p>mycop auto-detects available AI providers in this priority order:</p>
+
+    <ol>
+      <li><strong>Claude CLI</strong> &mdash; if the <code>claude</code> command is available</li>
+      <li><strong>Anthropic API</strong> &mdash; if <code>ANTHROPIC_API_KEY</code> is set</li>
+      <li><strong>OpenAI API</strong> &mdash; if <code>OPENAI_API_KEY</code> is set</li>
+      <li><strong>Ollama</strong> &mdash; if Ollama is running locally</li>
+      <li><strong>Rule-based fallback</strong> &mdash; uses fix hints from rule definitions (no AI needed)</li>
+    </ol>
+
+    <p>Scanning always works without any API keys. Only the <code>fix</code> and <code>review</code> commands require an AI provider.</p>
+
+    <h3>MCP integration for agentic tools</h3>
+
+    <p>mycop includes a built-in MCP (Model Context Protocol) server that lets agentic coding tools like Claude Code, Cursor, and Windsurf call its scanning capabilities directly. The agent reads scan findings with fix hints and applies fixes itself, using its full context of the codebase.</p>
+
+<pre># Start the MCP server
+mycop mcp
+
+# Configure in Claude Code (~/.claude/settings.json):
+{
+  "mcpServers": {
+    "mycop": {
+      "command": "mycop",
+      "args": ["mcp"]
+    }
+  }
+}</pre>
+
+    <hr>
+
+    <h2>Part 6: Best Practices Checklist</h2>
+
+    <p>Here is a comprehensive checklist for securing AI-generated code in your organization.</p>
+
+    <h3>Development workflow</h3>
+
+    <ul class="checklist">
+      <li>Install mycop (or another SAST tool) on every developer machine</li>
+      <li>Run <code>mycop scan .</code> before every commit</li>
+      <li>Set up a pre-commit hook to block commits with high/critical findings</li>
+      <li>Review AI-generated code with the same rigor as manually-written code</li>
+      <li>Never accept AI code that handles security (auth, crypto, input validation) without expert review</li>
+      <li>Use <code>mycop fix --dry-run</code> to preview AI-suggested fixes before applying them</li>
+    </ul>
+
+    <h3>CI/CD pipeline</h3>
+
+    <ul class="checklist">
+      <li>Add mycop to your CI pipeline (GitHub Actions, GitLab CI, or equivalent)</li>
+      <li>Set <code>--fail-on high</code> to block merges with high-severity vulnerabilities</li>
+      <li>Use <code>--format sarif</code> for GitHub Code Scanning integration</li>
+      <li>Use <code>--diff</code> mode to scan only changed files (faster, less noise)</li>
+      <li>Require security scan to pass before PR merge</li>
+      <li>Run <code>mycop deps check</code> to scan for vulnerable dependencies</li>
+    </ul>
+
+    <h3>AI assistant prompting</h3>
+
+    <ul class="checklist">
+      <li>Explicitly ask for security in your prompts: "Write a secure login function using parameterized queries"</li>
+      <li>Request specific security controls: "Add input validation, use bcrypt for passwords, do not hardcode secrets"</li>
+      <li>Ask the AI to explain potential security issues in the code it generates</li>
+      <li>Never trust AI-generated code for cryptographic operations without expert validation</li>
+      <li>Use <code>mycop review .</code> for AI-powered security review of generated code</li>
+    </ul>
+
+    <h3>Configuration and policy</h3>
+
+    <ul class="checklist">
+      <li>Create a <code>.mycop.yml</code> config file in every repository</li>
+      <li>Define minimum severity thresholds (<code>min_severity: medium</code>)</li>
+      <li>Configure ignore patterns for test files and vendor directories</li>
+      <li>Use inline <code># mycop-ignore:RULE-ID</code> comments for acknowledged false positives (not to silence real findings)</li>
+      <li>Track security findings over time to measure improvement</li>
+      <li>Establish a policy that all AI-generated code must pass SAST scanning before deployment</li>
+    </ul>
+
+    <h3>Secret management</h3>
+
+    <ul class="checklist">
+      <li>Never hardcode API keys, passwords, or tokens in source code</li>
+      <li>Use environment variables or a secrets manager (Vault, AWS Secrets Manager, etc.)</li>
+      <li>Add <code>.env</code> files to <code>.gitignore</code></li>
+      <li>Rotate any secrets that have been committed to version control (even if deleted)</li>
+      <li>Use <code>mycop scan .</code> to detect hardcoded secrets before they reach a remote repository</li>
+    </ul>
+
+    <hr>
+
+    <h2>Getting Started Today</h2>
+
+    <p>Securing AI-generated code does not require a massive organizational change. Start with three things:</p>
+
+    <ol>
+      <li><strong>Install mycop.</strong> One command, zero configuration.</li>
+      <li><strong>Scan your current codebase.</strong> See what is already there. You will likely be surprised.</li>
+      <li><strong>Add it to CI.</strong> Five lines in your GitHub Actions workflow to catch new issues on every PR.</li>
+    </ol>
+
+<pre># All three steps in under a minute:
+curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+mycop scan .
+# Then add the GitHub Action from Part 4 to your workflow</pre>
+
+    <p>The volume of AI-generated code is only going to increase. Automated security scanning is not optional &mdash; it is the only way to keep up.</p>
+
+    <div class="cta-box">
+      <h3>Start securing your AI-generated code</h3>
+      <p>mycop is free, open-source, and requires no API keys for scanning. Install it in seconds and find out what is in your codebase.</p>
+      <code style="display:block;background:var(--terminal-bg);color:var(--green);padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh && mycop scan .</code>
+      <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank" class="btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        Star on GitHub
+      </a>
+    </div>
+
+    <hr>
+
+    <p><em>mycop is MIT licensed and open source. It is written in Rust, runs offline, and supports macOS, Linux, and Windows. No AI API key is required for scanning &mdash; only for auto-fix and review features.</em></p>
+
+  </article>
+
+  <footer>
+    <div class="footer-inner">
+      <span>MIT License &middot; Built with Rust</span>
+      <div class="footer-links">
+        <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank">GitHub</a>
+        <a href="https://crates.io/crates/mycop" target="_blank">Crates.io</a>
+        <a href="https://github.com/AbdumajidRashidov/mycop/issues" target="_blank">Issues</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

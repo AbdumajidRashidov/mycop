@@ -4,13 +4,29 @@ AI Code Security Scanner — detect and auto-fix vulnerabilities in AI-generated
 
 [![CI](https://github.com/AbdumajidRashidov/mycop/actions/workflows/ci.yml/badge.svg)](https://github.com/AbdumajidRashidov/mycop/actions/workflows/ci.yml)
 [![Crates.io](https://img.shields.io/crates/v/mycop.svg)](https://crates.io/crates/mycop)
+[![Downloads](https://img.shields.io/crates/d/mycop.svg)](https://crates.io/crates/mycop)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/AbdumajidRashidov/mycop.svg?style=social)](https://github.com/AbdumajidRashidov/mycop)
+[![Made with Rust](https://img.shields.io/badge/Made%20with-Rust-orange.svg)](https://www.rust-lang.org/)
 
 mycop scans Python, JavaScript, and TypeScript codebases for security vulnerabilities using pattern matching, AST analysis, and optional AI-powered explanations and auto-fix. It ships with 100 built-in security rules covering OWASP Top 10 and CWE Top 25 categories.
 
 <p align="center">
   <img src="docs/demo.gif" alt="mycop demo — scanning Python code for security vulnerabilities" width="750">
 </p>
+
+## Why mycop?
+
+**AI-generated code is fast, but it is not safe.** [Research from Veracode](https://www.veracode.com/) shows that **45% of AI-generated code contains security vulnerabilities**. Copilot, ChatGPT, and other AI assistants produce functional code that often includes SQL injection, hardcoded secrets, command injection, and other critical flaws.
+
+mycop was built specifically to solve this problem:
+
+- **First SAST tool designed for AI-generated code** -- 100 rules targeting the exact vulnerability patterns that LLMs produce most often, covering OWASP Top 10 and CWE Top 25.
+- **AI-powered auto-fix, not just detection** -- mycop does not just find vulnerabilities, it fixes them. The `mycop fix` command rewrites insecure code using AI while preserving functionality.
+- **Multi-language with a single tool** -- scan Python, JavaScript, and TypeScript codebases without juggling Bandit, ESLint, and separate configs.
+- **Zero configuration** -- all 100 security rules are compiled into the binary. No rule downloads, no config files, no internet connection required. Just `mycop scan .` and go.
+- **MCP server for agentic workflows** -- plug mycop directly into Claude Code, Cursor, Windsurf, and other AI coding assistants via the Model Context Protocol.
+- **Free and open source** -- MIT licensed, forever.
 
 ## Installation
 
@@ -306,6 +322,23 @@ CLI flags always take priority over config file values.
 
 Run `mycop rules list` to see all 100 rules with their severity levels.
 
+## Comparison
+
+How does mycop compare to other security tools?
+
+| Feature | mycop | Semgrep | Snyk Code | Bandit | ESLint Security |
+|---------|:-----:|:-------:|:---------:|:------:|:---------------:|
+| AI code focus | Yes | No | No | No | No |
+| Built-in rules (no download) | 100 | Requires registry | Cloud-based | ~100 (Python only) | ~30 (JS only) |
+| AI auto-fix | Yes | No | Paid | No | No |
+| Multi-language | Python, JS, TS | 30+ | 10+ | Python only | JS/TS only |
+| MCP server | Yes | No | No | No | No |
+| Zero config | Yes | Needs rules config | Needs project setup | Minimal | Needs .eslintrc |
+| SARIF output | Yes | Yes | Yes | Yes | Via plugin |
+| Price | Free (MIT) | Free tier / Paid | Paid | Free | Free |
+
+mycop is purpose-built for the AI coding era. Other tools are general-purpose scanners that were designed before AI code generation became mainstream.
+
 ## Output Formats
 
 - **Terminal** — colored output with code context (default)
@@ -396,6 +429,29 @@ docker run --rm -v "$(pwd):/src" -w /src ghcr.io/abdumajidrashidov/mycop scan .
 # Scan with specific options
 docker run --rm -v "$(pwd):/src" -w /src ghcr.io/abdumajidrashidov/mycop scan . --format json --severity high
 ```
+
+## Contributing
+
+Contributions are welcome! Whether it is a bug report, a new security rule, a feature request, or a pull request, we appreciate your help in making mycop better.
+
+To get started:
+
+1. Fork the repository and create your branch from `main`.
+2. Make your changes and ensure all checks pass:
+   ```bash
+   cargo fmt --all -- --check
+   cargo clippy --all-targets -- -D warnings
+   cargo test --verbose
+   ```
+3. Open a pull request with a clear description of your changes.
+
+Browse [open issues](https://github.com/AbdumajidRashidov/mycop/issues) to find something to work on, or open a new one to suggest an improvement.
+
+If you find mycop useful, consider [sponsoring the project](https://github.com/sponsors/AbdumajidRashidov) to support ongoing development.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=AbdumajidRashidov/mycop&type=Date)](https://star-history.com/#AbdumajidRashidov/mycop&Date)
 
 ## License
 

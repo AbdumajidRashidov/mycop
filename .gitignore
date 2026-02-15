@@ -11,3 +11,8 @@
 *.zip
 .env
 .env.*
+
+# Internal marketing content (drafts, outreach templates)
+docs/content/*
+!docs/content/.gitkeep
+BUSINESS_PLAN.md

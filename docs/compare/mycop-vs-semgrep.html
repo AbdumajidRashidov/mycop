@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior:smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mycop vs Semgrep — AI Code Security Scanner Comparison</title>
+  <meta name="description"
+    content="Detailed comparison of mycop and Semgrep for code security scanning. Compare AI auto-fix, built-in rules, MCP integration, pricing, language support, and more.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="canonical" href="https://abdumajidrashidov.github.io/mycop/compare/mycop-vs-semgrep.html">
+  <meta name="theme-color" content="#0066ff">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="mycop vs Semgrep — AI Code Security Scanner Comparison">
+  <meta property="og:description" content="Side-by-side comparison of mycop and Semgrep. AI auto-fix, 100 built-in rules, MCP server integration, pricing, and more.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://abdumajidrashidov.github.io/mycop/compare/mycop-vs-semgrep.html">
+  <meta property="og:image" content="https://abdumajidrashidov.github.io/mycop/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="mycop vs Semgrep — AI Code Security Scanner Comparison">
+  <meta property="og:site_name" content="mycop">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="mycop vs Semgrep — AI Code Security Scanner Comparison">
+  <meta name="twitter:description" content="Side-by-side comparison of mycop and Semgrep for SAST. AI auto-fix, built-in rules, MCP integration, pricing.">
+  <meta name="twitter:image" content="https://abdumajidrashidov.github.io/mycop/og-image.png">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "mycop vs Semgrep — AI Code Security Scanner Comparison",
+    "description": "Detailed comparison of mycop and Semgrep for code security scanning. Compare AI auto-fix, built-in rules, MCP integration, pricing, and language support.",
+    "author": {
+      "@type": "Person",
+      "name": "Abdumajid Rashidov",
+      "url": "https://github.com/AbdumajidRashidov"
+    },
+    "datePublished": "2026-02-15",
+    "publisher": {
+      "@type": "Organization",
+      "name": "mycop",
+      "url": "https://abdumajidrashidov.github.io/mycop/"
+    },
+    "mainEntityOfPage": "https://abdumajidrashidov.github.io/mycop/compare/mycop-vs-semgrep.html",
+    "keywords": ["mycop", "semgrep", "SAST", "code security", "comparison", "static analysis", "AI auto-fix"]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f8f9fa;
+      --text: #1a1a2e;
+      --text-secondary: #6c757d;
+      --accent: #0066ff;
+      --accent-hover: #0052cc;
+      --border: #e9ecef;
+      --terminal-bg: #1e1e2e;
+      --terminal-text: #cdd6f4;
+      --red: #f38ba8;
+      --yellow: #f9e2af;
+      --green: #a6e3a1;
+      --blue: #89b4fa;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    code,
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Nav */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Article */
+    .article {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .article-meta {
+      margin-bottom: 32px;
+    }
+
+    .article-meta .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #eef4ff;
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    .article-meta .date {
+      display: block;
+      margin-top: 12px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .article h1 {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .article h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    .article p {
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .article strong {
+      font-weight: 600;
+    }
+
+    .article ol,
+    .article ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .article li {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    .article blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      margin: 20px 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .article pre {
+      background: var(--terminal-bg);
+      color: var(--terminal-text);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    .article code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88em;
+    }
+
+    .article p code,
+    .article li code,
+    .article td code {
+      background: #eef4ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.92rem;
+      margin-bottom: 32px;
+    }
+
+    .compare-table th {
+      background: var(--bg-alt);
+      text-align: left;
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compare-table th:first-child {
+      width: 28%;
+    }
+
+    .compare-table th.tool-header {
+      text-align: center;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .compare-table td {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .compare-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .compare-table td:first-child {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .compare-table .yes {
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    .compare-table .no {
+      color: var(--text-secondary);
+    }
+
+    .compare-table .highlight {
+      background: #f0f7ff;
+    }
+
+    /* Pros / Cons cards */
+    .pros-cons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .pros-cons-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .pros-cons-card h3 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+    }
+
+    .pros-cons-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pros-cons-card li {
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .pros-cons-card li::before {
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+
+    .pros-card li::before {
+      content: '+';
+      color: #16a34a;
+    }
+
+    .cons-card li::before {
+      content: '\2212';
+      color: #dc2626;
+    }
+
+    /* When-to-use boxes */
+    .when-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      transition: box-shadow 0.2s;
+    }
+
+    .when-box:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .when-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .when-box ul {
+      margin-bottom: 0;
+    }
+
+    .when-box li {
+      font-size: 0.95rem;
+    }
+
+    /* CTA box */
+    .cta-box {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 40px 0;
+      text-align: center;
+    }
+
+    .cta-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: var(--bg-alt);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #edf0f3;
+      color: var(--text);
+    }
+
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    footer .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* TLDR box */
+    .tldr {
+      background: #f0f7ff;
+      border: 1px solid #cce0ff;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 32px;
+    }
+
+    .tldr strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .tldr p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .article {
+        padding: 40px 20px 60px;
+      }
+
+      .pros-cons {
+        grid-template-columns: 1fr;
+      }
+
+      .compare-table {
+        font-size: 0.82rem;
+      }
+
+      .compare-table th,
+      .compare-table td {
+        padding: 10px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        mycop
+      </a>
+      <div class="nav-links">
+        <a href="../">Home</a>
+        <a href="mycop-vs-snyk.html">mycop vs Snyk</a>
+        <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+
+    <div class="article-meta">
+      <span class="tag">Comparison</span>
+      <span class="tag">SAST</span>
+      <span class="tag">Security</span>
+      <span class="date">February 15, 2026</span>
+    </div>
+
+    <h1>mycop vs Semgrep &mdash; AI Code Security Scanner Comparison</h1>
+
+    <div class="tldr">
+      <strong>TL;DR</strong>
+      <p>mycop is a focused, AI-powered SAST scanner built for catching vulnerabilities in AI-generated Python, JavaScript, and TypeScript code. It ships 100 rules, AI auto-fix, and an MCP server &mdash; all free and open source. Semgrep is a mature, general-purpose static analysis platform supporting 30+ languages with a custom rule ecosystem. Choose mycop for fast, zero-config scanning of AI-generated code with automatic remediation. Choose Semgrep when you need broad language coverage, custom rule authoring, or enterprise-grade policy enforcement.</p>
+    </div>
+
+    <h2>Overview</h2>
+
+    <p><strong>mycop</strong> is an open-source, AI-powered code security scanner (SAST) written in Rust. It targets Python, JavaScript, and TypeScript with 100 built-in security rules covering OWASP Top 10 and CWE Top 25. Its key differentiator is AI-powered auto-fix: it can automatically rewrite vulnerable code using Claude, GPT-4, Ollama, or other providers, then verify the fix by re-scanning. It also includes a built-in MCP (Model Context Protocol) server for integration with agentic coding tools like Claude Code, Cursor, and Windsurf.</p>
+
+    <p><strong>Semgrep</strong> is a well-established open-source static analysis tool created by Semgrep, Inc. (formerly r2c). It supports 30+ programming languages and provides a powerful, pattern-based rule language that lets teams write custom rules using syntax that resembles the target language. Semgrep offers both open-source (Semgrep OSS) and commercial (Semgrep Cloud Platform) tiers with features like supply chain analysis, secrets detection, and centralized policy management.</p>
+
+    <h2>Feature Comparison</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="tool-header">mycop</th>
+          <th class="tool-header">Semgrep</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Primary focus</td>
+          <td class="highlight">AI-generated code security</td>
+          <td>General-purpose static analysis</td>
+        </tr>
+        <tr>
+          <td>Language support</td>
+          <td>Python, JavaScript, TypeScript</td>
+          <td class="highlight">30+ languages (Python, JS, TS, Go, Java, Ruby, C#, Kotlin, Rust, etc.)</td>
+        </tr>
+        <tr>
+          <td>Built-in rules</td>
+          <td class="highlight">100 (50 Python + 50 JS/TS), ready to use</td>
+          <td>2,000+ in Semgrep Registry (community + Pro rules)</td>
+        </tr>
+        <tr>
+          <td>Rule authoring</td>
+          <td>YAML rules with regex + tree-sitter AST queries</td>
+          <td class="highlight">Powerful YAML DSL with pattern syntax matching target language</td>
+        </tr>
+        <tr>
+          <td>AI auto-fix</td>
+          <td class="yes">Yes &mdash; 5 providers (Claude, GPT-4, OpenAI, Ollama, rule-based fallback)</td>
+          <td class="no">No (Semgrep Assistant provides AI triage, not auto-fix)</td>
+        </tr>
+        <tr>
+          <td>MCP server</td>
+          <td class="yes">Yes &mdash; built-in, 5 tools (scan, list_rules, explain_finding, review, check_deps)</td>
+          <td class="no">No</td>
+        </tr>
+        <tr>
+          <td>AST analysis</td>
+          <td>tree-sitter queries + regex dual matching</td>
+          <td class="highlight">Full AST pattern matching with metavariables and taint tracking</td>
+        </tr>
+        <tr>
+          <td>Taint tracking</td>
+          <td class="no">No (pattern-based only)</td>
+          <td class="yes">Yes (cross-function, in Pro tier)</td>
+        </tr>
+        <tr>
+          <td>Supply chain / SCA</td>
+          <td class="no">No</td>
+          <td class="yes">Yes (Semgrep Supply Chain, Pro tier)</td>
+        </tr>
+        <tr>
+          <td>Secrets detection</td>
+          <td>Hardcoded secrets rules (regex-based)</td>
+          <td class="highlight">Semgrep Secrets with validation (Pro tier)</td>
+        </tr>
+        <tr>
+          <td>Output formats</td>
+          <td>Terminal (colored), JSON, SARIF</td>
+          <td>Terminal, JSON, SARIF, EMACS, VIM, GitLab SAST</td>
+        </tr>
+        <tr>
+          <td>CI/CD integration</td>
+          <td>GitHub Actions, pre-commit hook, SARIF upload</td>
+          <td class="highlight">GitHub, GitLab, Bitbucket, Jenkins, CircleCI, and more</td>
+        </tr>
+        <tr>
+          <td>IDE integration</td>
+          <td>MCP server (Claude Code, Cursor, Windsurf); VS Code planned</td>
+          <td>VS Code, IntelliJ (via LSP)</td>
+        </tr>
+        <tr>
+          <td>Inline suppression</td>
+          <td><code># mycop-ignore</code> or <code># mycop-ignore:RULE-ID</code></td>
+          <td><code>nosemgrep</code> or <code>nosemgrep: rule-id</code></td>
+        </tr>
+        <tr>
+          <td>Configuration</td>
+          <td><code>.scanrc.yml</code> / <code>.mycop.yml</code></td>
+          <td><code>.semgrep.yml</code> with rule sets and policies</td>
+        </tr>
+        <tr>
+          <td>Installation</td>
+          <td>Single binary &mdash; curl, Homebrew, Cargo, Docker</td>
+          <td>Python package (<code>pip install semgrep</code>) or Docker</td>
+        </tr>
+        <tr>
+          <td>Runtime dependency</td>
+          <td>None (self-contained Rust binary)</td>
+          <td>Python 3.8+</td>
+        </tr>
+        <tr>
+          <td>Diff/PR scanning</td>
+          <td class="yes">Yes (<code>--diff</code> flag)</td>
+          <td class="yes">Yes (<code>--baseline-commit</code>)</td>
+        </tr>
+        <tr>
+          <td>Pricing</td>
+          <td class="highlight">Free, MIT licensed</td>
+          <td>OSS: Free. Team: $40/dev/month. Enterprise: custom</td>
+        </tr>
+        <tr>
+          <td>Open source</td>
+          <td class="yes">Yes, fully (MIT)</td>
+          <td>Core is LGPL-2.1; Pro rules and platform are proprietary</td>
+        </tr>
+        <tr>
+          <td>Written in</td>
+          <td>Rust</td>
+          <td>OCaml (engine) + Python (CLI)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>mycop: Pros and Cons</h2>
+
+    <div class="pros-cons">
+      <div class="pros-cons-card pros-card">
+        <h3>Strengths</h3>
+        <ul>
+          <li>AI-powered auto-fix with 5 provider options &mdash; automatically rewrites vulnerable code and verifies the fix</li>
+          <li>Zero-config: 100 rules ship inside the binary, no rule setup required</li>
+          <li>Built-in MCP server for agentic tool integration (Claude Code, Cursor, Windsurf)</li>
+          <li>Single self-contained binary with no runtime dependencies</li>
+          <li>Fast parallel scanning with Rayon across CPU cores</li>
+          <li>Completely free and MIT licensed &mdash; no feature gates or paid tiers</li>
+          <li>Purpose-built for AI-generated code patterns (SQL injection via f-strings, eval() on user input, hardcoded secrets)</li>
+          <li>SARIF output for GitHub Code Scanning integration</li>
+        </ul>
+      </div>
+      <div class="pros-cons-card cons-card">
+        <h3>Limitations</h3>
+        <ul>
+          <li>Only supports Python, JavaScript, and TypeScript (no Go, Java, Ruby, etc.)</li>
+          <li>100 rules vs Semgrep's 2,000+ rule ecosystem</li>
+          <li>No taint tracking &mdash; pattern-based matching only, may miss multi-step data flows</li>
+          <li>No supply chain analysis (SCA) or container scanning</li>
+          <li>No centralized dashboard or policy management for teams</li>
+          <li>Smaller community and ecosystem compared to Semgrep</li>
+          <li>No custom rule authoring workflow (rules are compiled into the binary)</li>
+          <li>Newer project with less production battle-testing</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Semgrep: Pros and Cons</h2>
+
+    <div class="pros-cons">
+      <div class="pros-cons-card pros-card">
+        <h3>Strengths</h3>
+        <ul>
+          <li>30+ language support &mdash; covers nearly any tech stack</li>
+          <li>Powerful, intuitive rule language that looks like the target code</li>
+          <li>2,000+ community and Pro rules in the Semgrep Registry</li>
+          <li>Cross-function and cross-file taint tracking (Pro tier)</li>
+          <li>Supply chain analysis for known vulnerabilities in dependencies</li>
+          <li>Secrets detection with active validation against APIs</li>
+          <li>Centralized Cloud Platform for policy management across teams</li>
+          <li>Mature IDE integrations (VS Code, IntelliJ)</li>
+          <li>Large community, extensive documentation, proven at scale</li>
+        </ul>
+      </div>
+      <div class="pros-cons-card cons-card">
+        <h3>Limitations</h3>
+        <ul>
+          <li>No AI-powered auto-fix for vulnerabilities</li>
+          <li>OSS version lacks taint tracking, supply chain, and secrets validation</li>
+          <li>Requires Python runtime as a dependency</li>
+          <li>Team tier costs $40/developer/month &mdash; can be expensive at scale</li>
+          <li>Writing effective custom rules has a learning curve</li>
+          <li>No built-in MCP server for agentic tool integration</li>
+          <li>Pro rules are proprietary and require a paid license</li>
+          <li>Semgrep Assistant provides AI triage but cannot auto-remediate code</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Deep Dive: Key Differences</h2>
+
+    <h3>AI Auto-Fix</h3>
+
+    <p>This is mycop's most significant differentiator. When mycop finds a vulnerability, the <code>mycop fix</code> command sends the file and all findings to an AI provider, receives a corrected version, generates a diff for review, and optionally applies it. It then re-scans to verify the fix resolved the issue. This creates a complete detection-to-remediation pipeline.</p>
+
+    <p>Semgrep's AI integration (Semgrep Assistant) focuses on triage &mdash; it explains findings and helps prioritize them &mdash; but it does not rewrite code. Remediation still requires manual developer effort.</p>
+
+    <h3>Rule System</h3>
+
+    <p>Semgrep's rule language is genuinely powerful. You write patterns that look like the code you want to match, using metavariables like <code>$X</code> to capture expressions. This makes it intuitive to write rules for patterns you have seen in your own codebase. The Semgrep Registry provides thousands of community-contributed rules.</p>
+
+    <p>mycop takes the opposite approach: rules are embedded at compile time and optimized for the specific vulnerability patterns that AI assistants commonly introduce. You get 100 production-ready rules immediately, covering SQL injection, command injection, XSS, hardcoded secrets, insecure crypto, and more &mdash; all mapped to CWE identifiers. The tradeoff is less flexibility: you cannot easily write custom rules, and the rule set is fixed to what ships with the binary.</p>
+
+    <h3>MCP Server and Agentic Integration</h3>
+
+    <p>mycop includes a built-in MCP (Model Context Protocol) server that exposes scan, review, explain, and other tools to agentic coding assistants. This means Claude Code, Cursor, Windsurf, Codex CLI, and Gemini CLI can invoke mycop directly within their conversation flow. The agent reads findings, understands the context, and applies fixes itself.</p>
+
+    <p>Semgrep does not currently offer MCP integration. IDE support is available through VS Code and IntelliJ extensions, but there is no protocol for agentic tools to invoke Semgrep programmatically within a conversation.</p>
+
+    <h3>Performance and Setup</h3>
+
+    <p>mycop compiles to a single Rust binary with zero runtime dependencies. Install it, run <code>mycop scan .</code>, and get results. No Python environment, no rule configuration, no account required.</p>
+
+    <p>Semgrep requires Python 3.8+ and uses a Python CLI wrapper around its OCaml engine. Initial setup is straightforward (<code>pip install semgrep</code>), but you then need to choose which rule sets to enable, which can require some deliberation for teams new to SAST.</p>
+
+    <h2>When to Use Which</h2>
+
+    <div class="when-box">
+      <h3>Choose mycop when:</h3>
+      <ul>
+        <li>Your team primarily uses Python, JavaScript, or TypeScript</li>
+        <li>You want AI-powered auto-fix to automatically remediate vulnerabilities</li>
+        <li>You use agentic coding tools (Claude Code, Cursor, Windsurf) and want integrated security scanning via MCP</li>
+        <li>You need zero-config scanning &mdash; install and run immediately, no rule setup</li>
+        <li>You want a completely free, MIT-licensed tool with no paid tier restrictions</li>
+        <li>You are specifically concerned about the vulnerability patterns AI coding assistants introduce</li>
+        <li>You want a single, dependency-free binary that runs anywhere</li>
+      </ul>
+    </div>
+
+    <div class="when-box">
+      <h3>Choose Semgrep when:</h3>
+      <ul>
+        <li>Your codebase spans multiple languages beyond Python and JavaScript (Go, Java, Ruby, C#, etc.)</li>
+        <li>You need to write custom security rules tailored to your specific codebase patterns</li>
+        <li>You require cross-function taint tracking for complex data flow analysis</li>
+        <li>You need supply chain analysis (SCA) for dependency vulnerabilities</li>
+        <li>You need a centralized dashboard and policy management for a large security team</li>
+        <li>You want IDE integrations in VS Code or IntelliJ with real-time diagnostics</li>
+        <li>You need a battle-tested tool with a large community and proven enterprise track record</li>
+      </ul>
+    </div>
+
+    <div class="when-box">
+      <h3>Use both together:</h3>
+      <ul>
+        <li>Run mycop as a fast first-pass scanner with AI auto-fix in your local workflow and MCP-enabled editors</li>
+        <li>Run Semgrep in CI/CD for comprehensive, cross-language analysis with custom organizational rules</li>
+        <li>Use mycop's AI fix capabilities to auto-remediate findings that Semgrep identifies</li>
+        <li>Leverage mycop for rapid feedback on AI-generated code before committing, and Semgrep for thorough CI scanning</li>
+      </ul>
+    </div>
+
+    <h2>Quick Start: mycop</h2>
+
+<pre># Install
+curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+
+# Scan your project
+mycop scan .
+
+# Auto-fix vulnerabilities with AI
+mycop fix . --dry-run
+
+# Use in Claude Code via MCP
+# Add to ~/.claude/settings.json:
+# {"mcpServers":{"mycop":{"command":"mycop","args":["mcp"]}}}</pre>
+
+    <div class="cta-box">
+      <h3>Try mycop on your codebase</h3>
+      <p>Install in seconds, scan immediately. 100 built-in rules, AI auto-fix, zero config. Free and open source.</p>
+      <code style="display:block;background:var(--terminal-bg);color:var(--green);padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem;font-family:'JetBrains Mono',monospace">cargo install mycop && mycop scan .</code>
+      <div class="cta-actions">
+        <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          View on GitHub
+        </a>
+        <a href="https://crates.io/crates/mycop" target="_blank" class="btn btn-secondary">
+          Crates.io
+        </a>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><em>mycop is MIT licensed and open source. Scanning requires no AI key and no account. It runs offline on macOS, Linux, and Windows. AI auto-fix requires an API key for your chosen provider, or use Ollama for fully local operation.</em></p>
+
+  </article>
+
+  <footer>
+    <div class="footer-inner">
+      <span>MIT License &middot; Built with Rust</span>
+      <div class="footer-links">
+        <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank">GitHub</a>
+        <a href="https://crates.io/crates/mycop" target="_blank">Crates.io</a>
+        <a href="https://github.com/AbdumajidRashidov/homebrew-tap/blob/main/Formula/mycop.rb" target="_blank">Homebrew</a>
+        <a href="https://github.com/AbdumajidRashidov/mycop/issues" target="_blank">Issues</a>
+        <a href="https://github.com/AbdumajidRashidov/mycop/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

