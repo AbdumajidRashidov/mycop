@@ -30,6 +30,7 @@ class vulnerable {
         File file = new File("/uploads/" + filename);
         FileInputStream fis = new FileInputStream(file);
         fis.read();
+        fis.close();
     }
 
     // XXE vulnerable
