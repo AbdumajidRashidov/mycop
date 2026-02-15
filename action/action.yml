@@ -22,7 +22,7 @@ inputs:
     required: false
     default: 'terminal'
   version:
-    description: 'mycop version to install (e.g. v0.1.0 or latest)'
+    description: 'mycop version to install (e.g. v0.3.0 or latest)'
     required: false
     default: 'latest'
   diff-only:
