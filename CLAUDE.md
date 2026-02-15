@@ -27,7 +27,7 @@ CLI parsing (clap) → Config loading (.scanrc.yml) → File discovery (walkdir 
 
 ### Module Map (`src/`)
 
-- **cli.rs** — Clap-derived CLI definitions. Subcommands: `scan`, `fix`, `review`, `init`, `rules list`, `deps check`
+- **cli.rs** — Clap-derived CLI definitions. Subcommands: `scan`, `fix`, `review`, `init`, `rules list`, `deps check`, `mcp`
 - **main.rs** — Command routing and orchestration for all subcommands
 - **scanner/** — Core scanning engine
   - `engine.rs` — Parallel file scanning with Rayon (`scan_files` returns `Vec<Finding>`)
@@ -42,7 +42,12 @@ CLI parsing (clap) → Config loading (.scanrc.yml) → File discovery (walkdir 
   - `mod.rs` — Auto-detection and factory (`detect_ai_provider`, `create_backend`). Priority: Claude CLI → Anthropic API → OpenAI API → Ollama → rule-based fallback
   - Provider impls: `claude_cli.rs`, `anthropic.rs`, `openai.rs`, `ollama.rs`, `rule_based.rs`
   - `prompt.rs` — Prompt templates for AI interactions
-- **fixer.rs** — Auto-fix flow: groups findings per file, sends to AI, extracts `<FIXED_FILE>` tags from response, generates diffs, optionally writes back and re-scans for verification
+- **fixer.rs** — Auto-fix flow: groups findings per file, sends to AI, extracts `<FIXED_FILE>` tags from response, generates diffs, optionally writes back and re-scans for verification. Also provides `diff_to_string()` for generating plain-text diffs (used by MCP fix tool)
+- **mcp/** — MCP (Model Context Protocol) server for agentic tool integration
+  - `mod.rs` — `MycopMcpServer` struct implementing `ServerHandler` trait. Handles `list_tools`, `call_tool`, `list_resources`, `read_resource`. Starts STDIO transport via `MycopMcpServer::run()`
+  - `tools.rs` — 6 MCP tools implemented on `MycopMcpServer` using `#[tool]` proc macro: `scan`, `list_rules`, `explain_finding`, `fix`, `review`, `check_deps`. Sync impl functions bridged to async via `tokio::task::spawn_blocking`. Tools registered via `rmcp::tool_box!` macro
+  - `types.rs` — MCP-specific request/response schemas with `Deserialize + JsonSchema` (inputs) and `Serialize` (outputs). Separate from core types to isolate MCP concerns
+  - `convert.rs` — Conversions between core types (`Finding`, `Rule`) and MCP output types (`FindingOutput`, `RuleOutput`)
 - **reporter/** — Output formatters implementing the `Reporter` trait
   - `terminal.rs` (colored), `json.rs`, `sarif.rs` (for CI/IDE integration)
 - **config/scanrc.rs** — Loads `.scanrc.yml` / `.mycop.yml` config (ignore patterns, min_severity, fail_on, ai_provider)
@@ -60,6 +65,8 @@ Inline suppression: `# mycop-ignore` or `# mycop-ignore:RULE-ID`
 - **AI provider chain** — Auto-detects available providers with graceful fallback
 - **Parallel scanning** — Rayon parallel iterators with `Arc<Mutex>` for collecting findings
 - **Severity ordinals** — Critical=4, High=3, Medium=2, Low=1, Info=0; default fail threshold is High
+- **MCP sync-to-async bridge** — Core scanning uses Rayon (sync); MCP server uses tokio (async). Bridged with `tokio::task::spawn_blocking`. All stdout reserved for JSON-RPC in MCP mode; diagnostics go to stderr
+- **Separate MCP types** — `FindingOutput`/`RuleOutput` instead of adding `Serialize`/`JsonSchema` to core `Finding`/`Rule`, keeping MCP concerns isolated
 
 ## Tests
 
