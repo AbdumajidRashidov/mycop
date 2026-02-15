@@ -4,7 +4,6 @@ use rmcp::{handler::server::tool::Parameters, model::*, tool, Error as McpError}
 
 use crate::ai;
 use crate::config::ScanConfig;
-use crate::fixer;
 use crate::rules::RuleRegistry;
 use crate::scanner::file_discovery;
 use crate::scanner::{Language, Scanner};
@@ -51,7 +50,7 @@ impl MycopMcpServer {
 
     #[tool(
         name = "explain_finding",
-        description = "Get an AI-powered explanation of a specific security finding. Provides attack scenarios, impact analysis, and remediation guidance. Requires an AI provider to be available."
+        description = "Get a detailed explanation of a specific security finding. Provides attack scenarios, impact analysis, and remediation guidance."
     )]
     pub async fn explain_finding(
         &self,
@@ -67,24 +66,8 @@ impl MycopMcpServer {
     }
 
     #[tool(
-        name = "fix",
-        description = "Auto-fix security vulnerabilities in a file using AI. By default returns a diff preview (dry_run=true). Set dry_run=false to write the fixed file. Requires an AI provider to be available."
-    )]
-    pub async fn fix(&self, params: Parameters<FixParams>) -> Result<CallToolResult, McpError> {
-        let params = params.0;
-        let result = tokio::task::spawn_blocking(move || fix_impl(params))
-            .await
-            .map_err(|e| McpError::internal_error(format!("Task join error: {}", e), None))?
-            .map_err(|e| McpError::internal_error(format!("Error: {}", e), None))?;
-
-        let json = serde_json::to_string_pretty(&result)
-            .map_err(|e| McpError::internal_error(format!("Serialization error: {}", e), None))?;
-        Ok(CallToolResult::success(vec![Content::text(json)]))
-    }
-
-    #[tool(
         name = "review",
-        description = "Deep AI-powered security review of a file. Goes beyond rule-based scanning to find logic flaws, auth issues, and complex vulnerability patterns. Requires an AI provider to be available."
+        description = "Deep AI-powered security review of a single file. Goes beyond rule-based scanning to find logic flaws, auth issues, and complex vulnerability patterns."
     )]
     pub async fn review(
         &self,
@@ -124,7 +107,6 @@ rmcp::tool_box!(MycopMcpServer {
     scan,
     list_rules,
     explain_finding,
-    fix,
     review,
     check_deps,
 } _tool_box);
@@ -246,7 +228,7 @@ fn list_rules_impl(params: ListRulesParams) -> anyhow::Result<ListRulesResult> {
 }
 
 fn explain_finding_impl(params: ExplainFindingParams) -> anyhow::Result<String> {
-    let file = params.resolved_file().map_err(|e| anyhow::anyhow!(e))?;
+    let file = params.path;
     let file_path = PathBuf::from(&file);
     if !file_path.exists() {
         anyhow::bail!("File not found: {}", file);
@@ -281,75 +263,8 @@ fn explain_finding_impl(params: ExplainFindingParams) -> anyhow::Result<String> 
     backend.explain(finding, &code_context)
 }
 
-fn fix_impl(params: FixParams) -> anyhow::Result<FixResult> {
-    let file = params.resolved_file().map_err(|e| anyhow::anyhow!(e))?;
-    let file_path = PathBuf::from(&file);
-    if !file_path.exists() {
-        anyhow::bail!("File not found: {}", file);
-    }
-
-    let registry = RuleRegistry::load_default()?;
-    let scanner = Scanner::new(registry);
-    let mut findings = scanner.scan_files(std::slice::from_ref(&file_path))?;
-
-    if let Some(ref sev) = params.severity {
-        if let Some(min_ord) = parse_severity_filter(sev) {
-            findings.retain(|f| f.severity.ordinal() >= min_ord);
-        }
-    }
-
-    if findings.is_empty() {
-        return Ok(FixResult {
-            file,
-            vulnerabilities_found: 0,
-            fixed: false,
-            diff: None,
-            fixed_content: None,
-            remaining_vulnerabilities: 0,
-        });
-    }
-
-    let original = std::fs::read_to_string(&file_path)?;
-    let lang = Language::from_extension(&file_path)
-        .map(|l| l.name().to_string())
-        .unwrap_or_else(|| "unknown".to_string());
-
-    let provider = resolve_ai_provider(params.ai_provider.as_deref());
-    let backend = ai::create_backend(&provider);
-
-    let finding_refs: Vec<&crate::rules::matcher::Finding> = findings.iter().collect();
-    let response = backend.fix_file(&file, &lang, &original, &finding_refs)?;
-
-    let fixed = fixer::extract_fixed_file(&response)
-        .ok_or_else(|| anyhow::anyhow!("Could not extract fixed file from AI response"))?;
-
-    let diff_text = fixer::diff_to_string(&file, &original, &fixed);
-
-    let mut remaining = 0;
-    if !params.dry_run {
-        std::fs::write(&file_path, &fixed)?;
-        let registry2 = RuleRegistry::load_default()?;
-        let scanner2 = Scanner::new(registry2);
-        let remaining_findings = scanner2.scan_files(&[file_path])?;
-        remaining = remaining_findings.len();
-    }
-
-    Ok(FixResult {
-        file,
-        vulnerabilities_found: findings.len(),
-        fixed: !params.dry_run,
-        diff: if diff_text.is_empty() {
-            None
-        } else {
-            Some(diff_text)
-        },
-        fixed_content: if params.dry_run { Some(fixed) } else { None },
-        remaining_vulnerabilities: remaining,
-    })
-}
-
 fn review_impl(params: ReviewParams) -> anyhow::Result<String> {
-    let file = params.resolved_file().map_err(|e| anyhow::anyhow!(e))?;
+    let file = params.path;
     let file_path = PathBuf::from(&file);
     if !file_path.exists() {
         anyhow::bail!("File not found: {}", file);

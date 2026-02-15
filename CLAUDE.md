@@ -42,10 +42,10 @@ CLI parsing (clap) → Config loading (.scanrc.yml) → File discovery (walkdir 
   - `mod.rs` — Auto-detection and factory (`detect_ai_provider`, `create_backend`). Priority: Claude CLI → Anthropic API → OpenAI API → Ollama → rule-based fallback
   - Provider impls: `claude_cli.rs`, `anthropic.rs`, `openai.rs`, `ollama.rs`, `rule_based.rs`
   - `prompt.rs` — Prompt templates for AI interactions
-- **fixer.rs** — Auto-fix flow: groups findings per file, sends to AI, extracts `<FIXED_FILE>` tags from response, generates diffs, optionally writes back and re-scans for verification. Also provides `diff_to_string()` for generating plain-text diffs (used by MCP fix tool)
+- **fixer.rs** — Auto-fix flow: groups findings per file, sends to AI, extracts `<FIXED_FILE>` tags from response, generates diffs, optionally writes back and re-scans for verification. Also provides `diff_to_string()` for generating plain-text diffs
 - **mcp/** — MCP (Model Context Protocol) server for agentic tool integration
   - `mod.rs` — `MycopMcpServer` struct implementing `ServerHandler` trait. Handles `list_tools`, `call_tool`, `list_resources`, `read_resource`. Starts STDIO transport via `MycopMcpServer::run()`
-  - `tools.rs` — 6 MCP tools implemented on `MycopMcpServer` using `#[tool]` proc macro: `scan`, `list_rules`, `explain_finding`, `fix`, `review`, `check_deps`. Sync impl functions bridged to async via `tokio::task::spawn_blocking`. Tools registered via `rmcp::tool_box!` macro
+  - `tools.rs` — 5 MCP tools implemented on `MycopMcpServer` using `#[tool]` proc macro: `scan`, `list_rules`, `explain_finding`, `review`, `check_deps`. The `fix` tool is intentionally excluded from MCP — agentic tools should read scan findings and apply fixes themselves. Sync impl functions bridged to async via `tokio::task::spawn_blocking`. Tools registered via `rmcp::tool_box!` macro
   - `types.rs` — MCP-specific request/response schemas with `Deserialize + JsonSchema` (inputs) and `Serialize` (outputs). Separate from core types to isolate MCP concerns
   - `convert.rs` — Conversions between core types (`Finding`, `Rule`) and MCP output types (`FindingOutput`, `RuleOutput`)
 - **reporter/** — Output formatters implementing the `Reporter` trait

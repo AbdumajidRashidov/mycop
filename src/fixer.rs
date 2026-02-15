@@ -43,6 +43,7 @@ pub fn extract_fixed_file(response: &str) -> Option<String> {
 }
 
 /// Generate a unified diff as a plain-text string (no colors)
+#[allow(dead_code)]
 pub fn diff_to_string(file_path: &str, old: &str, new: &str) -> String {
     let old_lines: Vec<&str> = old.lines().collect();
     let new_lines: Vec<&str> = new.lines().collect();

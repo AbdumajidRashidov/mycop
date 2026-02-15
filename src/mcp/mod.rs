@@ -36,8 +36,10 @@ impl ServerHandler for MycopMcpServer {
                 "mycop is an AI code security scanner with 100 built-in rules \
                  covering OWASP Top 10 and CWE Top 25. Use 'scan' to check files \
                  for vulnerabilities, 'list_rules' to browse security rules, \
-                 'fix' to auto-fix issues, 'review' for deep AI security analysis, \
-                 and 'check_deps' to detect hallucinated packages."
+                 'explain_finding' for detailed vulnerability info, 'review' for \
+                 deep AI security analysis, and 'check_deps' to detect hallucinated \
+                 packages. To fix vulnerabilities, read the scan findings and apply \
+                 the fixes yourself using the fix_hint provided in each finding."
                     .to_string(),
             ),
         }

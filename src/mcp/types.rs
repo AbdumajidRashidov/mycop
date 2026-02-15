@@ -102,12 +102,9 @@ pub struct RuleOutput {
 
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ExplainFindingParams {
-    /// The file path containing the vulnerability
-    #[serde(default)]
-    pub file: Option<String>,
-    /// The file path containing the vulnerability (alias for 'file')
-    #[serde(default)]
-    pub path: Option<String>,
+    /// The absolute file path containing the vulnerability
+    #[serde(alias = "file", alias = "filePath", alias = "file_path", alias = "target")]
+    pub path: String,
     /// The line number of the finding
     pub line: usize,
     /// The rule ID (e.g., "PY-SEC-001")
@@ -117,81 +114,16 @@ pub struct ExplainFindingParams {
     pub ai_provider: Option<String>,
 }
 
-impl ExplainFindingParams {
-    pub fn resolved_file(&self) -> Result<String, String> {
-        self.file
-            .clone()
-            .or_else(|| self.path.clone())
-            .ok_or_else(|| "Either 'file' or 'path' must be provided".into())
-    }
-}
-
-// ---- Fix Tool ----
-
-#[derive(Debug, Deserialize, JsonSchema)]
-pub struct FixParams {
-    /// File path to fix
-    #[serde(default)]
-    pub file: Option<String>,
-    /// File path to fix (alias for 'file')
-    #[serde(default)]
-    pub path: Option<String>,
-    /// Minimum severity to fix: "critical", "high", "medium", "low"
-    #[serde(default)]
-    pub severity: Option<String>,
-    /// If true, return the diff without writing changes (default: true)
-    #[serde(default = "default_true")]
-    pub dry_run: bool,
-    /// Override AI provider
-    #[serde(default)]
-    pub ai_provider: Option<String>,
-}
-
-impl FixParams {
-    pub fn resolved_file(&self) -> Result<String, String> {
-        self.file
-            .clone()
-            .or_else(|| self.path.clone())
-            .ok_or_else(|| "Either 'file' or 'path' must be provided".into())
-    }
-}
-
-fn default_true() -> bool {
-    true
-}
-
-#[derive(Debug, Serialize)]
-pub struct FixResult {
-    pub file: String,
-    pub vulnerabilities_found: usize,
-    pub fixed: bool,
-    pub diff: Option<String>,
-    pub fixed_content: Option<String>,
-    pub remaining_vulnerabilities: usize,
-}
-
 // ---- Review Tool ----
 
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ReviewParams {
-    /// File path to review
-    #[serde(default)]
-    pub file: Option<String>,
-    /// File path to review (alias for 'file')
-    #[serde(default)]
-    pub path: Option<String>,
+    /// The absolute file path to review for security vulnerabilities
+    #[serde(alias = "file", alias = "filePath", alias = "file_path", alias = "target")]
+    pub path: String,
     /// Override AI provider
     #[serde(default)]
     pub ai_provider: Option<String>,
-}
-
-impl ReviewParams {
-    pub fn resolved_file(&self) -> Result<String, String> {
-        self.file
-            .clone()
-            .or_else(|| self.path.clone())
-            .ok_or_else(|| "Either 'file' or 'path' must be provided".into())
-    }
 }
 
 // ---- Check Deps Tool ----
