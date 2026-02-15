@@ -103,7 +103,12 @@ pub struct RuleOutput {
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ExplainFindingParams {
     /// The absolute file path containing the vulnerability
-    #[serde(alias = "file", alias = "filePath", alias = "file_path", alias = "target")]
+    #[serde(
+        alias = "file",
+        alias = "filePath",
+        alias = "file_path",
+        alias = "target"
+    )]
     pub path: String,
     /// The line number of the finding
     pub line: usize,
@@ -119,7 +124,12 @@ pub struct ExplainFindingParams {
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ReviewParams {
     /// The absolute file path to review for security vulnerabilities
-    #[serde(alias = "file", alias = "filePath", alias = "file_path", alias = "target")]
+    #[serde(
+        alias = "file",
+        alias = "filePath",
+        alias = "file_path",
+        alias = "target"
+    )]
     pub path: String,
     /// Override AI provider
     #[serde(default)]
